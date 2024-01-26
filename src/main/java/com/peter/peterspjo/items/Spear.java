@@ -1,7 +1,6 @@
 package com.peter.peterspjo.items;
 
 import net.minecraft.item.SwordItem;
-import net.minecraft.item.ToolItem;
 import net.minecraft.item.ToolMaterial;
 
 public class Spear extends SwordItem {

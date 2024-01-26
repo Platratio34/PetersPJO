@@ -14,9 +14,11 @@ import net.minecraft.entity.player.PlayerEntity;
 @Mixin(ClientPlayerInteractionManager.class)
 public class ClientPlayerInteractionManagerMixin {
 
+    MinecraftClient instance = MinecraftClient.getInstance();
+
     @Inject(method="getReachDistance", at=@At("HEAD"), cancellable = true)
     public void getReachDistance(CallbackInfoReturnable<Float> cir) {
-        PlayerEntity player = MinecraftClient.getInstance().player;
+        PlayerEntity player = instance.player;
         if (player != null && player.getMainHandStack().getItem() instanceof Spear) {
             cir.setReturnValue(12.0f);
             cir.cancel();
@@ -25,7 +27,7 @@ public class ClientPlayerInteractionManagerMixin {
     
     @Inject(method="hasExtendedReach", at=@At("HEAD"), cancellable = true)
     public void hasExtendedReach(CallbackInfoReturnable<Boolean> cir) {
-        PlayerEntity player = MinecraftClient.getInstance().player;
+        PlayerEntity player = instance.player;
         if (player != null && player.getMainHandStack().getItem() instanceof Spear) {
             cir.setReturnValue(true);
             cir.cancel();
