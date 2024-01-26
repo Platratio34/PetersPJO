@@ -5,7 +5,7 @@ import net.minecraft.recipe.Ingredient;
 
 public class CelestialBronzeMaterial implements ToolMaterial {
 
-    public static final CelestialBronzeMaterial INSTNACE = new CelestialBronzeMaterial();
+    public static final CelestialBronzeMaterial INSTANCE = new CelestialBronzeMaterial();
 
     @Override
     public int getDurability() {

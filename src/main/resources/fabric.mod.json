@@ -16,7 +16,7 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"com.peter.PJO"
+			"com.peter.peterspjo.PJO"
 		],
 		"client": [
 			

@@ -1,12 +1,8 @@
-# Permission Whitelist
+# Peter's Percy Jackson Mod
 
 ## Setup
 
 Things will go here
-
-## License
-
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
 
 ## TODO
 
@@ -15,9 +11,9 @@ This template is available under the CC0 license. Feel free to learn from it and
 [ ] Imperial Gold Ingot
 
 ### Weapons
-[ ] Spear Base Class
+[x] Spear Base Class
 [ ] Make spear throwable
 [x] CB Sword
-[ ] CB Spear
+[x] CB Spear
 [ ] IG Sword
 [ ] IG Spear
