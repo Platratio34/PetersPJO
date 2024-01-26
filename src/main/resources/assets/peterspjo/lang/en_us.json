@@ -2,6 +2,12 @@
     "itemGroup.peterspjo.main": "Percy Jackson",
 
     "item.peterspjo.drachma": "Drachma",
+
     "item.peterspjo.celestial_bronze_sword": "Celestial Bronze Sword",
-    "item.peterspjo.celestial_bronze_sword.tooltip": "Sword of a Greek Hero of Old"
+    "item.peterspjo.celestial_bronze_sword.tooltip": "Sword of a Greek Hero of Old",
+    "item.peterspjo.celestial_bronze_spear": "Celestial Bronze Spear",
+    "item.peterspjo.celestial_bronze_spear.tooltip": "Spear of a Greek Hero of Old",
+    
+    "item.peterspjo.celestial_bronze_ingot": "Celestial Bronze Ingot",
+    "item.peterspjo.celestial_bronze_ingot.tooltip": "Metal of the Greek Gods"
 }

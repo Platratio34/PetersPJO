@@ -1,4 +1,4 @@
-package com.peter;
+package com.peter.peterspjo;
 
 import net.fabricmc.api.ClientModInitializer;
 

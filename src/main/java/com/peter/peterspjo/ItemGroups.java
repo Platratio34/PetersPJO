@@ -1,4 +1,8 @@
-package com.peter;
+package com.peter.peterspjo;
+
+import com.peter.peterspjo.items.CelestialBronzeIngot;
+import com.peter.peterspjo.items.CelestialBronzeSpear;
+import com.peter.peterspjo.items.CelestialBronzeSword;
 
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.ItemGroup;
@@ -15,7 +19,9 @@ public class ItemGroups {
             .displayName(Text.translatable("itemGroup.peterspjo.main"))
             .entries((context, entries) -> {
                 entries.add(Items.DRACHMA);
-                entries.add(Items.C_BRONZE_SWORD);
+                entries.add(CelestialBronzeIngot.ITEM);
+                entries.add(CelestialBronzeSword.ITEM);
+                entries.add(CelestialBronzeSpear.ITEM);
             })
             .build();
     public static final Identifier MAIN_ID = new Identifier(PJO.NAMESPACE, "main_group");

@@ -1,4 +1,4 @@
-package com.peter.items;
+package com.peter.peterspjo.items;
 
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.recipe.Ingredient;
@@ -34,7 +34,7 @@ public class CelestialBronzeMaterial implements ToolMaterial {
 
     @Override
     public Ingredient getRepairIngredient() {
-        return null;
+        return Ingredient.ofItems(CelestialBronzeIngot.ITEM);
     }
 
 
