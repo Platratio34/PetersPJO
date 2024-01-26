@@ -1,0 +1,41 @@
+{
+	"schemaVersion": 1,
+	"id": "peterspjo",
+	"version": "${version}",
+	"name": "Peter's PJO",
+	"description": "A Percy Jackson mod made by Peter",
+	"authors": [
+		"Platratio34"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/Platratio34/PetersPJO"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/peterspjo/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.peter.PJO"
+		],
+		"client": [
+			
+		]
+	},
+	"mixins": [
+		"peterspjo.mixins.json",
+		{
+			"config": "peterspjo.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.14.0",
+		"minecraft": "~1.20.1",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
