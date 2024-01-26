@@ -17,8 +17,10 @@ Things will go here
 [ ] Make spear throwable
 [x] CB Sword
 [x] CB Spear
+[ ] CB Dagger
 [ ] IG Sword
 [ ] IG Spear
+[ ] IG Dagger
 
 ### Armor
 [ ] CB Boots
