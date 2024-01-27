@@ -50,8 +50,9 @@ Things will go here
 - [ ] CB Ingot
 
 ### Blocks
-- [ ] Iron Brazier
+- [x] Iron Brazier
 - [ ] Stone Brazier
+- [ ] Make braziers fire-able
 
 ### Structures
 - [x] Ruined Temple 1
