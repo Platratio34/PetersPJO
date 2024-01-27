@@ -1,0 +1,111 @@
+{
+    "type": "minecraft:chest",
+    "pools": [
+        {
+            "rolls": {
+                "min": 3,
+                "max": 8
+            },
+            "bonus_rolls": {
+                "min": 0.5,
+                "max": 2
+            },
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "name": "peterspjo:celestial_bronze_ingot",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 1,
+                                "max": 1
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "peterspjo:celestial_bronze_sword",
+                    "weight": 2,
+                    "functions": []
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "peterspjo:celestial_bronze_spear",
+                    "weight": 2,
+                    "functions": []
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "minecraft:archer_pottery_sherd",
+                    "weight": 2,
+                    "functions": []
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "minecraft:apple",
+                    "weight": 3,
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 1,
+                                "max": 3
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "minecraft:wheat",
+                    "weight": 3,
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 2,
+                                "max": 5
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "peterspjo:drachma",
+                    "weight": 2,
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 1,
+                                "max": 5
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "minecraft:suspicious_stew",
+                    "weight": 2,
+                    "functions": []
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "minecraft:bowl",
+                    "weight": 3,
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 1,
+                                "max": 3
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

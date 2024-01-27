@@ -43,7 +43,15 @@ Things will go here
 [ ] IG Ingot
 
 ### Texture Re-Dos
+[ ] Drachma
 [ ] CB Sword
 [ ] CB Spear
 [ ] CB Block
 [ ] CB Ingot
+
+### Blocks
+[ ] Iron Brazier
+[ ] Stone Brazier
+
+### Structures
+[x] Ruined Temple 1
