@@ -28,7 +28,7 @@ public class ClientPlayerInteractionManagerMixin {
     @Inject(method="hasExtendedReach", at=@At("HEAD"), cancellable = true)
     public void hasExtendedReach(CallbackInfoReturnable<Boolean> cir) {
         PlayerEntity player = instance.player;
-        if (player != null && player.getMainHandStack().getItem() instanceof Spear) {
+        if (player != null && player.getMainHandStack().getItem() instanceof Spear && player.getOffHandStack().isEmpty()) {
             cir.setReturnValue(true);
             cir.cancel();
         }

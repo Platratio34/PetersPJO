@@ -1,5 +1,6 @@
 package com.peter.peterspjo;
 
+import com.peter.peterspjo.blocks.IronBrazier;
 import com.peter.peterspjo.items.CelestialBronzeIngot;
 import com.peter.peterspjo.items.CelestialBronzeSpear;
 import com.peter.peterspjo.items.CelestialBronzeSword;
@@ -23,6 +24,7 @@ public class ItemGroups {
                 entries.add(Blocks.CELESTIAL_BRONZE_BLOCK_ITEM);
                 entries.add(CelestialBronzeSword.ITEM);
                 entries.add(CelestialBronzeSpear.ITEM);
+                entries.add(IronBrazier.ITEM);
             })
             .build();
     public static final Identifier MAIN_ID = new Identifier(PJO.NAMESPACE, "main_group");
