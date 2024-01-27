@@ -8,7 +8,7 @@ Things will go here
 
 ### Materials
 [x] Celestial Bronze Ingot
-[ ] Celestial Bronze Block
+[x] Celestial Bronze Block
 [ ] Imperial Gold Ingot
 [ ] Imperial Gold Block
 
@@ -35,5 +35,15 @@ Things will go here
 ### Recipes
 [x] CB Sword
 [x] CB Spear
+[x] CB Block
+[x] CB Ingot
 [ ] IG Sword
 [ ] IG Spear
+[ ] IG Block
+[ ] IG Ingot
+
+### Texture Re-Dos
+[ ] CB Sword
+[ ] CB Spear
+[ ] CB Block
+[ ] CB Ingot

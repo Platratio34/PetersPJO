@@ -9,5 +9,8 @@
     "item.peterspjo.celestial_bronze_spear.tooltip": "Spear of a Greek Hero of Old",
     
     "item.peterspjo.celestial_bronze_ingot": "Celestial Bronze Ingot",
-    "item.peterspjo.celestial_bronze_ingot.tooltip": "Metal of the Greek Gods"
+    "item.peterspjo.celestial_bronze_ingot.tooltip": "Metal of the Greek Gods",
+    
+    "block.peterspjo.celestial_bronze_block": "Celestial Bronze Block",
+    "block.peterspjo.celestial_bronze_block.tooltip": "Metal of the Greek Gods"
 }

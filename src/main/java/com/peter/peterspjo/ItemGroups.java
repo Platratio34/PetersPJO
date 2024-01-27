@@ -20,6 +20,7 @@ public class ItemGroups {
             .entries((context, entries) -> {
                 entries.add(Items.DRACHMA);
                 entries.add(CelestialBronzeIngot.ITEM);
+                entries.add(Blocks.CELESTIAL_BRONZE_BLOCK_ITEM);
                 entries.add(CelestialBronzeSword.ITEM);
                 entries.add(CelestialBronzeSpear.ITEM);
             })

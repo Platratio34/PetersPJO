@@ -20,6 +20,7 @@ public class PJO implements ModInitializer {
 		// Proceed with mild caution.
 
 		Items.init();
+		Blocks.init();
 		ItemGroups.init();
 
 

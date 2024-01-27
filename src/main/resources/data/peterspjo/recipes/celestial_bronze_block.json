@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "peterspjo:celestial_bronze_ingot"
+    },
+    {
+      "item": "peterspjo:celestial_bronze_ingot"
+    },
+    {
+      "item": "peterspjo:celestial_bronze_ingot"
+    },
+    {
+      "item": "peterspjo:celestial_bronze_ingot"
+    },
+    {
+      "item": "peterspjo:celestial_bronze_ingot"
+    },
+    {
+      "item": "peterspjo:celestial_bronze_ingot"
+    },
+    {
+      "item": "peterspjo:celestial_bronze_ingot"
+    },
+    {
+      "item": "peterspjo:celestial_bronze_ingot"
+    },
+    {
+      "item": "peterspjo:celestial_bronze_ingot"
+    }
+  ],
+  "result": {
+    "item": "peterspjo:celestial_bronze_block",
+    "count": 1
+  }
+}
