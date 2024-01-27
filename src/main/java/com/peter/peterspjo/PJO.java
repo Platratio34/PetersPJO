@@ -5,6 +5,8 @@ import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.peter.peterspjo.entities.Entities;
+
 public class PJO implements ModInitializer {
 	// This logger is used to write text to the console and the log file.
 	// It is considered best practice to use your mod id as the logger's name.
@@ -22,6 +24,7 @@ public class PJO implements ModInitializer {
 		Items.init();
 		Blocks.init();
 		ItemGroups.init();
+		Entities.init();
 
 
 		LOGGER.info("Loaded Peter's PJO");

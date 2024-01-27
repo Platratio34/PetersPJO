@@ -19,7 +19,7 @@
 			"com.peter.peterspjo.PJO"
 		],
 		"client": [
-			
+			"com.peter.peterspjo.PJOClient"
 		]
 	},
 	"mixins": [

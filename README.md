@@ -14,7 +14,7 @@ Things will go here
 
 ### Weapons
 - [x] Spear Base Class
-- [ ] Make spear throwable
+- [x] Make spear throwable
 - [x] CB Sword
 - [x] CB Spear
 - [ ] CB Dagger
@@ -46,6 +46,7 @@ Things will go here
 - [ ] Drachma
 - [ ] CB Sword
 - [ ] CB Spear
+- [ ] CB Spear projectile
 - [ ] CB Block
 - [ ] CB Ingot
 
@@ -53,6 +54,9 @@ Things will go here
 - [x] Iron Brazier
 - [ ] Stone Brazier
 - [ ] Make braziers fire-able
+
+### Entities
+- [x] Spear entity
 
 ### Structures
 - [x] Ruined Temple 1

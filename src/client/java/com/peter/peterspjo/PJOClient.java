@@ -1,10 +1,14 @@
 package com.peter.peterspjo;
 
+import com.peter.peterspjo.entities.SpearEntity;
+
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 
 public class PJOClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
-		// This entrypoint is suitable for setting up client-specific logic, such as rendering.
+		EntityRendererRegistry.register(SpearEntity.TYPE,
+				(context) -> new SpearEntityRenderer(context));
 	}
 }
