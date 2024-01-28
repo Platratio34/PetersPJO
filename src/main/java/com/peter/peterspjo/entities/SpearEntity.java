@@ -14,7 +14,6 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
 
 public class SpearEntity extends PersistentProjectileEntity {
@@ -52,7 +51,8 @@ public class SpearEntity extends PersistentProjectileEntity {
         this.setDamage(5f);
         this.pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
         this.setSound(SoundEvents.ENTITY_ARROW_HIT);
-        this.setPierceLevel((byte)0xf);
+        this.setPierceLevel((byte) 0xf);
+        // this.age
     }
 
     @Override

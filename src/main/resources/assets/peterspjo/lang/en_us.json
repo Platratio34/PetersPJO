@@ -2,6 +2,7 @@
     "itemGroup.peterspjo.main": "Percy Jackson",
 
     "item.peterspjo.drachma": "Drachma",
+    "item.peterspjo.drachma.tooltip": "Coin of the Gods",
 
     "item.peterspjo.celestial_bronze_sword": "Celestial Bronze Sword",
     "item.peterspjo.celestial_bronze_sword.tooltip": "Sword of a Greek Hero of Old",

@@ -18,7 +18,7 @@ public class SpearEntityRenderer extends ProjectileEntityRenderer<SpearEntity> {
 
     @Override
     public Identifier getTexture(SpearEntity var1) {
-        return SpearEntity.ID;
+        return new Identifier(PJO.NAMESPACE, "textures/entity/"+SpearEntity.NAME+"/"+SpearEntity.NAME+".png");
     }
 
 }
