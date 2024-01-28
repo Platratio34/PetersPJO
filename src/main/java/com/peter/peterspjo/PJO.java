@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.peter.peterspjo.entities.Entities;
+import com.peter.peterspjo.items.Items;
 
 public class PJO implements ModInitializer {
 	// This logger is used to write text to the console and the log file.

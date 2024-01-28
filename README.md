@@ -23,14 +23,8 @@ Things will go here
 - [ ] IG Dagger
 
 ### Armor
-- [ ] CB Boots
-- [ ] CB Leggings
-- [ ] CB Chest plate
-- [ ] CB Helmet
-- [ ] IG Boots
-- [ ] IG Leggings
-- [ ] IG Chest plate
-- [ ] IG Helmet
+- [x] Celestial Bronze
+- [ ] Imperial Gold
 
 ### Recipes
 - [x] CB Sword
@@ -49,6 +43,8 @@ Things will go here
 - [ ] CB Spear projectile
 - [ ] CB Block
 - [ ] CB Ingot
+- [ ] CB Armor items
+- [ ] CB Armor model
 
 ### Blocks
 - [x] Iron Brazier

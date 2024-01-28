@@ -1,9 +1,7 @@
-package com.peter.peterspjo;
+package com.peter.peterspjo.items;
 
-import com.peter.peterspjo.items.CelestialBronzeIngot;
-import com.peter.peterspjo.items.CelestialBronzeSpear;
-import com.peter.peterspjo.items.CelestialBronzeSword;
-import com.peter.peterspjo.items.TooltipedItem;
+import com.peter.peterspjo.PJO;
+import com.peter.peterspjo.items.armor.CelestialBronzeArmorMaterial;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.Item;
@@ -25,5 +23,7 @@ public class Items {
 
         CelestialBronzeSword.init();
         CelestialBronzeSpear.init();
+
+        CelestialBronzeArmorMaterial.register();
     }
 }

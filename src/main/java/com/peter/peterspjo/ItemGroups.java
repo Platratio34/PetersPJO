@@ -4,6 +4,8 @@ import com.peter.peterspjo.blocks.IronBrazier;
 import com.peter.peterspjo.items.CelestialBronzeIngot;
 import com.peter.peterspjo.items.CelestialBronzeSpear;
 import com.peter.peterspjo.items.CelestialBronzeSword;
+import com.peter.peterspjo.items.Items;
+import com.peter.peterspjo.items.armor.CelestialBronzeArmorMaterial;
 
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.ItemGroup;
@@ -24,6 +26,10 @@ public class ItemGroups {
                 entries.add(Blocks.CELESTIAL_BRONZE_BLOCK_ITEM);
                 entries.add(CelestialBronzeSword.ITEM);
                 entries.add(CelestialBronzeSpear.ITEM);
+                entries.add(CelestialBronzeArmorMaterial.HELMET);
+                entries.add(CelestialBronzeArmorMaterial.CHESTPLATE);
+                entries.add(CelestialBronzeArmorMaterial.LEGGINGS);
+                entries.add(CelestialBronzeArmorMaterial.BOOTS);
                 entries.add(IronBrazier.ITEM);
             })
             .build();
