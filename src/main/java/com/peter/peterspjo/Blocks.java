@@ -1,6 +1,7 @@
 package com.peter.peterspjo;
 
 import com.peter.peterspjo.blocks.IronBrazier;
+import com.peter.peterspjo.blocks.StoneBrazier;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -24,6 +25,7 @@ public class Blocks {
         Registry.register(Registries.BLOCK, CELESTIAL_BRONZE_BLOCK_ID, CELESTIAL_BRONZE_BLOCK);
         Registry.register(Registries.ITEM, CELESTIAL_BRONZE_BLOCK_ID, CELESTIAL_BRONZE_BLOCK_ITEM);
 
-        IronBrazier.init();
+        IronBrazier.register();
+        StoneBrazier.register();
     }
 }

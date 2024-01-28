@@ -48,7 +48,7 @@ Things will go here
 
 ### Blocks
 - [x] Iron Brazier
-- [ ] Stone Brazier
+- [x] Stone Brazier
 - [ ] Make braziers fire-able
 
 ### Entities

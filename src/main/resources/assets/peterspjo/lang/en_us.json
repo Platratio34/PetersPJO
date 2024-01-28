@@ -16,5 +16,8 @@
     "block.peterspjo.celestial_bronze_block.tooltip": "Metal of the Greek Gods",
 
     "block.peterspjo.iron_brazier": "Iron Brazier",
-    "block.peterspjo.iron_brazier.tooltip": "Great for keeping warm, or making offerings"
+    "block.peterspjo.iron_brazier.tooltip": "Great for keeping warm, or making offerings",
+
+    "block.peterspjo.stone_brazier": "Stone Brazier",
+    "block.peterspjo.stone_brazier.tooltip": "Great for keeping warm, or making offerings"
 }

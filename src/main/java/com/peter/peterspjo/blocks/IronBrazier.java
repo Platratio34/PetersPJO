@@ -20,12 +20,12 @@ public class IronBrazier extends TooltipedBlock {
             FabricBlockSettings.create().strength(4.0f).sounds(BlockSoundGroup.METAL).nonOpaque());
     public static final BlockItem ITEM = new BlockItem(BLOCK, new FabricItemSettings());
     
-    public static void init() {
+    public static void register() {
         Registry.register(Registries.BLOCK, ID, BLOCK);
         Registry.register(Registries.ITEM, ID, ITEM);
     }
 
     public IronBrazier(Settings settings) {
-        super(settings, Text.translatable("block.peterspjo."+NAME+".tooltip"));
+        super(settings, Text.translatable("block."+PJO.NAMESPACE+"."+NAME+".tooltip"));
     }
 }

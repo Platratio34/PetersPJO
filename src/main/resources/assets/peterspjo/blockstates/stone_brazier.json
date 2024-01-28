@@ -1,0 +1,63 @@
+{
+    "variants": {
+        "variant=0": {
+            "model": "peterspjo:block/stone_brazier"
+        },
+
+        "variant=1,facing=north": {
+            "model": "peterspjo:block/stone_brazier_s"
+        },
+        "variant=1,facing=east": {
+            "model": "peterspjo:block/stone_brazier_s", "y": 90
+        },
+        "variant=1,facing=south": {
+            "model": "peterspjo:block/stone_brazier_s", "y": 180
+        },
+        "variant=1,facing=west": {
+            "model": "peterspjo:block/stone_brazier_s", "y": 270
+        },
+
+        "variant=2,facing=north": {
+            "model": "peterspjo:block/stone_brazier_sn"
+        },
+        "variant=2,facing=east": {
+            "model": "peterspjo:block/stone_brazier_sn", "y": 90
+        },
+        "variant=2,facing=south": {
+            "model": "peterspjo:block/stone_brazier_sn", "y": 180
+        },
+        "variant=2,facing=west": {
+            "model": "peterspjo:block/stone_brazier_sn", "y": 270
+        },
+
+        "variant=3,facing=north": {
+            "model": "peterspjo:block/stone_brazier_sw"
+        },
+        "variant=3,facing=east": {
+            "model": "peterspjo:block/stone_brazier_sw", "y": 90
+        },
+        "variant=3,facing=south": {
+            "model": "peterspjo:block/stone_brazier_sw", "y": 180
+        },
+        "variant=3,facing=west": {
+            "model": "peterspjo:block/stone_brazier_sw", "y": 270
+        },
+
+        "variant=4,facing=north": {
+            "model": "peterspjo:block/stone_brazier_swe"
+        },
+        "variant=4,facing=east": {
+            "model": "peterspjo:block/stone_brazier_swe", "y": 90
+        },
+        "variant=4,facing=south": {
+            "model": "peterspjo:block/stone_brazier_swe", "y": 180
+        },
+        "variant=4,facing=west": {
+            "model": "peterspjo:block/stone_brazier_swe", "y": 270
+        },
+
+        "variant=5": {
+            "model": "peterspjo:block/stone_brazier_swen"
+        }
+    }
+}
