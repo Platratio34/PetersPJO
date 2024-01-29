@@ -4,5 +4,6 @@ public class Entities {
 
     public static void init() {
         SpearEntity.init();
+        Empousai.register();
     }
 }
