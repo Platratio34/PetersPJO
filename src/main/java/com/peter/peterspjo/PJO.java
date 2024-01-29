@@ -24,8 +24,9 @@ public class PJO implements ModInitializer {
 
 		Items.init();
 		Blocks.init();
-		ItemGroups.init();
 		Entities.init();
+		
+		ItemGroups.init();
 
 
 		LOGGER.info("Loaded Peter's PJO");

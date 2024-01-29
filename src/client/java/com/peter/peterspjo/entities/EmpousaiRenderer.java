@@ -22,7 +22,7 @@ public class EmpousaiRenderer extends MobEntityRenderer<Empousai, EmpousaiModel>
 
     @Override
     public Identifier getTexture(Empousai entity) {
-        return new Identifier(PJO.NAMESPACE, "textures/entity/empousai/test.png");
+        return new Identifier(PJO.NAMESPACE, "textures/entity/empousai/empousai.png");
     }
 
 }
