@@ -1,5 +1,9 @@
 # Peter's Percy Jackson Mod
 
+## In Dev Warning
+
+**Forward-compatibility and stability are NOT guaranteed for dev builds**
+
 ## Setup
 
 Things will go here
