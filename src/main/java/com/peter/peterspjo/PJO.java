@@ -1,6 +1,12 @@
 package com.peter.peterspjo;
 
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageType;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.util.Identifier;
+import net.minecraft.world.World;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +22,9 @@ public class PJO implements ModInitializer {
 
 	public static final String NAMESPACE = "peterspjo";
 
+	public static final RegistryKey<DamageType> CELESTIAL_DAMAGE_TYPE = RegistryKey.of(RegistryKeys.DAMAGE_TYPE,
+			new Identifier(NAMESPACE, "celestial"));
+
 	@Override
 	public void onInitialize() {
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
@@ -25,15 +34,18 @@ public class PJO implements ModInitializer {
 		Items.init();
 		Blocks.init();
 		Entities.init();
-		
-		ItemGroups.init();
 
+		ItemGroups.init();
 
 		LOGGER.info("Loaded Peter's PJO");
 		// LOGGER.info(" __         ");
 		// LOGGER.info("|__) \\    /");
 		// LOGGER.info("|     \\/\\/");
 		// LOGGER.info("           ");
+	}
+	
+	public static DamageSource damageSourceOf(World world, RegistryKey<DamageType> key) {
+		return new DamageSource(world.getRegistryManager().get(RegistryKeys.DAMAGE_TYPE).entryOf(key));
 	}
 
 

@@ -18,6 +18,7 @@ public class EmpousaiRenderer extends MobEntityRenderer<Empousai, EmpousaiModel>
 
     public EmpousaiRenderer(Context context) {
         super(context, new EmpousaiModel(context.getPart(EmpousaiModel.LAYER)), 0.5f);
+        this.getModel().setVisible(true);
     }
 
     @Override
