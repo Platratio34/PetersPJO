@@ -31,6 +31,8 @@ public class PJO implements ModInitializer {
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
 
+		LOGGER.info("Loading Peter's PJO");
+
 		Items.init();
 		Blocks.init();
 		Entities.init();
