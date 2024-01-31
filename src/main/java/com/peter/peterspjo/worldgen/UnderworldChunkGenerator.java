@@ -2,7 +2,6 @@ package com.peter.peterspjo.worldgen;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -152,14 +151,25 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
     }
 
     private static final Block FLOOR_BASE = Blocks.BLACKSTONE;
-    private static final Block FLOOR_TOP1 = Blocks.SAND;
-    private static final Block FLOOR_TOP2 = Blocks.GRAVEL;
+    private static final Block FLOOR_TOP_INNER = Blocks.SAND;
+    private static final Block FLOOR_TOP_OUTER = Blocks.GRAVEL;
     private static final Block ROOF = Blocks.BASALT;
+
+    public static final int PIT_ENTRANCE_X = -256;
+    public static final int PIT_ENTRANCE_Z = -256;
+    public static final int PIT_INNER_SIZE = 64;
+    public static final int PIT_OUTER_SIZE = 64+24;
+    public static final double PIT_LERP_HEIGHT = 32;
+    public static final int PALACE_PAD_SIZE = 32;
+    public static final int PALACE_PIT_SIZE = 64;
+    public static final int EREBOS_SIZE = 1024;
+    public static final int CELLING_HEIGHT = 128;
+    public static final double OUTER_SET_SIZE = 32;
 
     private Chunk populateNoise(Blender blender, StructureAccessor structureAccessor, NoiseConfig noiseConfig,
             Chunk chunk, int minimumCellY, int cellHeight) {
-        ChunkNoiseSampler chunkNoiseSampler = chunk.getOrCreateChunkNoiseSampler((chunkx) -> {
-            return this.createChunkNoiseSampler(chunkx, structureAccessor, blender, noiseConfig);
+        ChunkNoiseSampler chunkNoiseSampler = chunk.getOrCreateChunkNoiseSampler((chunkX) -> {
+            return this.createChunkNoiseSampler(chunkX, structureAccessor, blender, noiseConfig);
         });
         Heightmap oceanFloorHeightmap = chunk.getHeightmap(Type.OCEAN_FLOOR_WG);
         Heightmap worldSurfaceHeightMap = chunk.getHeightmap(Type.WORLD_SURFACE_WG);
@@ -215,30 +225,39 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
                                 BlockState blockState = Blocks.AIR.getDefaultState();
                                 double flatDistFromOrigin = Math
                                         .sqrt((worldBlockX * worldBlockX) + (worldBlockZ * worldBlockZ));
+                                double flatDistFromPit = Math
+                                        .sqrt(Math.pow(worldBlockX - PIT_ENTRANCE_X, 2)
+                                                + Math.pow(worldBlockZ - PIT_ENTRANCE_Z, 2));
                                 // if (blockY < 0 && flatDistFromOrigin % 16 < 1) {
                                 //     blockState = Blocks.BLACKSTONE.getDefaultState();
                                 // }
-                                if (worldBlockY > 128) {
+                                int terrainHeight = getTerrainHeightAtLocation(worldBlockX, worldBlockZ, noise, flatDistFromOrigin);
+                                if (worldBlockY > CELLING_HEIGHT) {
                                     blockState = ROOF.getDefaultState();
-                                } else if (worldBlockY < getTerrainHeightAtLocation(worldBlockX, worldBlockZ, noise)) {
+                                } else if (flatDistFromPit < PIT_OUTER_SIZE+16) {
+                                    if (flatDistFromPit < PIT_INNER_SIZE) {
+                                        blockState = AIR;
+                                    } else {
+                                        double alpha = PIT_LERP_HEIGHT / Math.sqrt(PIT_OUTER_SIZE - PIT_INNER_SIZE);
+                                        double pitH = alpha * Math.sqrt(flatDistFromPit - PIT_INNER_SIZE) - PIT_LERP_HEIGHT;
+                                        pitH = (int)Math.min(pitH, terrainHeight);
+                                        if (worldBlockY == pitH) {
+                                            if (pitH < -8) {
+                                                blockState = FLOOR_BASE.getDefaultState();
+                                            } else {
+                                                blockState = FLOOR_TOP_INNER.getDefaultState();
+                                            }
+                                        } else if (worldBlockY < pitH) {
+                                            blockState = FLOOR_BASE.getDefaultState();
+                                        }
+                                    }
+                                } else if (worldBlockY < terrainHeight) {
                                     blockState = FLOOR_BASE.getDefaultState();
-                                    // if (flatDistFromOrigin < 64) {
-                                    //     double maxY = Math.max(-32 + (flatDistFromOrigin / 2d), -8);
-                                    //     maxY = Math.max(maxY, -2 * (flatDistFromOrigin - 32));
-                                    //     if (worldBlockY > maxY) {
-                                    //         blockState = AIR;
-                                    //     }
-                                    // } else if (flatDistFromOrigin > 68) {
-                                    //     // if (worldBlockY == -1) {
-                                    //     //     blockState = FLOOR_TOP1;
-                                    //     // }
-
-                                    // }
-                                } else if (worldBlockY == getTerrainHeightAtLocation(worldBlockX, worldBlockZ, noise)) {
-                                    if (flatDistFromOrigin > 512) {
-                                        blockState = FLOOR_TOP2.getDefaultState();
-                                    } else if (flatDistFromOrigin > 68) {
-                                        blockState = FLOOR_TOP1.getDefaultState();
+                                } else if (worldBlockY == terrainHeight) {
+                                    if (flatDistFromOrigin > EREBOS_SIZE) {
+                                        blockState = FLOOR_TOP_OUTER.getDefaultState();
+                                    } else if (flatDistFromOrigin > PALACE_PIT_SIZE + 4) {
+                                        blockState = FLOOR_TOP_INNER.getDefaultState();
                                     } else {
                                         blockState = FLOOR_BASE.getDefaultState();
                                     }
@@ -273,21 +292,20 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
         return chunk;
     }
     
-    private int getTerrainHeightAtLocation(int x, int z, NoiseGenerator noise) {
-        double flatDistFromOrigin = Math.sqrt((x * x) + (z * z));
-        if (flatDistFromOrigin < 64) {
-            double maxY = Math.max(-32 + (flatDistFromOrigin / 2d), -8);
-            maxY = Math.max(maxY, -2 * (flatDistFromOrigin - 34));
+    private int getTerrainHeightAtLocation(int x, int z, NoiseGenerator noise, double flatDistFromOrigin) {
+        if (flatDistFromOrigin < PALACE_PIT_SIZE) {
+            double maxY = Math.max((-PALACE_PIT_SIZE + flatDistFromOrigin) / 2d, -8);
+            maxY = Math.max(maxY, -2 * (flatDistFromOrigin - (PALACE_PAD_SIZE+2)));
             return (int) Math.min(maxY,2);
-        } else if(flatDistFromOrigin < 72) {
+        } else if(flatDistFromOrigin < PALACE_PIT_SIZE+8) {
             return 0;
-        } else if (flatDistFromOrigin < 512) {
-            double lerpVal = Math.min(1d, (flatDistFromOrigin - 72d) / 16d);
-            lerpVal = Math.min(lerpVal, (512-flatDistFromOrigin) / 16d);
+        } else if (flatDistFromOrigin < EREBOS_SIZE) {
+            double lerpVal = Math.min(1d, (flatDistFromOrigin - (PALACE_PIT_SIZE+8d)) / 16d);
+            lerpVal = Math.min(lerpVal, (EREBOS_SIZE-flatDistFromOrigin) / 16d);
             double h = (noise.noise(x/2d, z/2d) * 8) + 1;
             return (int)(h * lerpVal);
         } else {
-            return (int) ((flatDistFromOrigin - 512 - 32) / 32d);
+            return (int) ((flatDistFromOrigin - EREBOS_SIZE - OUTER_SET_SIZE) / OUTER_SET_SIZE);
         }
         // return 0;
     }

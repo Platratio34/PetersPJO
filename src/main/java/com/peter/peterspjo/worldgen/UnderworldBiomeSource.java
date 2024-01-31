@@ -55,7 +55,7 @@ public class UnderworldBiomeSource extends BiomeSource {
     @Override
     public RegistryEntry<Biome> getBiome(int x, int y, int z, MultiNoiseSampler noise) {
         double flatDistFromOrigin = Math.sqrt((x * x) + (z * z));
-        if (flatDistFromOrigin > 512) {
+        if (flatDistFromOrigin > UnderworldChunkGenerator.EREBOS_SIZE) {
             return outer;
         }
         return plains;
