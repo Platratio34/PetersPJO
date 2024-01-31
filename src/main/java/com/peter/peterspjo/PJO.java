@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.peter.peterspjo.entities.Entities;
 import com.peter.peterspjo.items.Items;
+import com.peter.peterspjo.worldgen.UnderworldChunkGenerator;
 
 public class PJO implements ModInitializer {
 	// This logger is used to write text to the console and the log file.
@@ -38,6 +39,8 @@ public class PJO implements ModInitializer {
 		Entities.init();
 
 		ItemGroups.init();
+
+		UnderworldChunkGenerator.register();
 
 		LOGGER.info("Loaded Peter's PJO");
 		// LOGGER.info(" __         ");

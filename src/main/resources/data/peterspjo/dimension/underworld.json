@@ -1,0 +1,10 @@
+{
+    "type": "peterspjo:underworld",
+    "generator": {
+        "type": "peterspjo:underworld",
+        "settings":  "minecraft:nether",
+        "biome_source": {
+            "type": "peterspjo:underworld"
+        }
+    }
+}

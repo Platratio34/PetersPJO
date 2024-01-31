@@ -21,5 +21,8 @@
     "block.peterspjo.stone_brazier": "Stone Brazier",
     "block.peterspjo.stone_brazier.tooltip": "Great for keeping warm, or making offerings",
 
-    "item.peterspjo.empousai_spawn_egg": "Empousai Spawn Egg"
+    "item.peterspjo.empousai_spawn_egg": "Empousai Spawn Egg",
+
+    "biome.peterspjo.underworld_plains": "Underworld plains",
+    "biome.peterspjo.underworld_outer": "Underworld outer"
 }
