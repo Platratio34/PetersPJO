@@ -15,6 +15,7 @@ import net.minecraft.registry.RegistryOps;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.source.BiomeCoords;
 import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.biome.source.util.MultiNoiseUtil.MultiNoiseSampler;
 
@@ -54,7 +55,10 @@ public class UnderworldBiomeSource extends BiomeSource {
 
     @Override
     public RegistryEntry<Biome> getBiome(int x, int y, int z, MultiNoiseSampler noise) {
-        double flatDistFromOrigin = Math.sqrt((x * x) + (z * z));
+        int wx = BiomeCoords.toBlock(x);
+        int wy = BiomeCoords.toBlock(y);
+        int wz = BiomeCoords.toBlock(z);
+        double flatDistFromOrigin = Math.sqrt((wx * wx) + (wz * wz));
         if (flatDistFromOrigin > UnderworldChunkGenerator.EREBOS_SIZE) {
             return outer;
         }

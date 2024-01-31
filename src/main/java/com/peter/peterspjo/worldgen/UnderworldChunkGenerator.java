@@ -18,6 +18,7 @@ import net.minecraft.SharedConstants;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.raid.RaiderEntity.CelebrateGoal;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -29,6 +30,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.ChunkRegion;
 import net.minecraft.world.biome.source.BiomeAccess;
 import net.minecraft.world.biome.source.BiomeSource;
+import net.minecraft.world.biome.source.util.MultiNoiseUtil.MultiNoiseSampler;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkSection;
 import net.minecraft.world.dimension.DimensionType;
@@ -155,11 +157,12 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
     private static final Block FLOOR_TOP_OUTER = Blocks.GRAVEL;
     private static final Block ROOF = Blocks.BASALT;
 
-    public static final int PIT_ENTRANCE_X = -256;
-    public static final int PIT_ENTRANCE_Z = -256;
-    public static final int PIT_INNER_SIZE = 64;
-    public static final int PIT_OUTER_SIZE = 64+24;
-    public static final double PIT_LERP_HEIGHT = 32;
+    public static final int PIT_ENTRANCE_X = -512;
+    public static final int PIT_ENTRANCE_Z = -512;
+    public static final int PIT_INNER_SIZE = 48;
+    public static final int PIT_OUTER_SIZE = 64+32;
+    public static final double PIT_LERP_HEIGHT = 64;
+    public static final double PIT_MIN_SAND_HEIGHT = -24;
     public static final int PALACE_PAD_SIZE = 32;
     public static final int PALACE_PIT_SIZE = 64;
     public static final int EREBOS_SIZE = 1024;
@@ -181,11 +184,9 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
         BlockPos.Mutable mutable = new BlockPos.Mutable();
         int hCellBlockCount = chunkNoiseSampler.getHorizontalCellBlockCount();
         int vCellBlockCount = chunkNoiseSampler.getVerticalCellBlockCount();
-        // int hCellBlockCount = 16;
-        // int vCellBlockCount = 16;
         int m = 16 / hCellBlockCount;
         int n = 16 / hCellBlockCount;
-
+        
         NoiseGenerator noise = new NoiseGenerator(324684654);
 
         for (int cellX = 0; cellX < m; ++cellX) {
@@ -228,13 +229,15 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
                                 double flatDistFromPit = Math
                                         .sqrt(Math.pow(worldBlockX - PIT_ENTRANCE_X, 2)
                                                 + Math.pow(worldBlockZ - PIT_ENTRANCE_Z, 2));
-                                // if (blockY < 0 && flatDistFromOrigin % 16 < 1) {
-                                //     blockState = Blocks.BLACKSTONE.getDefaultState();
-                                // }
                                 int terrainHeight = getTerrainHeightAtLocation(worldBlockX, worldBlockZ, noise, flatDistFromOrigin);
                                 if (worldBlockY > CELLING_HEIGHT) {
                                     blockState = ROOF.getDefaultState();
-                                } else if (flatDistFromPit < PIT_OUTER_SIZE+16) {
+                                } else if (worldBlockY > CELLING_HEIGHT - 24) {
+                                    double celHeight = CELLING_HEIGHT - (noise.noise(worldBlockX*2, worldBlockZ*2) * 16)-8;
+                                    if (worldBlockY > celHeight) {
+                                        blockState = ROOF.getDefaultState();
+                                    }
+                                } else if (flatDistFromPit < PIT_OUTER_SIZE + 32) {
                                     if (flatDistFromPit < PIT_INNER_SIZE) {
                                         blockState = AIR;
                                     } else {
@@ -242,7 +245,7 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
                                         double pitH = alpha * Math.sqrt(flatDistFromPit - PIT_INNER_SIZE) - PIT_LERP_HEIGHT;
                                         pitH = (int)Math.min(pitH, terrainHeight);
                                         if (worldBlockY == pitH) {
-                                            if (pitH < -8) {
+                                            if (pitH < PIT_MIN_SAND_HEIGHT) {
                                                 blockState = FLOOR_BASE.getDefaultState();
                                             } else {
                                                 blockState = FLOOR_TOP_INNER.getDefaultState();
