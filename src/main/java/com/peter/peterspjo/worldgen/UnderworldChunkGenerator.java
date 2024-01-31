@@ -156,6 +156,7 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
     private static final Block FLOOR_TOP_INNER = Blocks.SAND;
     private static final Block FLOOR_TOP_OUTER = Blocks.GRAVEL;
     private static final Block ROOF = Blocks.BASALT;
+    private static final Block EREBOS_WALL_BLOCK = Blocks.POLISHED_BLACKSTONE_BRICKS;
 
     public static final int PIT_ENTRANCE_X = -512;
     public static final int PIT_ENTRANCE_Z = -512;
@@ -166,6 +167,8 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
     public static final int PALACE_PAD_SIZE = 32;
     public static final int PALACE_PIT_SIZE = 64;
     public static final int EREBOS_SIZE = 1024;
+    public static final int EREBOS_WALL_HEIGHT = 16;
+    public static final double EREBOS_WALL_PILLAR_ANGLE = Math.PI / 500d;
     public static final int CELLING_HEIGHT = 128;
     public static final double OUTER_SET_SIZE = 32;
 
@@ -226,6 +229,7 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
                                 BlockState blockState = Blocks.AIR.getDefaultState();
                                 double flatDistFromOrigin = Math
                                         .sqrt((worldBlockX * worldBlockX) + (worldBlockZ * worldBlockZ));
+                                double flatDirFromOrigin = Math.abs(Math.atan2(worldBlockZ, worldBlockX));
                                 double flatDistFromPit = Math
                                         .sqrt(Math.pow(worldBlockX - PIT_ENTRANCE_X, 2)
                                                 + Math.pow(worldBlockZ - PIT_ENTRANCE_Z, 2));
@@ -234,7 +238,11 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
                                     blockState = ROOF.getDefaultState();
                                 } else if (worldBlockY > CELLING_HEIGHT - 24) {
                                     double celHeight = CELLING_HEIGHT - (noise.noise(worldBlockX*2, worldBlockZ*2) * 16)-8;
-                                    if (worldBlockY > celHeight) {
+                                    if (worldBlockY < terrainHeight) {
+                                        blockState = FLOOR_BASE.getDefaultState();
+                                    } else if (worldBlockY == terrainHeight) {
+                                        blockState = FLOOR_TOP_OUTER.getDefaultState();
+                                    } else if (worldBlockY > celHeight) {
                                         blockState = ROOF.getDefaultState();
                                     }
                                 } else if (flatDistFromPit < PIT_OUTER_SIZE + 32) {
@@ -256,6 +264,16 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
                                     }
                                 } else if (worldBlockY < terrainHeight) {
                                     blockState = FLOOR_BASE.getDefaultState();
+                                } else if (flatDistFromOrigin >= EREBOS_SIZE && flatDistFromOrigin < EREBOS_SIZE+5) {
+                                    if (worldBlockY <= EREBOS_WALL_HEIGHT && flatDistFromOrigin < EREBOS_SIZE + 4) {
+                                        blockState = EREBOS_WALL_BLOCK.getDefaultState();
+                                    } else if ((flatDirFromOrigin % EREBOS_WALL_PILLAR_ANGLE)/EREBOS_WALL_PILLAR_ANGLE < 0.25d && worldBlockY <= EREBOS_WALL_HEIGHT+2 && flatDistFromOrigin >= EREBOS_SIZE + 3) {
+                                        blockState = EREBOS_WALL_BLOCK.getDefaultState();
+                                    // } else if (worldBlockY <= (flatDirFromOrigin % EREBOS_WALL_PILLAR_ANGLE)/EREBOS_WALL_PILLAR_ANGLE * 100 + 16) {
+                                    //     blockState = EREBOS_WALL_BLOCK.getDefaultState();
+                                    } else if (worldBlockY == terrainHeight) {
+                                        blockState = FLOOR_TOP_OUTER.getDefaultState();
+                                    }
                                 } else if (worldBlockY == terrainHeight) {
                                     if (flatDistFromOrigin > EREBOS_SIZE) {
                                         blockState = FLOOR_TOP_OUTER.getDefaultState();
