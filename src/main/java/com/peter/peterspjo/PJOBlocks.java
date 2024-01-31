@@ -14,7 +14,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 
-public class Blocks {
+public class PJOBlocks {
 
     public static final Block CELESTIAL_BRONZE_BLOCK = new TooltipedBlock(FabricBlockSettings.create().strength(4.0f).sounds(BlockSoundGroup.METAL).luminance(1), Text.translatable("block.peterspjo.celestial_bronze_block.tooltip").formatted(Formatting.GOLD));
     public static final Identifier CELESTIAL_BRONZE_BLOCK_ID = new Identifier(PJO.NAMESPACE, "celestial_bronze_block");

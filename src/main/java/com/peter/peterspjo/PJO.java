@@ -11,8 +11,8 @@ import net.minecraft.world.World;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.peter.peterspjo.entities.Entities;
-import com.peter.peterspjo.items.Items;
+import com.peter.peterspjo.entities.PJOEntities;
+import com.peter.peterspjo.items.PJOItems;
 import com.peter.peterspjo.worldgen.UnderworldChunkGenerator;
 
 public class PJO implements ModInitializer {
@@ -34,11 +34,11 @@ public class PJO implements ModInitializer {
 
 		LOGGER.info("Loading Peter's PJO");
 
-		Items.init();
-		Blocks.init();
-		Entities.init();
+		PJOItems.init();
+		PJOBlocks.init();
+		PJOEntities.init();
 
-		ItemGroups.init();
+		PJOItemGroups.init();
 
 		UnderworldChunkGenerator.register();
 

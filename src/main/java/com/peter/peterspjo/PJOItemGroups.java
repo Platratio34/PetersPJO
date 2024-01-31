@@ -6,7 +6,7 @@ import com.peter.peterspjo.entities.Empousai;
 import com.peter.peterspjo.items.CelestialBronzeIngot;
 import com.peter.peterspjo.items.CelestialBronzeSpear;
 import com.peter.peterspjo.items.CelestialBronzeSword;
-import com.peter.peterspjo.items.Items;
+import com.peter.peterspjo.items.PJOItems;
 import com.peter.peterspjo.items.armor.CelestialBronzeArmorMaterial;
 
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
@@ -17,15 +17,15 @@ import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-public class ItemGroups {
+public class PJOItemGroups {
 
     public static final ItemGroup MAIN = FabricItemGroup.builder()
-            .icon(() -> new ItemStack(Items.DRACHMA))
+            .icon(() -> new ItemStack(PJOItems.DRACHMA))
             .displayName(Text.translatable("itemGroup.peterspjo.main"))
             .entries((context, entries) -> {
-                entries.add(Items.DRACHMA);
+                entries.add(PJOItems.DRACHMA);
                 entries.add(CelestialBronzeIngot.ITEM);
-                entries.add(Blocks.CELESTIAL_BRONZE_BLOCK_ITEM);
+                entries.add(PJOBlocks.CELESTIAL_BRONZE_BLOCK_ITEM);
                 entries.add(CelestialBronzeSword.ITEM);
                 entries.add(CelestialBronzeSpear.ITEM);
                 entries.add(CelestialBronzeArmorMaterial.HELMET);
