@@ -157,6 +157,7 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
     private static final Block FLOOR_TOP_OUTER = Blocks.GRAVEL;
     private static final Block ROOF = Blocks.BASALT;
     private static final Block EREBOS_WALL_BLOCK = Blocks.POLISHED_BLACKSTONE_BRICKS;
+    private static final Block STYX_RIVER = Blocks.WATER;
 
     public static final int PIT_ENTRANCE_X = -512;
     public static final int PIT_ENTRANCE_Z = -512;
@@ -164,13 +165,14 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
     public static final int PIT_OUTER_SIZE = 64+32;
     public static final double PIT_LERP_HEIGHT = 64;
     public static final double PIT_MIN_SAND_HEIGHT = -24;
-    public static final int PALACE_PAD_SIZE = 32;
-    public static final int PALACE_PIT_SIZE = 64;
+    public static final int PALACE_PAD_SIZE = 48;
+    public static final int PALACE_PIT_SIZE = 64+32;
     public static final int EREBOS_SIZE = 1024;
     public static final int EREBOS_WALL_HEIGHT = 16;
     public static final double EREBOS_WALL_PILLAR_ANGLE = Math.PI / 500d;
     public static final int CELLING_HEIGHT = 128;
-    public static final double OUTER_SET_SIZE = 32;
+    public static final double OUTER_STEP_SIZE = 32;
+    public static final int OUTER_STEP_OFFSET = 64;
 
     private Chunk populateNoise(Blender blender, StructureAccessor structureAccessor, NoiseConfig noiseConfig,
             Chunk chunk, int minimumCellY, int cellHeight) {
@@ -189,7 +191,7 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
         int vCellBlockCount = chunkNoiseSampler.getVerticalCellBlockCount();
         int m = 16 / hCellBlockCount;
         int n = 16 / hCellBlockCount;
-        
+
         NoiseGenerator noise = new NoiseGenerator(324684654);
 
         for (int cellX = 0; cellX < m; ++cellX) {
@@ -233,15 +235,41 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
                                 double flatDistFromPit = Math
                                         .sqrt(Math.pow(worldBlockX - PIT_ENTRANCE_X, 2)
                                                 + Math.pow(worldBlockZ - PIT_ENTRANCE_Z, 2));
-                                int terrainHeight = getTerrainHeightAtLocation(worldBlockX, worldBlockZ, noise, flatDistFromOrigin);
+                                int terrainHeight = getTerrainHeightAtLocation(worldBlockX, worldBlockZ, noise,
+                                        flatDistFromOrigin);
                                 if (worldBlockY > CELLING_HEIGHT) {
-                                    blockState = ROOF.getDefaultState();
+                                    int stepHeight = getOuterStepHeight(flatDistFromOrigin);
+                                    int rDepth = stepHeight - terrainHeight;
+                                    int rRoofHeight = stepHeight + rDepth + 4;
+                                    if (!(worldBlockZ < 0 && worldBlockY < rRoofHeight && worldBlockX > -9 && worldBlockX < 9)) {
+                                        blockState = ROOF.getDefaultState();
+                                    } else if(worldBlockZ < 0 && worldBlockX > -9 && worldBlockX < 9) {
+                                        if (worldBlockY < terrainHeight) {
+                                            blockState = ROOF.getDefaultState();
+                                        } else if (worldBlockY == terrainHeight) {
+                                            blockState = FLOOR_TOP_OUTER.getDefaultState();
+                                        } else if (worldBlockY < stepHeight) {
+                                            blockState = STYX_RIVER.getDefaultState();
+                                        }
+                                    }
                                 } else if (worldBlockY > CELLING_HEIGHT - 24) {
-                                    double celHeight = CELLING_HEIGHT - (noise.noise(worldBlockX*2, worldBlockZ*2) * 16)-8;
-                                    if (worldBlockY < terrainHeight) {
+                                    int stepHeight = getOuterStepHeight(flatDistFromOrigin);
+                                    int fHeight = stepHeight;
+                                    int rDepth = stepHeight - terrainHeight;
+                                    int rRoofHeight = stepHeight + rDepth + 4;
+                                    if (worldBlockZ < 0) {
+                                        fHeight = terrainHeight;
+                                    }
+                                    double celHeight = CELLING_HEIGHT
+                                            - (noise.noise(worldBlockX * 2, worldBlockZ * 2) * 16) - 8;
+                                    if (worldBlockY < fHeight) {
                                         blockState = FLOOR_BASE.getDefaultState();
-                                    } else if (worldBlockY == terrainHeight) {
+                                    } else if (worldBlockY == fHeight) {
                                         blockState = FLOOR_TOP_OUTER.getDefaultState();
+                                    } else if (worldBlockZ < 0 && worldBlockY < stepHeight) {
+                                        blockState = STYX_RIVER.getDefaultState();
+                                    } else if (worldBlockZ < 0 && worldBlockY < rRoofHeight && worldBlockX > -9 && worldBlockX < 9) {
+                                        // air
                                     } else if (worldBlockY > celHeight) {
                                         blockState = ROOF.getDefaultState();
                                     }
@@ -250,8 +278,9 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
                                         blockState = AIR;
                                     } else {
                                         double alpha = PIT_LERP_HEIGHT / Math.sqrt(PIT_OUTER_SIZE - PIT_INNER_SIZE);
-                                        double pitH = alpha * Math.sqrt(flatDistFromPit - PIT_INNER_SIZE) - PIT_LERP_HEIGHT;
-                                        pitH = (int)Math.min(pitH, terrainHeight);
+                                        double pitH = alpha * Math.sqrt(flatDistFromPit - PIT_INNER_SIZE)
+                                                - PIT_LERP_HEIGHT;
+                                        pitH = (int) Math.min(pitH, terrainHeight);
                                         if (worldBlockY == pitH) {
                                             if (pitH < PIT_MIN_SAND_HEIGHT) {
                                                 blockState = FLOOR_BASE.getDefaultState();
@@ -264,13 +293,15 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
                                     }
                                 } else if (worldBlockY < terrainHeight) {
                                     blockState = FLOOR_BASE.getDefaultState();
-                                } else if (flatDistFromOrigin >= EREBOS_SIZE && flatDistFromOrigin < EREBOS_SIZE+5) {
+                                } else if (flatDistFromOrigin >= EREBOS_SIZE && flatDistFromOrigin < EREBOS_SIZE + 5) {
                                     if (worldBlockY <= EREBOS_WALL_HEIGHT && flatDistFromOrigin < EREBOS_SIZE + 4) {
                                         blockState = EREBOS_WALL_BLOCK.getDefaultState();
-                                    } else if ((flatDirFromOrigin % EREBOS_WALL_PILLAR_ANGLE)/EREBOS_WALL_PILLAR_ANGLE < 0.25d && worldBlockY <= EREBOS_WALL_HEIGHT+2 && flatDistFromOrigin >= EREBOS_SIZE + 3) {
+                                    } else if ((flatDirFromOrigin % EREBOS_WALL_PILLAR_ANGLE)
+                                            / EREBOS_WALL_PILLAR_ANGLE < 0.25d && worldBlockY <= EREBOS_WALL_HEIGHT + 2
+                                            && flatDistFromOrigin >= EREBOS_SIZE + 3) {
                                         blockState = EREBOS_WALL_BLOCK.getDefaultState();
-                                    // } else if (worldBlockY <= (flatDirFromOrigin % EREBOS_WALL_PILLAR_ANGLE)/EREBOS_WALL_PILLAR_ANGLE * 100 + 16) {
-                                    //     blockState = EREBOS_WALL_BLOCK.getDefaultState();
+                                        // } else if (worldBlockY <= (flatDirFromOrigin % EREBOS_WALL_PILLAR_ANGLE)/EREBOS_WALL_PILLAR_ANGLE * 100  + 16) {
+                                        //     blockState = EREBOS_WALL_BLOCK.getDefaultState();
                                     } else if (worldBlockY == terrainHeight) {
                                         blockState = FLOOR_TOP_OUTER.getDefaultState();
                                     }
@@ -281,6 +312,30 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
                                         blockState = FLOOR_TOP_INNER.getDefaultState();
                                     } else {
                                         blockState = FLOOR_BASE.getDefaultState();
+                                    }
+                                } else if (flatDistFromOrigin > EREBOS_SIZE) {
+                                    if (flatDistFromOrigin < EREBOS_SIZE + OUTER_STEP_OFFSET) {
+                                        if (worldBlockY < 0) {
+                                            blockState = STYX_RIVER.getDefaultState();
+                                        }
+                                    } else {
+                                        int surHeight = getOuterStepHeight(flatDistFromOrigin);
+                                        if ((worldBlockZ < 0 && worldBlockY < surHeight) || worldBlockY <= -surHeight) {
+                                            blockState = STYX_RIVER.getDefaultState();
+                                        } else if (worldBlockZ > 0 && terrainHeight < 0) {
+                                            int rPlane = -getOuterStepHeight(flatDistFromOrigin);
+                                            int rDepth = rPlane - terrainHeight;
+                                            int rRoofHeight = rPlane + rDepth + 4;
+                                            if (worldBlockY < rRoofHeight) {
+                                                // air
+                                            } else if (worldBlockY == rRoofHeight && worldBlockY <= surHeight) {
+                                                blockState = FLOOR_BASE.getDefaultState();
+                                            } else if (worldBlockY >= rRoofHeight && worldBlockY < surHeight) {
+                                                blockState = FLOOR_BASE.getDefaultState();
+                                            } else if (worldBlockY == surHeight) {
+                                                blockState = FLOOR_TOP_OUTER.getDefaultState();
+                                            }
+                                        }
                                     }
                                 }
                                 if (blockState == null) {
@@ -313,6 +368,10 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
         return chunk;
     }
     
+    private int getOuterStepHeight(double flatDistFromOrigin) {
+        return (int) ((flatDistFromOrigin - EREBOS_SIZE - OUTER_STEP_OFFSET) / OUTER_STEP_SIZE);
+    }
+    
     private int getTerrainHeightAtLocation(int x, int z, NoiseGenerator noise, double flatDistFromOrigin) {
         if (flatDistFromOrigin < PALACE_PIT_SIZE) {
             double maxY = Math.max((-PALACE_PIT_SIZE + flatDistFromOrigin) / 2d, -8);
@@ -321,12 +380,31 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
         } else if(flatDistFromOrigin < PALACE_PIT_SIZE+8) {
             return 0;
         } else if (flatDistFromOrigin < EREBOS_SIZE) {
-            double lerpVal = Math.min(1d, (flatDistFromOrigin - (PALACE_PIT_SIZE+8d)) / 16d);
-            lerpVal = Math.min(lerpVal, (EREBOS_SIZE-flatDistFromOrigin) / 16d);
-            double h = (noise.noise(x/2d, z/2d) * 8) + 1;
-            return (int)(h * lerpVal);
+            double lerpVal = Math.min(1d, (flatDistFromOrigin - (PALACE_PIT_SIZE + 8d)) / 16d);
+            lerpVal = Math.min(lerpVal, (EREBOS_SIZE - flatDistFromOrigin) / 16d);
+            double h = (noise.noise(x / 2d, z / 2d) * 8) + 1;
+            return (int) (h * lerpVal);
+        } else if (flatDistFromOrigin > EREBOS_SIZE + 24 && flatDistFromOrigin < EREBOS_SIZE + OUTER_STEP_OFFSET) {
+            double rpos = flatDistFromOrigin - EREBOS_SIZE - 24 - 7;
+            double h = Math.max(Math.abs(rpos / 2d) - 5, -4);
+            if (x > -32 && x < 32 && flatDistFromOrigin > EREBOS_SIZE + 24 + 6) {
+                double w = Math.max(5, 12 - (rpos/4d));
+                double r = Math.max(Math.abs(x / 2d) - w, -4);
+                r = Math.min(r, 0);
+                h = Math.min(h, r);
+            }
+            return (int)Math.min(h,-1);
         } else {
-            return (int) ((flatDistFromOrigin - EREBOS_SIZE - OUTER_SET_SIZE) / OUTER_SET_SIZE);
+            int h = getOuterStepHeight(flatDistFromOrigin);
+            if (x > -9 && x < 9 && flatDistFromOrigin > EREBOS_SIZE + 24) {
+                double r = Math.max(Math.abs(x / 2d) - 5, -4);
+                r = Math.min(r, 0);
+                if (z > 0) {
+                    h = -h-1;
+                }
+                h += r;
+            }
+            return h;
         }
         // return 0;
     }
