@@ -1,8 +1,16 @@
 # Peter's Percy Jackson Mod
 
+> [!CAUTION]
+> This mod contains spoilers for various Percy Jackson Books.
+> Attempts have been made to hide or obfuscate spoiler content but they will still exist in game.
+
 ## In Dev Warning
 
-**Forward-compatibility and stability are NOT guaranteed for dev builds**
+> [!WARNING]
+> Forward-compatibility and stability is **NOT** guaranteed for dev builds
+
+This mod is still in early development and features may change.
+There is no grantee that that mechanics will continue to function in future version, or that it updating will not corrupt your worlds.
 
 ## Setup
 
@@ -28,10 +36,9 @@ Things will go here
 
 #### Special Weapons
 - [ ] Riptide
-- [ ] Stygian Iron Sword
-- [ ] Jason's Sword/Spear
 - [ ] Back-biter
--
+- [ ] Stygian Iron Sword
+
 ### Armor
 - [x] Celestial Bronze
 - [ ] Imperial Gold
@@ -85,17 +92,33 @@ Things will go here
 - [ ] River Lethe
 
 <details>
-    <summery>Spoilers for Son of Neptune</summery>
+    <summary>Spoilers for Titan's Curse</summary>
 
-### Special Weapons
+#### Structures
+- [ ] The Labyrinth
+
+</details>
+
+<details>
+    <summary>Spoilers for The Lost Hero</summary>
+
+#### Special Weapons
+- [ ] Jason's Sword/Spear
+
+</details>
+
+<details>
+    <summary>Spoilers for Son of Neptune</summary>
+
+#### Special Weapons
 - [ ] Franks' Spartol Spear
 
 </details>
 
 <details>
-    <summery>Spoilers for House of Hades</summery>
+    <summary>Spoilers for House of Hades</summary>
     
-### Tartarus
+#### Tartarus
 - [ ] Dimension
 - [ ] Deadly air
 - [ ] Outer step
@@ -109,17 +132,17 @@ Things will go here
 </details>
 
 <details>
-    <summery>Spoilers for The Tower of Nero</summery>
+    <summary>Spoilers for The Tower of Nero</summary>
     
-### Tartarus
+#### Tartarus
 - [ ] Edge of chaos
 
 </details>
 
 <details>
-    <summery>Spoilers for The Sun and the Star</summery>
+    <summary>Spoilers for The Sun and the Star</summary>
     
-### Underworld
+#### Underworld
 - [ ] Troglodyte caves
 
 </details>
