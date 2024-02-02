@@ -90,6 +90,12 @@ Things will go here
 - [ ] River Acheron
 - [ ] River Phlegethon
 - [ ] River Lethe
+- [ ] Cerberus
+
+### Advancements
+- [ ] Obedience School
+- [ ] Good luck getting out (Entered Underworld)
+- [ ] ??? (Kill a PJO monster)
 
 <details>
     <summary>Spoilers for Son of Neptune</summary>
@@ -100,10 +106,23 @@ Things will go here
 </details>
 
 <details>
-    <summary>Spoilers for House of Hades</summary>
+    <summary>Spoilers for Mark of Athena</summary>
     
 #### Tartarus
 - [ ] Dimension
+- [ ] Entrance from underworld (pit)
+- [ ] Entrance from overworld
+
+#### Advancements
+- [ ] Why did you do that (fall from the underworld to Tartarus via the pit)
+- [ ] The long fall (fall from the overworld to Tartarus)
+
+</details>
+
+<details>
+    <summary>Spoilers for House of Hades</summary>
+    
+#### Tartarus
 - [ ] Deadly air
 - [ ] Outer step
 - [ ] Underworld rivers
@@ -112,6 +131,9 @@ Things will go here
 - [ ] Hermes shrine
 - [ ] Mansion of Night
 - [ ] Heart
+
+#### Advancements
+- [ ] ??? (exit Tartarus)
 
 </details>
 
@@ -128,5 +150,8 @@ Things will go here
     
 #### Underworld
 - [ ] Troglodyte caves
+
+#### Advancements
+- [ ] The easy way (enter Tartarus from the underworld in a boat)
 
 </details>
