@@ -85,7 +85,7 @@ Things will go here
 - [ ] River Lethe
 
 <details>
-    <summery>Spoilers for Son of Neptune</summery>
+    <summary>Spoilers for Son of Neptune</summary>
 
 ### Special Weapons
 - [ ] Franks' Spartol Spear
@@ -93,7 +93,7 @@ Things will go here
 </details>
 
 <details>
-    <summery>Spoilers for House of Hades</summery>
+    <summary>Spoilers for House of Hades</summary>
     
 ### Tartarus
 - [ ] Dimension
@@ -109,7 +109,7 @@ Things will go here
 </details>
 
 <details>
-    <summery>Spoilers for The Tower of Nero</summery>
+    <summary>Spoilers for The Tower of Nero</summary>
     
 ### Tartarus
 - [ ] Edge of chaos
@@ -117,7 +117,7 @@ Things will go here
 </details>
 
 <details>
-    <summery>Spoilers for The Sun and the Star</summery>
+    <summary>Spoilers for The Sun and the Star</summary>
     
 ### Underworld
 - [ ] Troglodyte caves
