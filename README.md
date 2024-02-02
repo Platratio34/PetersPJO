@@ -93,9 +93,17 @@ Things will go here
 - [ ] Cerberus
 
 ### Advancements
+- [ ] ??? (Kill a PJO monster)
 - [ ] Obedience School
 - [ ] Good luck getting out (Entered Underworld)
-- [ ] ??? (Kill a PJO monster)
+
+<details>
+    <summary>Spoilers for Battle of the Labyrinth</summary>
+
+#### Structures / Dimensions
+- [ ] The Labyrinth
+
+</details>
 
 <details>
     <summary>Spoilers for Son of Neptune</summary>
