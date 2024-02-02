@@ -29,12 +29,9 @@ Things will go here
 #### Special Weapons
 - [ ] Riptide
 - [ ] Stygian Iron Sword
-- [ ] Franks' Spartol Spear
 - [ ] Jason's Sword/Spear
 - [ ] Back-biter
-
-
-
+-
 ### Armor
 - [x] Celestial Bronze
 - [ ] Imperial Gold
@@ -71,3 +68,58 @@ Things will go here
 
 ### Structures
 - [x] Ruined Temple 1
+
+### Underworld
+- [x] Erebos Wall
+- [x] River Styx
+- [x] Pit to Tartarus
+- [ ] Fields of Asphodel
+- [ ] Fields of Punishment
+- [ ] Elysium
+- [ ] Isle of the Blest
+- [ ] Judgment Pavilion & Entrance
+- [ ] Hade's Palace
+- [ ] River Cocytus
+- [ ] River Acheron
+- [ ] River Phlegethon
+- [ ] River Lethe
+
+<details>
+    <summery>Spoilers for Son of Neptune</summery>
+
+### Special Weapons
+- [ ] Franks' Spartol Spear
+
+</details>
+
+<details>
+    <summery>Spoilers for House of Hades</summery>
+    
+### Tartarus
+- [ ] Dimension
+- [ ] Deadly air
+- [ ] Outer step
+- [ ] Underworld rivers
+- [ ] Damasen's Swamp
+- [ ] Maeonian drakon
+- [ ] Hermes shrine
+- [ ] Mansion of Night
+- [ ] Heart
+
+</details>
+
+<details>
+    <summery>Spoilers for The Tower of Nero</summery>
+    
+### Tartarus
+- [ ] Edge of chaos
+
+</details>
+
+<details>
+    <summery>Spoilers for The Sun and the Star</summery>
+    
+### Underworld
+- [ ] Troglodyte caves
+
+</details>
