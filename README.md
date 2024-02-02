@@ -26,6 +26,15 @@ Things will go here
 - [ ] IG Spear
 - [ ] IG Dagger
 
+#### Special Weapons
+- [ ] Riptide
+- [ ] Stygian Iron Sword
+- [ ] Franks' Spartol Spear
+- [ ] Jason's Sword/Spear
+- [ ] Back-biter
+
+
+
 ### Armor
 - [x] Celestial Bronze
 - [ ] Imperial Gold
@@ -57,6 +66,8 @@ Things will go here
 
 ### Entities
 - [x] Spear entity
+- [x] [Empousai](https://riordan.fandom.com/wiki/Empousa)
+- [ ] [Spartol](https://riordan.fandom.com/wiki/Skeleton_Warrior)
 
 ### Structures
 - [x] Ruined Temple 1
