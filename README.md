@@ -92,22 +92,6 @@ Things will go here
 - [ ] River Lethe
 
 <details>
-    <summary>Spoilers for Titan's Curse</summary>
-
-#### Structures
-- [ ] The Labyrinth
-
-</details>
-
-<details>
-    <summary>Spoilers for The Lost Hero</summary>
-
-#### Special Weapons
-- [ ] Jason's Sword/Spear
-
-</details>
-
-<details>
     <summary>Spoilers for Son of Neptune</summary>
 
 #### Special Weapons
