@@ -39,6 +39,7 @@ public class Empousai extends Monster {
         Registry.register(Registries.ENTITY_TYPE, ID, TYPE);
         FabricDefaultAttributeRegistry.register(TYPE, Empousai.createMobAttributes());
         Registry.register(Registries.ITEM, EGG_ID, EGG);
+        PJOEntities.MONSTERS.add(TYPE);
     }
 
     protected Empousai(EntityType<? extends HostileEntity> entityType, World world) {

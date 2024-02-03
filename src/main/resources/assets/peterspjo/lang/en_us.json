@@ -23,7 +23,7 @@
     "block.peterspjo.stone_brazier.tooltip": "Great for keeping warm, or making offerings",
     
     "item.peterspjo.riptide": "Anaklusmos",
-    "item.peterspjo.riptide.tooltip": "(Riptide) The pen is mightier than the sword",
+    "item.peterspjo.riptide.tooltip": "(Riptide) Some say the pen is mightier than the sword, others have a sword pen",
 
     "item.peterspjo.empousai_spawn_egg": "Empousai Spawn Egg",
 
@@ -31,5 +31,11 @@
     "biome.peterspjo.underworld_outer": "Underworld outer",
 
     "advancement.peterspjo.got_cb.title": "Celestial Bronze",
-    "advancement.peterspjo.got_cb.description": "Description"
+    "advancement.peterspjo.got_cb.description": "Description",
+
+    "advancement.peterspjo.kill_monster.title": "Greek Monster Hunter",
+    "advancement.peterspjo.kill_monster.description": "Description",
+
+    "advancement.peterspjo.got_riptide.title": "This is a pen",
+    "advancement.peterspjo.got_riptide.description": "Find Anaklusmos (aka Riptide)"
 }

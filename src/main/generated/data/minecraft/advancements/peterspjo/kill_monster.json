@@ -1,0 +1,42 @@
+{
+  "parent": "minecraft:peterspjo/root",
+  "criteria": {
+    "peterspjo:kill_peterspjo:empousai": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "peterspjo:empousai"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
+    "description": {
+      "translate": "advancement.peterspjo.kill_monster.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "peterspjo:celestial_bronze_sword",
+      "nbt": "{Damage:0}"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancement.peterspjo.kill_monster.title"
+    }
+  },
+  "requirements": [
+    [
+      "peterspjo:kill_peterspjo:empousai"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

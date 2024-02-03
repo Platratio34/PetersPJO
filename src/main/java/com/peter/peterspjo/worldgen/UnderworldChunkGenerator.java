@@ -18,7 +18,6 @@ import net.minecraft.SharedConstants;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.raid.RaiderEntity.CelebrateGoal;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -30,7 +29,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.ChunkRegion;
 import net.minecraft.world.biome.source.BiomeAccess;
 import net.minecraft.world.biome.source.BiomeSource;
-import net.minecraft.world.biome.source.util.MultiNoiseUtil.MultiNoiseSampler;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkSection;
 import net.minecraft.world.dimension.DimensionType;
@@ -320,7 +318,7 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
                                         }
                                     } else {
                                         int surHeight = getOuterStepHeight(flatDistFromOrigin);
-                                        if ((worldBlockZ < 0 && worldBlockY < surHeight) || worldBlockY <= -surHeight) {
+                                        if ((worldBlockZ < 0 && worldBlockY < surHeight) || worldBlockY < -surHeight) {
                                             blockState = STYX_RIVER.getDefaultState();
                                         } else if (worldBlockZ > 0 && terrainHeight < 0) {
                                             int rPlane = -getOuterStepHeight(flatDistFromOrigin);

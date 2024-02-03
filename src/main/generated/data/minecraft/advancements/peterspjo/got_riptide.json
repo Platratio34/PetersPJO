@@ -1,11 +1,12 @@
 {
+  "parent": "minecraft:peterspjo/root",
   "criteria": {
-    "peterspjo:got_cb": {
+    "peterspjo:got_riptide": {
       "conditions": {
         "items": [
           {
             "items": [
-              "peterspjo:celestial_bronze_ingot"
+              "peterspjo:riptide"
             ]
           }
         ]
@@ -17,21 +18,22 @@
     "announce_to_chat": true,
     "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
     "description": {
-      "translate": "advancement.peterspjo.got_cb.description"
+      "translate": "advancement.peterspjo.got_riptide.description"
     },
-    "frame": "task",
+    "frame": "goal",
     "hidden": false,
     "icon": {
-      "item": "peterspjo:celestial_bronze_ingot"
+      "item": "peterspjo:riptide",
+      "nbt": "{Damage:0}"
     },
     "show_toast": true,
     "title": {
-      "translate": "advancement.peterspjo.got_cb.title"
+      "translate": "advancement.peterspjo.got_riptide.title"
     }
   },
   "requirements": [
     [
-      "peterspjo:got_cb"
+      "peterspjo:got_riptide"
     ]
   ],
   "sends_telemetry_event": true

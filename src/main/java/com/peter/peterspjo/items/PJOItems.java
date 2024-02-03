@@ -16,6 +16,8 @@ public class PJOItems {
     public static final Item DRACHMA = new TooltipedItem(new FabricItemSettings(), Text.translatable("item.peterspjo.drachma.tooltip").formatted(Formatting.GOLD));
     public static final Identifier DRACHMA_ID = new Identifier(PJO.NAMESPACE, "drachma");
 
+    public static final RiptideItem RIPTIDE = RiptideItem.ITEM;
+
     public static void init() {
         Registry.register(Registries.ITEM, DRACHMA_ID, DRACHMA);
         CelestialBronzeIngot.init();

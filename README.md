@@ -107,7 +107,9 @@ Things will go here
 - [ ] Security Ghouls
 
 ### Advancements
-- [ ] ??? (Kill a PJO monster)
+- [x] ??? (Get CB, root advancement)
+- [x] ??? (Kill a PJO monster)
+- [x] This is a Pen
 - [ ] Obedience School
 - [ ] Good luck getting out (Entered Underworld)
 
