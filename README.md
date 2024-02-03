@@ -4,6 +4,10 @@
 > This mod contains spoilers for various Percy Jackson Books.
 > Attempts have been made to hide or obfuscate spoiler content but they will still exist in game.
 
+This mod assumes that you have read, or are not planning on reading at least Percy Jackson & the Olympians: The Lighting Thief, although it contains content from all 3 major Greek Mythology series by Rick Riordan.
+
+When possible, spoiler warnings are present in documentation for content from specific books, but given the nature of the mod, you might be able to spoil yourself just by playing the mod.
+
 ## In Dev Warning
 
 > [!WARNING]
@@ -16,7 +20,7 @@ There is no grantee that that mechanics will continue to function in future vers
 
 Things will go here
 
-## TODO
+## TODO / Content
 
 ### Materials
 - [x] Celestial Bronze Ingot
@@ -200,6 +204,34 @@ Things will go here
 ### Spoilers for Trials of Apollo
 
 <details>
+    <summary>The Hidden Oracle</summary>
+
+> Nothing here yet
+
+</details>
+
+<details>
+    <summary>The Dark Prophecy</summary>
+
+> Nothing here yet
+
+</details>
+
+<details>
+    <summary>The Burning Maze</summary>
+
+> Nothing here yet
+
+</details>
+
+<details>
+    <summary>The Tyrant's Tomb</summary>
+
+> Nothing here yet
+
+</details>
+
+<details>
     <summary>Tower of Nero</summary>
     
 > #### Tartarus
@@ -207,7 +239,7 @@ Things will go here
 
 </details>
 
-### Spoilers stand-alone books
+### Spoilers for stand-alone books
 
 <details>
     <summary>The Sun and the Star</summary>
