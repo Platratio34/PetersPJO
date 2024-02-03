@@ -1,12 +1,17 @@
 package com.peter.peterspjo;
 
+import com.peter.peterspjo.blocks.fluids.StyxWater;
 import com.peter.peterspjo.entities.EmpousaiRenderer;
 import com.peter.peterspjo.entities.SpearEntity;
 import com.peter.peterspjo.items.RiptideItem;
 
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
+import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 
@@ -24,5 +29,9 @@ public class PJOClient implements ClientModInitializer {
 					}
 					return nbt.getBoolean("is_sword") ? 1.0f : 0.0f;
 				});
+		
+		FluidRenderHandlerRegistry.INSTANCE.register(StyxWater.STILL, StyxWater.FLOWING, new SimpleFluidRenderHandler(
+				new Identifier("minecraft:block/water_still"), new Identifier("minecraft:block/water_flow"), 0x6e4400));
+		BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), StyxWater.STILL, StyxWater.FLOWING);
 	}
 }

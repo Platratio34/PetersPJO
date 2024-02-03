@@ -12,6 +12,7 @@ import com.google.common.collect.Sets;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.peter.peterspjo.PJO;
+import com.peter.peterspjo.blocks.PJOBlocks;
 import com.peter.peterspjo.util.NoiseGenerator;
 
 import net.minecraft.SharedConstants;
@@ -152,10 +153,10 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
 
     private static final Block FLOOR_BASE = Blocks.BLACKSTONE;
     private static final Block FLOOR_TOP_INNER = Blocks.SAND;
-    private static final Block FLOOR_TOP_OUTER = Blocks.GRAVEL;
+    private static final Block FLOOR_TOP_OUTER = PJOBlocks.UNDERWORLD_SAND_DARK;
     private static final Block ROOF = Blocks.BASALT;
     private static final Block EREBOS_WALL_BLOCK = Blocks.POLISHED_BLACKSTONE_BRICKS;
-    private static final Block STYX_RIVER = Blocks.WATER;
+    private static final Block STYX_RIVER = PJOBlocks.STYX_WATER;
 
     public static final int PIT_ENTRANCE_X = -512;
     public static final int PIT_ENTRANCE_Z = -512;

@@ -1,0 +1,8 @@
+{
+    "replace": false,
+    "values":
+    [
+        "tutorial:styx_water",
+        "tutorial:styx_water_flowing"
+    ]
+}

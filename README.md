@@ -100,6 +100,12 @@ Things will go here
 - [ ] River Acheron
 - [ ] River Phlegethon
 - [ ] River Lethe
+- [x] Dark underworld sand
+- [ ] Styx Water
+- [ ] Cocytus Water
+- [ ] Acheron Water
+- [ ] Phlegethon Water
+- [ ] Lethe Water
 #### Underworld Mobs
 - [ ] Cerberus
 - [ ] Fury

@@ -1,6 +1,7 @@
 package com.peter.peterspjo;
 
 import com.peter.peterspjo.blocks.IronBrazier;
+import com.peter.peterspjo.blocks.PJOBlocks;
 import com.peter.peterspjo.blocks.StoneBrazier;
 import com.peter.peterspjo.entities.Empousai;
 import com.peter.peterspjo.items.CelestialBronzeIngot;

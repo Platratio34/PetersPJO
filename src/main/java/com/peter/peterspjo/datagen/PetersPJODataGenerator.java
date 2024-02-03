@@ -3,7 +3,7 @@ package com.peter.peterspjo.datagen;
 import java.util.function.Consumer;
 
 import com.peter.peterspjo.PJO;
-import com.peter.peterspjo.PJOBlocks;
+import com.peter.peterspjo.blocks.PJOBlocks;
 import com.peter.peterspjo.entities.Empousai;
 import com.peter.peterspjo.entities.PJOEntities;
 import com.peter.peterspjo.items.CelestialBronzeIngot;

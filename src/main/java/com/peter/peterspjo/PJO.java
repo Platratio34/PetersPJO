@@ -11,6 +11,7 @@ import net.minecraft.world.World;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.peter.peterspjo.blocks.PJOBlocks;
 import com.peter.peterspjo.entities.PJOEntities;
 import com.peter.peterspjo.items.PJOItems;
 import com.peter.peterspjo.worldgen.UnderworldChunkGenerator;
