@@ -39,7 +39,7 @@ Things will go here
 - [ ] IG Dagger
 
 #### Special Weapons
-- [ ] Riptide
+- [x] Riptide
 - [ ] Back-biter
 - [ ] Stygian Iron Sword
 - [ ] Throwable blue plastic hairbrush
