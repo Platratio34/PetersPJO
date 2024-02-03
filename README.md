@@ -70,8 +70,13 @@ Things will go here
 
 ### Entities
 - [x] Spear entity
-- [x] [Empousai](https://riordan.fandom.com/wiki/Empousa)
-- [ ] [Spartol](https://riordan.fandom.com/wiki/Skeleton_Warrior)
+
+### Mobs
+- [ ] Minotaur
+- [ ] Chimera
+- [ ] Hellhound
+- [ ] Centaur
+- [ ] Medusa
 
 ### Structures
 - [x] Ruined Temple 1
@@ -90,76 +95,134 @@ Things will go here
 - [ ] River Acheron
 - [ ] River Phlegethon
 - [ ] River Lethe
+#### Underworld Mobs
 - [ ] Cerberus
+- [ ] Fury
+- [ ] Ghost
+- [ ] Security Ghouls
 
 ### Advancements
 - [ ] ??? (Kill a PJO monster)
 - [ ] Obedience School
 - [ ] Good luck getting out (Entered Underworld)
 
-<details>
-    <summary>Spoilers for Battle of the Labyrinth</summary>
+### Spoilers for Percy Jackson & The Olympians
 
-#### Structures / Dimensions
-- [ ] The Labyrinth
+<details>
+    <summary>Sea of Monsters</summary>
+
+> Nothing here yet
 
 </details>
 
 <details>
-    <summary>Spoilers for Son of Neptune</summary>
+    <summary>Titan's Curse</summary>
 
-#### Special Weapons
-- [ ] Franks' Spartol Spear
+> #### Mobs
+> - [ ] [Spartol](https://riordan.fandom.com/wiki/Skeleton_Warrior)
+> 
+</details>
+
+<details>
+    <summary>Battle of the Labyrinth</summary>
+
+> #### Structures / Dimensions
+> - [ ] The Labyrinth
+> 
+> #### Mobs
+> - [x] [Empousai](https://riordan.fandom.com/wiki/Empousa)
 
 </details>
 
 <details>
-    <summary>Spoilers for Mark of Athena</summary>
+    <summary>The Last Olympian</summary>
+
+> Nothing here yet
+
+</details>
+
+### Spoilers for Heroes of Olympus
+
+<details>
+    <summary>Lost Hero</summary>
+
+> Nothing here yet
+
+</details>
+
+<details>
+    <summary>Son of Neptune</summary>
+
+> #### Special Weapons
+> - [ ] Franks' Spartol Spear
+
+</details>
+
+<details>
+    <summary>Mark of Athena</summary>
     
-#### Tartarus
-- [ ] Dimension
-- [ ] Entrance from underworld (pit)
-- [ ] Entrance from overworld
-
-#### Advancements
-- [ ] Why did you do that (fall from the underworld to Tartarus via the pit)
-- [ ] The long fall (fall from the overworld to Tartarus)
-
-</details>
-
-<details>
-    <summary>Spoilers for House of Hades</summary>
-    
-#### Tartarus
-- [ ] Deadly air
-- [ ] Outer step
-- [ ] Underworld rivers
-- [ ] Damasen's Swamp
-- [ ] Maeonian drakon
-- [ ] Hermes shrine
-- [ ] Mansion of Night
-- [ ] Heart
-
-#### Advancements
-- [ ] ??? (exit Tartarus)
+> #### Tartarus
+> - [ ] Dimension
+> - [ ] Entrance from underworld (pit)
+> - [ ] Entrance from overworld
+> 
+> #### Advancements
+> - [ ] Why did you do that (fall from the underworld to Tartarus via the pit)
+> - [ ] The long fall (fall from the overworld to Tartarus)
 
 </details>
 
 <details>
-    <summary>Spoilers for The Tower of Nero</summary>
-    
-#### Tartarus
-- [ ] Edge of chaos
+    <summary>House of Hades</summary>
+ 
+> #### Tartarus
+> - [ ] Deadly air
+> - [ ] Outer step
+> - [ ] Underworld rivers
+> - [ ] Damasen's Swamp
+> - [ ] Maeonian drakon
+> - [ ] Hermes shrine
+> - [ ] Mansion of Night
+> - [ ] Heart
+> 
+> #### Advancements
+> - [ ] ??? (exit Tartarus)
 
 </details>
 
 <details>
-    <summary>Spoilers for The Sun and the Star</summary>
-    
-#### Underworld
-- [ ] Troglodyte caves
+    <summary>Blood of Olympus</summary>
 
-#### Advancements
-- [ ] The easy way (enter Tartarus from the underworld in a boat)
+> Nothing here yet
+
+</details>
+
+### Spoilers for Trials of Apollo
+
+<details>
+    <summary>Tower of Nero</summary>
+    
+> #### Tartarus
+> - [ ] Edge of chaos
+
+</details>
+
+### Spoilers stand-alone books
+
+<details>
+    <summary>The Sun and the Star</summary>
+    
+> #### Underworld
+> - [ ] Troglodyte caves
+> 
+> #### Advancements
+> - [ ] The easy way (enter Tartarus from the underworld in a boat)
+
+</details>
+
+<details>
+    <summary>Sword of Hades</summary>
+
+> Nothing here yet
 
 </details>
