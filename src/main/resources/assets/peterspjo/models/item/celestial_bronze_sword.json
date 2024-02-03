@@ -1,6 +1,6 @@
 {
-    "parent": "item/handheld",
-    "textures": {
-      "layer0": "peterspjo:item/celestial_bronze_sword"
-    }
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "peterspjo:item/celestial_bronze_sword"
   }
+}

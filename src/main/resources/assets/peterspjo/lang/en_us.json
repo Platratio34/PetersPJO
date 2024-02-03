@@ -1,5 +1,6 @@
 {
     "itemGroup.peterspjo.main": "Percy Jackson",
+    "itemGroup.peterspjo.special_weapons": "Percy Jackson Special Weapons",
 
     "item.peterspjo.drachma": "Drachma",
     "item.peterspjo.drachma.tooltip": "Coin of the Gods",
@@ -20,6 +21,9 @@
 
     "block.peterspjo.stone_brazier": "Stone Brazier",
     "block.peterspjo.stone_brazier.tooltip": "Great for keeping warm, or making offerings",
+    
+    "item.peterspjo.riptide": "Anaklusmos",
+    "item.peterspjo.riptide.tooltip": "(Riptide) The pen is mightier than the sword",
 
     "item.peterspjo.empousai_spawn_egg": "Empousai Spawn Egg",
 

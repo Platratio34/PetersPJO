@@ -24,5 +24,7 @@ public class PJOItems {
         CelestialBronzeSpear.init();
 
         CelestialBronzeArmorMaterial.register();
+
+        RiptideItem.register();
     }
 }

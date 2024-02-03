@@ -7,6 +7,7 @@ import com.peter.peterspjo.items.CelestialBronzeIngot;
 import com.peter.peterspjo.items.CelestialBronzeSpear;
 import com.peter.peterspjo.items.CelestialBronzeSword;
 import com.peter.peterspjo.items.PJOItems;
+import com.peter.peterspjo.items.RiptideItem;
 import com.peter.peterspjo.items.armor.CelestialBronzeArmorMaterial;
 
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
@@ -39,7 +40,17 @@ public class PJOItemGroups {
             .build();
     public static final Identifier MAIN_ID = new Identifier(PJO.NAMESPACE, "main_group");
     
+    public static final ItemGroup SPECIAL_WEAPONS = FabricItemGroup.builder()
+            .icon(() -> new ItemStack(RiptideItem.ITEM))
+            .displayName(Text.translatable("itemGroup.peterspjo.special_weapons"))
+            .entries((context, entries) -> {
+                entries.add(RiptideItem.ITEM);
+            })
+            .build();
+    public static final Identifier SPECIAL_WEAPONS_ID = new Identifier(PJO.NAMESPACE, "special_weapons");
+    
     public static void init() {
         Registry.register(Registries.ITEM_GROUP, MAIN_ID, MAIN);
+        Registry.register(Registries.ITEM_GROUP, SPECIAL_WEAPONS_ID, SPECIAL_WEAPONS);
     }
 }
