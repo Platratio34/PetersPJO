@@ -42,6 +42,7 @@ Things will go here
 - [ ] Riptide
 - [ ] Back-biter
 - [ ] Stygian Iron Sword
+- [ ] Throwable blue plastic hairbrush
 
 ### Armor
 - [x] Celestial Bronze
