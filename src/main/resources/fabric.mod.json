@@ -15,6 +15,9 @@
 	"icon": "assets/peterspjo/icon.png",
 	"environment": "*",
 	"entrypoints": {
+		"fabric-datagen": [
+		  "com.peter.peterspjo.datagen.PetersPJODataGenerator"
+		],
 		"main": [
 			"com.peter.peterspjo.PJO"
 		],

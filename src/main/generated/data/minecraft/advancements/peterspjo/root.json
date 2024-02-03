@@ -1,0 +1,43 @@
+{
+  "criteria": {
+    "got_cb": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "peterspjo:celestial_bronze_ingot"
+            ]
+          },
+          {
+            "items": [
+              "peterspjo:celestial_bronze_block"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
+    "description": {
+      "translate": "advancement.peterspjo.got_cb.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "peterspjo:celestial_bronze_ingot"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancement.peterspjo.got_cb.title"
+    }
+  },
+  "requirements": [
+    [
+      "got_cb"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
