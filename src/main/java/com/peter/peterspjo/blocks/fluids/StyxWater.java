@@ -12,7 +12,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.fluid.FlowableFluid;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
+import net.minecraft.fluid.WaterFluid;
 import net.minecraft.item.BucketItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
@@ -20,7 +20,6 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -29,13 +28,13 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 
-public abstract class StyxWater extends FlowableFluid {
+public abstract class StyxWater extends WaterFluid {
 
     public static final String NAME = "styx_water";
-    public static final FlowableFluid FLOWING = Registry.register(Registries.FLUID, new Identifier(PJO.NAMESPACE, NAME+"_flowing"), new Flowing());
     public static final FlowableFluid STILL = Registry.register(Registries.FLUID, new Identifier(PJO.NAMESPACE, NAME), new Still());
+    public static final FlowableFluid FLOWING = Registry.register(Registries.FLUID, new Identifier(PJO.NAMESPACE, NAME+"_flowing"), new Flowing());
     public static final BucketItem BUCKET = Registry.register(Registries.ITEM, new Identifier(PJO.NAMESPACE, NAME+"_bucket"), new BucketItem(STILL, new FabricItemSettings().recipeRemainder(Items.BUCKET).maxCount(1)));
-    public static final FluidBlock BLOCK = Registry.register(Registries.BLOCK, new Identifier(PJO.NAMESPACE, NAME), new FluidBlock(STILL, FabricBlockSettings.copyOf(Blocks.WATER)));
+    public static final FluidBlock BLOCK = Registry.register(Registries.BLOCK, new Identifier(PJO.NAMESPACE, NAME), new FluidBlock(STILL, FabricBlockSettings.copyOf(Blocks.WATER).liquid()));
 
     @Override
     public Fluid getFlowing() {
@@ -59,12 +58,12 @@ public abstract class StyxWater extends FlowableFluid {
     }
 
     @Override
-    protected int getFlowSpeed(WorldView var1) {
+    public int getFlowSpeed(WorldView var1) {
         return 4;
     }
 
     @Override
-    protected int getLevelDecreasePerBlock(WorldView var1) {
+    public int getLevelDecreasePerBlock(WorldView var1) {
         return 1;
     }
 
@@ -74,7 +73,7 @@ public abstract class StyxWater extends FlowableFluid {
     }
 
     @Override
-    protected boolean canBeReplacedWith(FluidState fluidState, BlockView blockView, BlockPos blockPos, Fluid fluid, Direction direction) {
+    public boolean canBeReplacedWith(FluidState fluidState, BlockView blockView, BlockPos blockPos, Fluid fluid, Direction direction) {
         return direction == Direction.DOWN && !fluid.isIn(FluidTags.WATER);
     }
 
@@ -89,7 +88,7 @@ public abstract class StyxWater extends FlowableFluid {
     }
 
     @Override
-    protected BlockState toBlockState(FluidState fluidState) {
+    public BlockState toBlockState(FluidState fluidState) {
         return BLOCK.getDefaultState().with(FluidBlock.LEVEL, getBlockStateLevel(fluidState));
     }
 

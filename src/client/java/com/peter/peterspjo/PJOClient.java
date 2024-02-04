@@ -31,7 +31,7 @@ public class PJOClient implements ClientModInitializer {
 				});
 		
 		FluidRenderHandlerRegistry.INSTANCE.register(StyxWater.STILL, StyxWater.FLOWING, new SimpleFluidRenderHandler(
-				new Identifier("minecraft:block/water_still"), new Identifier("minecraft:block/water_flow"), 0x6e4400));
+				new Identifier("minecraft:block/water_still"), new Identifier("minecraft:block/water_flow"), 0xA16e4400));
 		BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), StyxWater.STILL, StyxWater.FLOWING);
 	}
 }

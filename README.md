@@ -101,7 +101,7 @@ Things will go here
 - [ ] River Phlegethon
 - [ ] River Lethe
 - [x] Dark underworld sand
-- [ ] Styx Water
+- [x] Styx Water
 - [ ] Cocytus Water
 - [ ] Acheron Water
 - [ ] Phlegethon Water
