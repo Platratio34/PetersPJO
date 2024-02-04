@@ -21,7 +21,7 @@ public class hellhound extends EntityModel<Entity> {
 		ModelPartData modelPartData = modelData.getRoot();
 		ModelPartData body = modelPartData.addChild("body", ModelPartBuilder.create().uv(0, 0).cuboid(-10.0F, -28.0F, -15.0F, 20.0F, 17.0F, 30.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
 
-		ModelPartData head = modelPartData.addChild("head", ModelPartBuilder.create().uv(0, 82).cuboid(-6.0F, -31.0F, -23.0F, 12.0F, 10.0F, 10.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
+		ModelPartData head = modelPartData.addChild("head", ModelPartBuilder.create().uv(0, 82).cuboid(-6.0F, -5.0F, -8.0F, 12.0F, 10.0F, 10.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, -2.0F, -15.0F));
 
 		ModelPartData leg_rf = modelPartData.addChild("leg_rf", ModelPartBuilder.create().uv(0, 57).cuboid(-3.0F, -3.0F, -3.0F, 5.0F, 18.0F, 5.0F, new Dilation(0.0F)), ModelTransform.pivot(-10.0F, 9.0F, -10.0F));
 
