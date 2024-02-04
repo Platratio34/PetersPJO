@@ -4,6 +4,7 @@ import com.peter.peterspjo.blocks.IronBrazier;
 import com.peter.peterspjo.blocks.PJOBlocks;
 import com.peter.peterspjo.blocks.StoneBrazier;
 import com.peter.peterspjo.entities.Empousai;
+import com.peter.peterspjo.entities.Hellhound;
 import com.peter.peterspjo.items.CelestialBronzeIngot;
 import com.peter.peterspjo.items.CelestialBronzeSpear;
 import com.peter.peterspjo.items.CelestialBronzeSword;
@@ -37,6 +38,7 @@ public class PJOItemGroups {
                 entries.add(IronBrazier.ITEM);
                 entries.add(StoneBrazier.ITEM);
                 entries.add(Empousai.EGG);
+                entries.add(Hellhound.EGG);
             })
             .build();
     public static final Identifier MAIN_ID = new Identifier(PJO.NAMESPACE, "main_group");

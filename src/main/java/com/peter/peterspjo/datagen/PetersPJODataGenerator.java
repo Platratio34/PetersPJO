@@ -4,10 +4,7 @@ import java.util.function.Consumer;
 
 import com.peter.peterspjo.PJO;
 import com.peter.peterspjo.blocks.PJOBlocks;
-import com.peter.peterspjo.entities.Empousai;
 import com.peter.peterspjo.entities.PJOEntities;
-import com.peter.peterspjo.items.CelestialBronzeIngot;
-import com.peter.peterspjo.items.CelestialBronzeSword;
 import com.peter.peterspjo.items.PJOItems;
 
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
@@ -44,22 +41,33 @@ public class PetersPJODataGenerator implements DataGeneratorEntrypoint {
             String langBase = "advancement." + PJO.NAMESPACE + ".";
             Identifier background = new Identifier("textures/gui/advancements/backgrounds/adventure.png");
             Advancement root = Advancement.Builder.create()
-                    .display(CelestialBronzeIngot.ITEM,
+                    .display(PJOItems.CELESTIAL_BRONZE_INGOT,
                             Text.translatable(langBase + "got_cb.title"),
                             Text.translatable(langBase + "got_cb.description"),
                             background,
                             AdvancementFrame.TASK, true, true, false)
-                    .criterion(PJO.NAMESPACE + ":got_cb",
-                            InventoryChangedCriterion.Conditions.items(CelestialBronzeIngot.ITEM))
+                    .criteriaMerger(CriterionMerger.OR)
+                    .criterion(PJO.NAMESPACE + ":got_cb_ingot",
+                            InventoryChangedCriterion.Conditions.items(PJOItems.CELESTIAL_BRONZE_INGOT))
+                    .criterion(PJO.NAMESPACE + ":got_cb_block",
+                            InventoryChangedCriterion.Conditions.items(PJOBlocks.CELESTIAL_BRONZE_BLOCK))
                     .build(consumer, PJO.NAMESPACE + "/root");
             Advancement.Builder killMonsterBuilder = Advancement.Builder.create().parent(root)
-                    .display(CelestialBronzeSword.ITEM,
+                    .display(PJOItems.CELESTIAL_BRONZE_SWORD,
                             Text.translatable(langBase + "kill_monster.title"),
                             Text.translatable(langBase + "kill_monster.description"),
                             background,
                             AdvancementFrame.TASK, true, true, false);
-            Advancement killMonster = requireListedMobsKilled(killMonsterBuilder).build(consumer,
+            Advancement killMonster = requireAnyListedMobKilled(killMonsterBuilder).build(consumer,
                     PJO.NAMESPACE + "/kill_monster");
+            Advancement.Builder killAllMonsterBuilder = Advancement.Builder.create().parent(killMonster)
+                    .display(PJOItems.CELESTIAL_BRONZE_SWORD,
+                            Text.translatable(langBase + "kill_all_monster.title"),
+                            Text.translatable(langBase + "kill_all_monster.description"),
+                            background,
+                            AdvancementFrame.CHALLENGE, true, true, false);
+            Advancement killAllMonster = requireAllListedMobsKilled(killAllMonsterBuilder).build(consumer,
+                    PJO.NAMESPACE + "/kill_all_monster");
             Advancement got_riptide = Advancement.Builder.create().parent(root)
                     .display(PJOItems.RIPTIDE,
                             Text.translatable(langBase + "got_riptide.title"),
@@ -71,9 +79,24 @@ public class PetersPJODataGenerator implements DataGeneratorEntrypoint {
                     .build(consumer, PJO.NAMESPACE + "/got_riptide");
         }
 
-        private static Advancement.Builder requireListedMobsKilled(Advancement.Builder builder) {
+        private static Advancement.Builder requireAllListedMobsKilled(Advancement.Builder builder) {
             for (EntityType<?> entityType : PJOEntities.MONSTERS) {
-                builder.criterion(PJO.NAMESPACE + ":kill_" + Registries.ENTITY_TYPE.getId(entityType).toString(),
+                builder.criterion(
+                        PJO.NAMESPACE + ":kill_"
+                                + Registries.ENTITY_TYPE.getId(entityType).toString(),
+                        OnKilledCriterion.Conditions
+                                .createPlayerKilledEntity(
+                                        EntityPredicate.Builder.create()
+                                                .type(entityType)));
+            }
+            return builder;
+        }
+
+        private static Advancement.Builder requireAnyListedMobKilled(Advancement.Builder builder) {
+            builder.criteriaMerger(CriterionMerger.OR);
+            for (EntityType<?> entityType : PJOEntities.MONSTERS) {
+                builder.criterion(
+                        PJO.NAMESPACE + ":kill_" + Registries.ENTITY_TYPE.getId(entityType).toString(),
                         OnKilledCriterion.Conditions
                                 .createPlayerKilledEntity(EntityPredicate.Builder.create().type(entityType)));
             }

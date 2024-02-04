@@ -1,6 +1,18 @@
 {
   "criteria": {
-    "peterspjo:got_cb": {
+    "peterspjo:got_cb_block": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "peterspjo:celestial_bronze_block"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "peterspjo:got_cb_ingot": {
       "conditions": {
         "items": [
           {
@@ -31,7 +43,8 @@
   },
   "requirements": [
     [
-      "peterspjo:got_cb"
+      "peterspjo:got_cb_ingot",
+      "peterspjo:got_cb_block"
     ]
   ],
   "sends_telemetry_event": true

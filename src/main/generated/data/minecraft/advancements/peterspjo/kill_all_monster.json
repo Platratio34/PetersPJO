@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:peterspjo/root",
+  "parent": "minecraft:peterspjo/kill_monster",
   "criteria": {
     "peterspjo:kill_peterspjo:empousai": {
       "conditions": {
@@ -34,9 +34,9 @@
     "announce_to_chat": true,
     "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
     "description": {
-      "translate": "advancement.peterspjo.kill_monster.description"
+      "translate": "advancement.peterspjo.kill_all_monster.description"
     },
-    "frame": "task",
+    "frame": "challenge",
     "hidden": false,
     "icon": {
       "item": "peterspjo:celestial_bronze_sword",
@@ -44,12 +44,14 @@
     },
     "show_toast": true,
     "title": {
-      "translate": "advancement.peterspjo.kill_monster.title"
+      "translate": "advancement.peterspjo.kill_all_monster.title"
     }
   },
   "requirements": [
     [
-      "peterspjo:kill_peterspjo:empousai",
+      "peterspjo:kill_peterspjo:empousai"
+    ],
+    [
       "peterspjo:kill_peterspjo:hellhound"
     ]
   ],

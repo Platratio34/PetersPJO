@@ -79,7 +79,7 @@ Things will go here
 ### Mobs
 - [ ] Minotaur
 - [ ] Chimera
-- [ ] Hellhound
+- [x] Hellhound
 - [ ] Centaur
 - [ ] Medusa
 
@@ -115,6 +115,7 @@ Things will go here
 ### Advancements
 - [x] ??? (Get CB, root advancement)
 - [x] ??? (Kill a PJO monster)
+- [x] Heracles? (Kill all PJO monsters)
 - [x] This is a Pen
 - [ ] Obedience School
 - [ ] Good luck getting out (Entered Underworld)

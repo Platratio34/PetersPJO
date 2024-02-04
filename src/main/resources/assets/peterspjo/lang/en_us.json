@@ -27,8 +27,11 @@
     
     "item.peterspjo.riptide": "Anaklusmos",
     "item.peterspjo.riptide.tooltip": "(Riptide) Some say the pen is mightier than the sword, others have a sword pen",
-
+    
+    "entity.peterspjo.empousai": "Empousai",
     "item.peterspjo.empousai_spawn_egg": "Empousai Spawn Egg",
+    "entity.peterspjo.hellhound": "Hellhound",
+    "item.peterspjo.hellhound_spawn_egg": "Hellhound Spawn Egg",
 
     "item.peterspjo.styx_water_bucket": "Styx Water Bucket",
 
@@ -39,13 +42,15 @@
     "advancement.peterspjo.got_cb.description": "Description",
 
     "advancement.peterspjo.kill_monster.title": "Greek Monster Hunter",
-    "advancement.peterspjo.kill_monster.description": "Description",
+    "advancement.peterspjo.kill_monster.description": "Kill any PJO monster",
+
+    "advancement.peterspjo.kill_all_monster.title": "Heracles?",
+    "advancement.peterspjo.kill_all_monster.description": "Kill all PJO monsters",
 
     "advancement.peterspjo.got_riptide.title": "This is a pen",
     "advancement.peterspjo.got_riptide.description": "Find Anaklusmos (aka Riptide)",
 
     "death.attack.styx": "%s took a dip in the river Styx",
-    "death.attack.styx.player": "%s took a dip in the river Styx whilst trying to escape %s",
+    "death.attack.styx.player": "%s took a dip in the river Styx whilst trying to escape %s"
 
-    "entity.peterspjo.empousai": "Empousai"
 }

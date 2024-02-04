@@ -2,6 +2,7 @@ package com.peter.peterspjo;
 
 import com.peter.peterspjo.blocks.fluids.StyxWater;
 import com.peter.peterspjo.entities.EmpousaiRenderer;
+import com.peter.peterspjo.entities.HellhoundRenderer;
 import com.peter.peterspjo.entities.SpearEntity;
 import com.peter.peterspjo.items.RiptideItem;
 
@@ -20,6 +21,7 @@ public class PJOClient implements ClientModInitializer {
 	public void onInitializeClient() {
 		EntityRendererRegistry.register(SpearEntity.TYPE, (context) -> new SpearEntityRenderer(context));
 		EmpousaiRenderer.register();
+		HellhoundRenderer.register();
 
 		ModelPredicateProviderRegistry.register(RiptideItem.ITEM, new Identifier("is_sword"),
 				(itemStack, clientWorld, livingEntity, i) -> {
