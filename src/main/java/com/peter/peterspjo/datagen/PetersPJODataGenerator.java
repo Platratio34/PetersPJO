@@ -30,6 +30,7 @@ public class PetersPJODataGenerator implements DataGeneratorEntrypoint {
         FabricDataGenerator.Pack pack = generator.createPack();
 
         pack.addProvider(AdvancementProvider::new);
+        pack.addProvider(PJOFluidTagGenerator::new);
     }
 
     static class AdvancementProvider extends FabricAdvancementProvider {

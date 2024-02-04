@@ -42,5 +42,10 @@
     "advancement.peterspjo.kill_monster.description": "Description",
 
     "advancement.peterspjo.got_riptide.title": "This is a pen",
-    "advancement.peterspjo.got_riptide.description": "Find Anaklusmos (aka Riptide)"
+    "advancement.peterspjo.got_riptide.description": "Find Anaklusmos (aka Riptide)",
+
+    "death.attack.styx": "%s took a dip in the river Styx",
+    "death.attack.styx.player": "%s took a dip in the river Styx whilst trying to escape %s",
+
+    "entity.peterspjo.empousai": "Empousai"
 }
