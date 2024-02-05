@@ -3,7 +3,6 @@ package com.peter.peterspjo.blocks;
 import java.util.List;
 
 import com.peter.peterspjo.PJO;
-import com.peter.peterspjo.TooltipedBlock;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;

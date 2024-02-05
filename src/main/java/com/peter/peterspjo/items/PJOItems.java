@@ -1,11 +1,19 @@
 package com.peter.peterspjo.items;
 
 import com.peter.peterspjo.PJO;
+import com.peter.peterspjo.blocks.IronBrazier;
+import com.peter.peterspjo.blocks.PJOBlocks;
+import com.peter.peterspjo.blocks.StoneBrazier;
+import com.peter.peterspjo.blocks.UnderworldSandDarkBlock;
+import com.peter.peterspjo.entities.Empousai;
+import com.peter.peterspjo.entities.Hellhound;
 import com.peter.peterspjo.items.armor.CelestialBronzeArmorMaterial;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.ArmorItem;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.SpawnEggItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
@@ -26,6 +34,14 @@ public class PJOItems {
     public static final ArmorItem CELESTIAL_BRONZE_BOOTS = CelestialBronzeArmorMaterial.BOOTS;
     
     public static final RiptideItem RIPTIDE = RiptideItem.ITEM;
+
+    public static final BlockItem CELESTIAL_BRONZE_BLOCK = PJOBlocks.CELESTIAL_BRONZE_BLOCK_ITEM;
+    public static final BlockItem UNDERWORLD_SAND_DARK = UnderworldSandDarkBlock.ITEM;
+    public static final BlockItem IRON_BRAZIER = IronBrazier.ITEM;
+    public static final BlockItem STONE_BRAZIER = StoneBrazier.ITEM;
+
+    public static final SpawnEggItem EMPOUSAI_SPAWN_EGG = Empousai.EGG;
+    public static final SpawnEggItem HELLHOUND_SPAWN_EGG = Hellhound.EGG;
 
     public static void init() {
         Registry.register(Registries.ITEM, DRACHMA_ID, DRACHMA);

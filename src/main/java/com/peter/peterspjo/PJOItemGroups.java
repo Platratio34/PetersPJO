@@ -1,16 +1,6 @@
 package com.peter.peterspjo;
 
-import com.peter.peterspjo.blocks.IronBrazier;
-import com.peter.peterspjo.blocks.PJOBlocks;
-import com.peter.peterspjo.blocks.StoneBrazier;
-import com.peter.peterspjo.entities.Empousai;
-import com.peter.peterspjo.entities.Hellhound;
-import com.peter.peterspjo.items.CelestialBronzeIngot;
-import com.peter.peterspjo.items.CelestialBronzeSpear;
-import com.peter.peterspjo.items.CelestialBronzeSword;
 import com.peter.peterspjo.items.PJOItems;
-import com.peter.peterspjo.items.RiptideItem;
-import com.peter.peterspjo.items.armor.CelestialBronzeArmorMaterial;
 
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.ItemGroup;
@@ -27,27 +17,27 @@ public class PJOItemGroups {
             .displayName(Text.translatable("itemGroup.peterspjo.main"))
             .entries((context, entries) -> {
                 entries.add(PJOItems.DRACHMA);
-                entries.add(CelestialBronzeIngot.ITEM);
-                entries.add(PJOBlocks.CELESTIAL_BRONZE_BLOCK_ITEM);
-                entries.add(CelestialBronzeSword.ITEM);
-                entries.add(CelestialBronzeSpear.ITEM);
-                entries.add(CelestialBronzeArmorMaterial.HELMET);
-                entries.add(CelestialBronzeArmorMaterial.CHESTPLATE);
-                entries.add(CelestialBronzeArmorMaterial.LEGGINGS);
-                entries.add(CelestialBronzeArmorMaterial.BOOTS);
-                entries.add(IronBrazier.ITEM);
-                entries.add(StoneBrazier.ITEM);
-                entries.add(Empousai.EGG);
-                entries.add(Hellhound.EGG);
+                entries.add(PJOItems.CELESTIAL_BRONZE_INGOT);
+                entries.add(PJOItems.CELESTIAL_BRONZE_BLOCK);
+                entries.add(PJOItems.CELESTIAL_BRONZE_SWORD);
+                entries.add(PJOItems.CELESTIAL_BRONZE_SPEAR);
+                entries.add(PJOItems.CELESTIAL_BRONZE_HELMET);
+                entries.add(PJOItems.CELESTIAL_BRONZE_CHESTPLATE);
+                entries.add(PJOItems.CELESTIAL_BRONZE_LEGGINGS);
+                entries.add(PJOItems.CELESTIAL_BRONZE_BOOTS);
+                entries.add(PJOItems.IRON_BRAZIER);
+                entries.add(PJOItems.STONE_BRAZIER);
+                entries.add(PJOItems.EMPOUSAI_SPAWN_EGG);
+                entries.add(PJOItems.HELLHOUND_SPAWN_EGG);
             })
             .build();
     public static final Identifier MAIN_ID = new Identifier(PJO.NAMESPACE, "main_group");
     
     public static final ItemGroup SPECIAL_WEAPONS = FabricItemGroup.builder()
-            .icon(() -> new ItemStack(RiptideItem.ITEM))
+            .icon(() -> new ItemStack(PJOItems.RIPTIDE))
             .displayName(Text.translatable("itemGroup.peterspjo.special_weapons"))
             .entries((context, entries) -> {
-                entries.add(RiptideItem.ITEM);
+                entries.add(PJOItems.RIPTIDE);
             })
             .build();
     public static final Identifier SPECIAL_WEAPONS_ID = new Identifier(PJO.NAMESPACE, "special_weapons");

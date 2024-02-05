@@ -1,4 +1,4 @@
-package com.peter.peterspjo;
+package com.peter.peterspjo.blocks;
 
 import java.util.List;
 

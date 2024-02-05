@@ -1,7 +1,6 @@
 package com.peter.peterspjo.blocks;
 
 import com.peter.peterspjo.PJO;
-import com.peter.peterspjo.TooltipedBlock;
 import com.peter.peterspjo.blocks.fluids.StyxWater;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -24,6 +23,8 @@ public class PJOBlocks {
             new FabricItemSettings());
     
     public static final Block UNDERWORLD_SAND_DARK = UnderworldSandDarkBlock.BLOCK;
+    public static final Block IRON_BRAZIER = IronBrazier.BLOCK;
+    public static final Block STONE_BRAZIER = StoneBrazier.BLOCK;
     
     public static final FluidBlock STYX_WATER = StyxWater.BLOCK;
     

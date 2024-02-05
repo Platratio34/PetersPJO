@@ -7,6 +7,7 @@ import net.minecraft.entity.EntityType;
 public class PJOEntities {
 
     public static final EntityType<Empousai> EMPOUSAI = Empousai.TYPE;
+    public static final EntityType<Hellhound> HELLHOUND = Hellhound.TYPE;
 
     public static final ArrayList<EntityType<?>> MONSTERS = new ArrayList<EntityType<?>>();
 
