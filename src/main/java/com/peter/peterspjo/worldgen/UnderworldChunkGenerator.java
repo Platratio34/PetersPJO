@@ -21,6 +21,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
@@ -28,6 +29,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.ChunkRegion;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeAccess;
 import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.chunk.Chunk;
@@ -36,6 +38,7 @@ import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.world.gen.StructureWeightSampler;
 import net.minecraft.world.gen.GenerationStep.Carver;
+import net.minecraft.world.gen.HeightContext;
 import net.minecraft.world.gen.chunk.AquiferSampler;
 import net.minecraft.world.gen.chunk.Blender;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
@@ -101,7 +104,7 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
     }
 
     @Override
-    public void buildSurface(ChunkRegion chunkRegion, StructureAccessor var2, NoiseConfig noiseConfig, Chunk chunk) {
+    public void buildSurface(ChunkRegion region, StructureAccessor structures, NoiseConfig noiseConfig, Chunk chunk) {
 
     }
 
@@ -154,6 +157,7 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
     private static final Block FLOOR_BASE = Blocks.BLACKSTONE;
     private static final Block FLOOR_TOP_INNER = Blocks.SAND;
     private static final Block FLOOR_TOP_OUTER = PJOBlocks.UNDERWORLD_SAND_DARK;
+    private static final Block FLOOR_ASPHODEL = Blocks.GRASS_BLOCK;
     private static final Block ROOF = Blocks.BASALT;
     private static final Block EREBOS_WALL_BLOCK = Blocks.POLISHED_BLACKSTONE_BRICKS;
     private static final Block STYX_RIVER = PJOBlocks.STYX_WATER;
@@ -161,11 +165,11 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
     public static final int PIT_ENTRANCE_X = -512;
     public static final int PIT_ENTRANCE_Z = -512;
     public static final int PIT_INNER_SIZE = 48;
-    public static final int PIT_OUTER_SIZE = 64+32;
+    public static final int PIT_OUTER_SIZE = 64 + 32;
     public static final double PIT_LERP_HEIGHT = 64;
     public static final double PIT_MIN_SAND_HEIGHT = -24;
     public static final int PALACE_PAD_SIZE = 48;
-    public static final int PALACE_PIT_SIZE = 64+32;
+    public static final int PALACE_PIT_SIZE = 64 + 32;
     public static final int EREBOS_SIZE = 1024;
     public static final int EREBOS_WALL_HEIGHT = 16;
     public static final double EREBOS_WALL_PILLAR_ANGLE = Math.PI / 500d;
@@ -240,9 +244,10 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
                                     int stepHeight = getOuterStepHeight(flatDistFromOrigin);
                                     int rDepth = stepHeight - terrainHeight;
                                     int rRoofHeight = stepHeight + rDepth + 4;
-                                    if (!(worldBlockZ < 0 && worldBlockY < rRoofHeight && worldBlockX > -9 && worldBlockX < 9)) {
+                                    if (!(worldBlockZ < 0 && worldBlockY < rRoofHeight && worldBlockX > -9
+                                            && worldBlockX < 9)) {
                                         blockState = ROOF.getDefaultState();
-                                    } else if(worldBlockZ < 0 && worldBlockX > -9 && worldBlockX < 9) {
+                                    } else if (worldBlockZ < 0 && worldBlockX > -9 && worldBlockX < 9) {
                                         if (worldBlockY < terrainHeight) {
                                             blockState = ROOF.getDefaultState();
                                         } else if (worldBlockY == terrainHeight) {
@@ -267,7 +272,8 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
                                         blockState = FLOOR_TOP_OUTER.getDefaultState();
                                     } else if (worldBlockZ < 0 && worldBlockY < stepHeight) {
                                         blockState = STYX_RIVER.getDefaultState();
-                                    } else if (worldBlockZ < 0 && worldBlockY < rRoofHeight && worldBlockX > -9 && worldBlockX < 9) {
+                                    } else if (worldBlockZ < 0 && worldBlockY < rRoofHeight && worldBlockX > -9
+                                            && worldBlockX < 9) {
                                         // air
                                     } else if (worldBlockY > celHeight) {
                                         blockState = ROOF.getDefaultState();
@@ -299,14 +305,17 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
                                             / EREBOS_WALL_PILLAR_ANGLE < 0.25d && worldBlockY <= EREBOS_WALL_HEIGHT + 2
                                             && flatDistFromOrigin >= EREBOS_SIZE + 3) {
                                         blockState = EREBOS_WALL_BLOCK.getDefaultState();
-                                        // } else if (worldBlockY <= (flatDirFromOrigin % EREBOS_WALL_PILLAR_ANGLE)/EREBOS_WALL_PILLAR_ANGLE * 100  + 16) {
-                                        //     blockState = EREBOS_WALL_BLOCK.getDefaultState();
+                                        // } else if (worldBlockY <= (flatDirFromOrigin %
+                                        // EREBOS_WALL_PILLAR_ANGLE)/EREBOS_WALL_PILLAR_ANGLE * 100 + 16) {
+                                        // blockState = EREBOS_WALL_BLOCK.getDefaultState();
                                     } else if (worldBlockY == terrainHeight) {
                                         blockState = FLOOR_TOP_OUTER.getDefaultState();
                                     }
                                 } else if (worldBlockY == terrainHeight) {
                                     if (flatDistFromOrigin > EREBOS_SIZE) {
                                         blockState = FLOOR_TOP_OUTER.getDefaultState();
+                                    } else if (flatDistFromOrigin < EREBOS_SIZE - 32 && flatDistFromOrigin > EREBOS_SIZE - 128) {
+                                        blockState = FLOOR_ASPHODEL.getDefaultState();
                                     } else if (flatDistFromOrigin > PALACE_PIT_SIZE + 4) {
                                         blockState = FLOOR_TOP_INNER.getDefaultState();
                                     } else {
@@ -366,17 +375,17 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
         chunkNoiseSampler.stopInterpolation();
         return chunk;
     }
-    
+
     private int getOuterStepHeight(double flatDistFromOrigin) {
         return (int) ((flatDistFromOrigin - EREBOS_SIZE - OUTER_STEP_OFFSET) / OUTER_STEP_SIZE);
     }
-    
+
     private int getTerrainHeightAtLocation(int x, int z, NoiseGenerator noise, double flatDistFromOrigin) {
         if (flatDistFromOrigin < PALACE_PIT_SIZE) {
             double maxY = Math.max((-PALACE_PIT_SIZE + flatDistFromOrigin) / 2d, -8);
-            maxY = Math.max(maxY, -2 * (flatDistFromOrigin - (PALACE_PAD_SIZE+2)));
-            return (int) Math.min(maxY,2);
-        } else if(flatDistFromOrigin < PALACE_PIT_SIZE+8) {
+            maxY = Math.max(maxY, -2 * (flatDistFromOrigin - (PALACE_PAD_SIZE + 2)));
+            return (int) Math.min(maxY, 2);
+        } else if (flatDistFromOrigin < PALACE_PIT_SIZE + 8) {
             return 0;
         } else if (flatDistFromOrigin < EREBOS_SIZE) {
             double lerpVal = Math.min(1d, (flatDistFromOrigin - (PALACE_PIT_SIZE + 8d)) / 16d);
@@ -387,19 +396,19 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
             double rpos = flatDistFromOrigin - EREBOS_SIZE - 24 - 7;
             double h = Math.max(Math.abs(rpos / 2d) - 5, -4);
             if (x > -32 && x < 32 && flatDistFromOrigin > EREBOS_SIZE + 24 + 6) {
-                double w = Math.max(5, 12 - (rpos/4d));
+                double w = Math.max(5, 12 - (rpos / 4d));
                 double r = Math.max(Math.abs(x / 2d) - w, -4);
                 r = Math.min(r, 0);
                 h = Math.min(h, r);
             }
-            return (int)Math.min(h,-1);
+            return (int) Math.min(h, -1);
         } else {
             int h = getOuterStepHeight(flatDistFromOrigin);
             if (x > -9 && x < 9 && flatDistFromOrigin > EREBOS_SIZE + 24) {
                 double r = Math.max(Math.abs(x / 2d) - 5, -4);
                 r = Math.min(r, 0);
                 if (z > 0) {
-                    h = -h-1;
+                    h = -h - 1;
                 }
                 h += r;
             }
@@ -417,7 +426,7 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
     }
 
     private BlockState getBlockState(ChunkNoiseSampler chunkNoiseSampler, int x, int y, int z, BlockState state) {
-       return state;
+        return state;
     }
 
     @Override
@@ -431,7 +440,7 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
     }
 
     @Override
-    public int getHeight(int var1, int var2, Type var3, HeightLimitView var4, NoiseConfig var5) {
+    public int getHeight(int x, int z, Heightmap.Type heightmap, HeightLimitView world, NoiseConfig noiseConfig) {
         return 0;
     }
 

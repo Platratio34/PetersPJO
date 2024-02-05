@@ -3,10 +3,19 @@
     "temperature": 0.5,
     "downfall": 0.0,
     "effects": {
-        "fog_color": 4863019,
-        "sky_color": 4863019,
+        "fog_color": 2763306,
+        "sky_color": 2763306,
         "water_color": 2959954,
-        "water_fog_color": 1707822
+        "water_fog_color": 1707822,
+        "grass_color": 3028009,
+        "particle": {
+            "probability": 0.1,
+            "options": {
+                "type": "dust",
+                "color": [0.4, 0.4, 0.4],
+                "scale": 0.2
+            }
+        }
     },
     "carvers": {
         "air": [],

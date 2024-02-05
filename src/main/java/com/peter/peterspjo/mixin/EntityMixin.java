@@ -43,7 +43,6 @@ public abstract class EntityMixin {
             styxTime++;
             if (styxTime % 20 != 1)
                 return;
-            System.out.println("Test styx " + styxTime);
             invokeDamage(invokeGetDamageSources().create(PJODamageTypes.STYX), 2.0f);
         } else {
             styxTime = 0;

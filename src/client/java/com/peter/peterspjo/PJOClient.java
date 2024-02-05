@@ -5,6 +5,7 @@ import com.peter.peterspjo.entities.EmpousaiRenderer;
 import com.peter.peterspjo.entities.HellhoundRenderer;
 import com.peter.peterspjo.entities.SpearEntity;
 import com.peter.peterspjo.items.RiptideItem;
+import com.peter.peterspjo.worldgen.UnderworldDimensionEffects;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -34,6 +35,8 @@ public class PJOClient implements ClientModInitializer {
 		
 		FluidRenderHandlerRegistry.INSTANCE.register(StyxWater.STILL, StyxWater.FLOWING, new SimpleFluidRenderHandler(
 				new Identifier("minecraft:block/water_still"), new Identifier("minecraft:block/water_flow"), 0xA16e4400));
-		BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), StyxWater.STILL, StyxWater.FLOWING);
+        BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), StyxWater.STILL, StyxWater.FLOWING);
+        
+        UnderworldDimensionEffects.register();
 	}
 }

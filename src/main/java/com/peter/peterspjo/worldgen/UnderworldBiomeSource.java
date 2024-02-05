@@ -20,37 +20,37 @@ import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.biome.source.util.MultiNoiseUtil.MultiNoiseSampler;
 
 public class UnderworldBiomeSource extends BiomeSource {
-    
-    private static final RegistryKey<Biome> UNDERWORLD_PLAINS = RegistryKey.of(RegistryKeys.BIOME,
-            new Identifier(PJO.NAMESPACE, "underworld_plains"));
-            private static final RegistryKey<Biome> UNDERWORLD_OUTER = RegistryKey.of(RegistryKeys.BIOME,
-                    new Identifier(PJO.NAMESPACE, "underworld_outer"));
 
     public static final Codec<UnderworldBiomeSource> CODEC = RecordCodecBuilder
             .create(instance -> instance
-                    .group(RegistryOps.getEntryCodec(UNDERWORLD_PLAINS), RegistryOps.getEntryCodec(UNDERWORLD_OUTER))
+                    .group(RegistryOps.getEntryCodec(PJOBiomes.UNDERWORLD_PLAINS), RegistryOps.getEntryCodec(PJOBiomes.UNDERWORLD_OUTER), RegistryOps.getEntryCodec(PJOBiomes.UNDERWORLD_CELLING), RegistryOps.getEntryCodec(PJOBiomes.UNDERWORLD_ASPHODEL_FIELDS))
                     .apply(instance, UnderworldBiomeSource::new));
 
     public static void register() {
         Registry.register(Registries.BIOME_SOURCE, new Identifier(PJO.NAMESPACE, "underworld"), CODEC);
     }
-    // private static final RegistryEntry<Biome> UNDERWORLD_PLAINS_ENTRY = Registries.;
+    // private static final RegistryEntry<Biome> UNDERWORLD_PLAINS_ENTRY =
+    // Registries.;
 
     private RegistryEntry<Biome> plains;
     private RegistryEntry<Biome> outer;
+    private RegistryEntry<Biome> celling;
+    private RegistryEntry<Biome> asphodel;
 
-    public UnderworldBiomeSource(RegistryEntry<Biome> plains, RegistryEntry<Biome> outer) {
+    public UnderworldBiomeSource(RegistryEntry<Biome> plains, RegistryEntry<Biome> outer, RegistryEntry<Biome> celling, RegistryEntry<Biome> asphodel) {
         this.plains = plains;
         this.outer = outer;
+        this.asphodel = asphodel;
+        this.celling = celling;
     }
-    
+
     public Optional<Integer> getUnused() {
         return Optional.of(0);
     }
 
     @Override
     protected Stream<RegistryEntry<Biome>> biomeStream() {
-        return Stream.of(plains, outer);
+        return Stream.of(plains, outer, celling, asphodel);
     }
 
     @Override
@@ -58,9 +58,16 @@ public class UnderworldBiomeSource extends BiomeSource {
         int wx = BiomeCoords.toBlock(x);
         int wy = BiomeCoords.toBlock(y);
         int wz = BiomeCoords.toBlock(z);
+        if (wy > UnderworldChunkGenerator.CELLING_HEIGHT - 24) {
+            return celling;
+        }
         double flatDistFromOrigin = Math.sqrt((wx * wx) + (wz * wz));
         if (flatDistFromOrigin > UnderworldChunkGenerator.EREBOS_SIZE) {
             return outer;
+        }
+        if (wy >= -24 && wy <= 32 && flatDistFromOrigin < UnderworldChunkGenerator.EREBOS_SIZE - 32
+                && flatDistFromOrigin > UnderworldChunkGenerator.EREBOS_SIZE - 128) {
+            return asphodel;
         }
         return plains;
     }

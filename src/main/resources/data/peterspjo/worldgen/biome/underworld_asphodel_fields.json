@@ -6,16 +6,8 @@
         "fog_color": 2763306,
         "sky_color": 2763306,
         "water_color": 2959954,
-        "water_fog_color": 1707822,
         "grass_color": 3028009,
-        "particle": {
-            "probability": 0.2,
-            "options": {
-                "type": "dust",
-                "color": [0.15, 0.1, 0.1],
-                "scale": 0.5
-            }
-        }
+        "water_fog_color": 1707822
     },
     "carvers": {
         "air": [],
