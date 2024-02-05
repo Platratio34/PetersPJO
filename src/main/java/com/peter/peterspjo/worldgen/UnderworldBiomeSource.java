@@ -9,8 +9,6 @@ import com.peter.peterspjo.PJO;
 
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryOps;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
@@ -65,8 +63,8 @@ public class UnderworldBiomeSource extends BiomeSource {
         if (flatDistFromOrigin > UnderworldChunkGenerator.EREBOS_SIZE) {
             return outer;
         }
-        if (wy >= -24 && wy <= 32 && flatDistFromOrigin < UnderworldChunkGenerator.EREBOS_SIZE - 32
-                && flatDistFromOrigin > UnderworldChunkGenerator.EREBOS_SIZE - 128) {
+        if (wy >= -24 && wy <= 32 && flatDistFromOrigin < UnderworldChunkGenerator.EREBOS_SIZE - UnderworldChunkGenerator.ASPHODEL_INNER_OFFSET
+                && flatDistFromOrigin > UnderworldChunkGenerator.EREBOS_SIZE - UnderworldChunkGenerator.ASPHODEL_INNER_OFFSET - UnderworldChunkGenerator.ASPHODEL_WIDTH) {
             return asphodel;
         }
         return plains;

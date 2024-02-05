@@ -21,7 +21,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
@@ -29,7 +28,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.ChunkRegion;
-import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeAccess;
 import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.chunk.Chunk;
@@ -38,7 +36,6 @@ import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.world.gen.StructureWeightSampler;
 import net.minecraft.world.gen.GenerationStep.Carver;
-import net.minecraft.world.gen.HeightContext;
 import net.minecraft.world.gen.chunk.AquiferSampler;
 import net.minecraft.world.gen.chunk.Blender;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
@@ -177,6 +174,9 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
     public static final double OUTER_STEP_SIZE = 32;
     public static final int OUTER_STEP_OFFSET = 64;
 
+    public static final int ASPHODEL_INNER_OFFSET = 32;
+    public static final int ASPHODEL_WIDTH = 128;
+
     private Chunk populateNoise(Blender blender, StructureAccessor structureAccessor, NoiseConfig noiseConfig,
             Chunk chunk, int minimumCellY, int cellHeight) {
         ChunkNoiseSampler chunkNoiseSampler = chunk.getOrCreateChunkNoiseSampler((chunkX) -> {
@@ -240,6 +240,9 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
                                                 + Math.pow(worldBlockZ - PIT_ENTRANCE_Z, 2));
                                 int terrainHeight = getTerrainHeightAtLocation(worldBlockX, worldBlockZ, noise,
                                         flatDistFromOrigin);
+
+                                
+
                                 if (worldBlockY > CELLING_HEIGHT) {
                                     int stepHeight = getOuterStepHeight(flatDistFromOrigin);
                                     int rDepth = stepHeight - terrainHeight;
@@ -314,7 +317,7 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
                                 } else if (worldBlockY == terrainHeight) {
                                     if (flatDistFromOrigin > EREBOS_SIZE) {
                                         blockState = FLOOR_TOP_OUTER.getDefaultState();
-                                    } else if (flatDistFromOrigin < EREBOS_SIZE - 32 && flatDistFromOrigin > EREBOS_SIZE - 128) {
+                                    } else if (flatDistFromOrigin < EREBOS_SIZE - ASPHODEL_INNER_OFFSET && flatDistFromOrigin > EREBOS_SIZE - ASPHODEL_INNER_OFFSET - ASPHODEL_WIDTH) {
                                         blockState = FLOOR_ASPHODEL.getDefaultState();
                                     } else if (flatDistFromOrigin > PALACE_PIT_SIZE + 4) {
                                         blockState = FLOOR_TOP_INNER.getDefaultState();
@@ -358,7 +361,8 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
                                     oceanFloorHeightmap.trackUpdate(chunkBlockX, worldBlockY, chunkBlockZ, blockState);
                                     worldSurfaceHeightMap.trackUpdate(chunkBlockX, worldBlockY, chunkBlockZ,
                                             blockState);
-                                    if (aquiferSampler.needsFluidTick() && !blockState.getFluidState().isEmpty()) {
+                                    // if (aquiferSampler.needsFluidTick() && !blockState.getFluidState().isEmpty()) {
+                                    if (!blockState.getFluidState().isEmpty()) {
                                         mutable.set(worldBlockX, worldBlockY, worldBlockZ);
                                         chunk.markBlockForPostProcessing(mutable);
                                     }
