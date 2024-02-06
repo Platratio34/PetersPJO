@@ -7,16 +7,34 @@ import net.minecraft.util.math.Direction;
 
 public class Cross extends LabyrinthSection {
 
-    @Override
-    public BlockState sample(int sectionX, int sectionY, int sectionZ, Direction orientation,
-            LabyrinthMaterialSet set, LabyrinthMaterialSet nSet, LabyrinthMaterialSet eSet, LabyrinthMaterialSet sSet,
-            LabyrinthMaterialSet wSet) {
+    public Cross(Direction orientation) {
+        super(orientation);
+        connections = new ConnectionType[] { ConnectionType.CORRIDOR_NARROW, ConnectionType.CORRIDOR_NARROW,
+                ConnectionType.CORRIDOR_NARROW,
+                ConnectionType.CORRIDOR_NARROW };
+    }
 
-        if ((sectionX < CORRIDOR_MIN || sectionX > CORRIDOR_MAX) && (sectionZ < CORRIDOR_MIN || sectionZ > CORRIDOR_MAX)) {
+    @Override
+    public BlockState sample(int sectionX, int sectionY, int sectionZ, LabyrinthMaterialSet nSet,
+            LabyrinthMaterialSet eSet, LabyrinthMaterialSet sSet, LabyrinthMaterialSet wSet) {
+
+        if ((sectionX < CORRIDOR_N_MIN || sectionX > CORRIDOR_N_MAX)
+                && (sectionZ < CORRIDOR_N_MIN || sectionZ > CORRIDOR_N_MAX)) {
+            if (sectionY == CELLING_HEIGHT + 1) {
+                return set.celling.getDefaultState();
+            } else if (sectionY == CELLING_HEIGHT) {
+                return DEFAULT_AIR.getDefaultState();
+            }
+        }
+
+        if ((sectionX < CORRIDOR_N_MIN || sectionX > CORRIDOR_N_MAX)
+                && (sectionZ < CORRIDOR_N_MIN || sectionZ > CORRIDOR_N_MAX)) {
             return DEFAULT_BLOCK.getDefaultState();
-        } else if ((sectionX == CORRIDOR_MIN || sectionX == CORRIDOR_MAX) && (sectionZ < CORRIDOR_MIN || sectionZ > CORRIDOR_MAX)) {
+        } else if ((sectionX == CORRIDOR_N_MIN || sectionX == CORRIDOR_N_MAX)
+                && (sectionZ < CORRIDOR_N_MIN || sectionZ > CORRIDOR_N_MAX)) {
             return set.wall.getDefaultState();
-        } else if ((sectionZ == CORRIDOR_MIN || sectionZ == CORRIDOR_MAX) && (sectionX < CORRIDOR_MIN || sectionX > CORRIDOR_MAX)) {
+        } else if ((sectionZ == CORRIDOR_N_MIN || sectionZ == CORRIDOR_N_MAX)
+                && (sectionX < CORRIDOR_N_MIN || sectionX > CORRIDOR_N_MAX)) {
             return set.wall.getDefaultState();
         } else if (sectionY == FLOOR_HEIGHT) {
             return set.floor.getDefaultState();
@@ -25,13 +43,8 @@ public class Cross extends LabyrinthSection {
         } else if (sectionY > FLOOR_HEIGHT || sectionY < CELLING_HEIGHT) {
             return DEFAULT_AIR.getDefaultState();
         }
-        
-        return DEFAULT_BLOCK.getDefaultState();
-    }
 
-    @Override
-    public boolean canConnect(Direction orientation, Direction direction) {
-        return true;
+        return DEFAULT_BLOCK.getDefaultState();
     }
 
 }

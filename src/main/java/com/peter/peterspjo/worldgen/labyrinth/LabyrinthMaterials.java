@@ -7,6 +7,8 @@ import net.minecraft.block.Blocks;
 
 public class LabyrinthMaterials {
 
+    public static final LabyrinthMaterialSet DEFAULT = new LabyrinthMaterialSet(3, Blocks.STONE);
+
     public static final LabyrinthMaterialSet[] MATERIALS = {
         new LabyrinthMaterialSet(3, Blocks.STONE),
         new LabyrinthMaterialSet(3, Blocks.COBBLESTONE),
@@ -41,12 +43,19 @@ public class LabyrinthMaterials {
 
         public final int freq;
 
+        /** Floor block */
         public final Block floor;
+        /** Random replace floor block */
         public final Block floor_rand;
+        /** Wall block */
         public final Block wall;
+        /** Random replace wall block */
         public final Block wall_rand;
+        /** Celling block */
         public final Block celling;
+        /** Random replace celling block */
         public final Block celling_rand;
+        /** Accent block */
         public final Block accent;
 
         public LabyrinthMaterialSet(int freq, Block block) {
