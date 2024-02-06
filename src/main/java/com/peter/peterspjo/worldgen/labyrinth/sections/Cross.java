@@ -1,5 +1,6 @@
 package com.peter.peterspjo.worldgen.labyrinth.sections;
 
+import com.peter.peterspjo.util.NoiseGenerator;
 import com.peter.peterspjo.worldgen.labyrinth.LabyrinthMaterials.LabyrinthMaterialSet;
 
 import net.minecraft.block.BlockState;
@@ -16,12 +17,33 @@ public class Cross extends LabyrinthSection {
 
     @Override
     public BlockState sample(int sectionX, int sectionY, int sectionZ, LabyrinthMaterialSet nSet,
-            LabyrinthMaterialSet eSet, LabyrinthMaterialSet sSet, LabyrinthMaterialSet wSet) {
+            LabyrinthMaterialSet eSet, LabyrinthMaterialSet sSet, LabyrinthMaterialSet wSet, NoiseGenerator noise) {
+        
 
+        boolean rand = noise.noise(sectionX, sectionY, sectionZ) > 0.2;
+        LabyrinthMaterialSet useSet = set;
+        if (sectionX == 0) {
+            if (sectionY % 2 == 0 && sectionZ % 2 == 0) {
+                useSet = nSet;
+            }
+        } else if (sectionX == 15) {
+            if (sectionY % 2 == 0 && sectionZ % 2 == 0) {
+                useSet = sSet;
+            }
+        } else if (sectionZ == 0) {
+            if (sectionY % 2 == 0 && sectionX % 2 == 0) {
+                useSet = eSet;
+            }
+        } else if (sectionZ == 15) {
+            if (sectionY % 2 == 0 && sectionX % 2 == 0) {
+                useSet = wSet;
+            }
+        }
+                
         if ((sectionX < CORRIDOR_N_MIN || sectionX > CORRIDOR_N_MAX)
                 && (sectionZ < CORRIDOR_N_MIN || sectionZ > CORRIDOR_N_MAX)) {
             if (sectionY == CELLING_HEIGHT + 1) {
-                return set.celling.getDefaultState();
+                return useSet.getCelling(rand).getDefaultState();
             } else if (sectionY == CELLING_HEIGHT) {
                 return DEFAULT_AIR.getDefaultState();
             }
@@ -32,14 +54,14 @@ public class Cross extends LabyrinthSection {
             return DEFAULT_BLOCK.getDefaultState();
         } else if ((sectionX == CORRIDOR_N_MIN || sectionX == CORRIDOR_N_MAX)
                 && (sectionZ < CORRIDOR_N_MIN || sectionZ > CORRIDOR_N_MAX)) {
-            return set.wall.getDefaultState();
+            return useSet.getWall(rand).getDefaultState();
         } else if ((sectionZ == CORRIDOR_N_MIN || sectionZ == CORRIDOR_N_MAX)
                 && (sectionX < CORRIDOR_N_MIN || sectionX > CORRIDOR_N_MAX)) {
-            return set.wall.getDefaultState();
+            return useSet.getWall(rand).getDefaultState();
         } else if (sectionY == FLOOR_HEIGHT) {
-            return set.floor.getDefaultState();
+            return useSet.getFloor(rand).getDefaultState();
         } else if (sectionY == CELLING_HEIGHT) {
-            return set.celling.getDefaultState();
+            return useSet.getCelling(rand).getDefaultState();
         } else if (sectionY > FLOOR_HEIGHT || sectionY < CELLING_HEIGHT) {
             return DEFAULT_AIR.getDefaultState();
         }

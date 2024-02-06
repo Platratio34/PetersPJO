@@ -1,6 +1,7 @@
 package com.peter.peterspjo.worldgen.labyrinth.sections;
 
 import com.google.common.base.Function;
+import com.peter.peterspjo.util.NoiseGenerator;
 import com.peter.peterspjo.worldgen.labyrinth.LabyrinthMaterials;
 import com.peter.peterspjo.worldgen.labyrinth.LabyrinthMaterials.LabyrinthMaterialSet;
 
@@ -75,7 +76,7 @@ public abstract class LabyrinthSection {
      * @return block state at location
      */
     public abstract BlockState sample(int sectionX, int sectionY, int sectionZ, LabyrinthMaterialSet nSet,
-            LabyrinthMaterialSet eSet, LabyrinthMaterialSet sSet, LabyrinthMaterialSet wSet);
+            LabyrinthMaterialSet eSet, LabyrinthMaterialSet sSet, LabyrinthMaterialSet wSet, NoiseGenerator noise);
 
     /**
      * If this section could connect to other section in direction from this section

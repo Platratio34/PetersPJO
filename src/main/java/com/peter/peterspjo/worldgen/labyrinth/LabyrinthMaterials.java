@@ -44,19 +44,19 @@ public class LabyrinthMaterials {
         public final int freq;
 
         /** Floor block */
-        public final Block floor;
+        protected final Block floor;
         /** Random replace floor block */
-        public final Block floor_rand;
+        protected final Block floor_rand;
         /** Wall block */
-        public final Block wall;
+        protected final Block wall;
         /** Random replace wall block */
-        public final Block wall_rand;
+        protected final Block wall_rand;
         /** Celling block */
-        public final Block celling;
+        protected final Block celling;
         /** Random replace celling block */
-        public final Block celling_rand;
+        protected final Block celling_rand;
         /** Accent block */
-        public final Block accent;
+        protected final Block accent;
 
         public LabyrinthMaterialSet(int freq, Block block) {
             this.freq = freq;
@@ -99,7 +99,9 @@ public class LabyrinthMaterials {
             this.celling_rand = celling;
             this.accent = accent;
         }
-        public LabyrinthMaterialSet(int freq, Block floor, Block wall, Block celling, Block accent, Block floor_rand, Block wall_rand, Block celling_rand) {
+
+        public LabyrinthMaterialSet(int freq, Block floor, Block wall, Block celling, Block accent, Block floor_rand,
+                Block wall_rand, Block celling_rand) {
             this.freq = freq;
             this.floor = floor;
             this.floor_rand = floor_rand;
@@ -108,6 +110,31 @@ public class LabyrinthMaterials {
             this.celling = celling;
             this.celling_rand = celling_rand;
             this.accent = accent;
+        }
+        
+        public Block getFloor(boolean rand) {
+            if (rand) {
+                return floor_rand;
+            }
+            return floor;
+        }
+        
+        public Block getWall(boolean rand) {
+            if (rand) {
+                return wall_rand;
+            }
+            return wall;
+        }
+        
+        public Block getCelling(boolean rand) {
+            if (rand) {
+                return celling_rand;
+            }
+            return celling;
+        }
+
+        public Block getAccent() {
+            return accent;
         }
     }
 }
