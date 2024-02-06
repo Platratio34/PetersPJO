@@ -82,6 +82,7 @@ Things will go here
 - [x] Hellhound
 - [ ] Centaur
 - [ ] Medusa
+- [ ] Pegasus
 
 ### Structures
 - [x] Ruined Temple 1
@@ -125,7 +126,13 @@ Things will go here
 <details>
     <summary>Sea of Monsters</summary>
 
-> Nothing here yet
+> #### Mobs
+> - [ ] [Laistrygonian Giants](https://riordan.fandom.com/wiki/Laistrygonian_Giant)
+> - [ ] [Colchis Bulls](https://riordan.fandom.com/wiki/Colchis_Bull)
+> - [ ] Cyclops
+> - [ ] [Stymphalian Birds](https://riordan.fandom.com/wiki/Stymphalian_Birds)
+> - [ ] [Scythian Dracaena](https://riordan.fandom.com/wiki/Scythian_Dracaena)
+> - [ ] Hydra
 
 </details>
 
@@ -133,25 +140,50 @@ Things will go here
     <summary>Titan's Curse</summary>
 
 > #### Mobs
+> - [ ] [Manticore](https://riordan.fandom.com/wiki/Manticore)
 > - [ ] [Spartol](https://riordan.fandom.com/wiki/Skeleton_Warrior)
+> - [ ] [Nemean Lion](https://riordan.fandom.com/wiki/Nemean_Lion)
 > 
+> #### Structures
+> - [ ] Garden of the Hesperides?
+
 </details>
 
 <details>
     <summary>Battle of the Labyrinth</summary>
 
-> #### Structures / Dimensions
-> - [ ] The Labyrinth
+> #### The Labyrinth
+> - [ ] Dimension
+> - [ ] Dimension gen
+> - [ ] Entrances
+> - [x] Stone type
+> - [x] Cobblestone type
+> - [x] Stone Brick type
+> - [x] Brick type
+> - [x] Mud Brick type
+> - [x] Straight corridor section
+> - [x] Cross corridor section
+> - [ ] Corner corridor section
+> - [ ] T corridor section
+> - [ ] End corridor section
+> - [ ] Straight corridor with room section
+> - [ ] Cross corridor with room section
+> - [ ] Corner corridor with room section
+> - [ ] T corridor with room section
+> - [ ] End corridor with room section
 > 
 > #### Mobs
 > - [x] [Empousai](https://riordan.fandom.com/wiki/Empousa)
+> - [ ] [Telekhines](https://riordan.fandom.com/wiki/Telekhine)
+> - [ ] [Sphinx](https://riordan.fandom.com/wiki/Sphinx)
 
 </details>
 
 <details>
     <summary>The Last Olympian</summary>
 
-> Nothing here yet
+> #### Structures
+> - [ ] Door of Orpheus
 
 </details>
 
@@ -201,6 +233,9 @@ Things will go here
 > 
 > #### Advancements
 > - [ ] ??? (exit Tartarus)
+>
+> #### Structures
+> - [ ] House of Hades? (as entrance for underworld?)
 
 </details>
 
