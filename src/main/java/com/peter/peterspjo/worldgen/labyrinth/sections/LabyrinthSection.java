@@ -14,6 +14,7 @@ public abstract class LabyrinthSection {
 
     public static final Block DEFAULT_BLOCK = Blocks.STONE;
     public static final Block DEFAULT_AIR = Blocks.AIR;
+    public static final Block DEFAULT_LIGHT = Blocks.LANTERN;
 
     public static final int FLOOR_HEIGHT = 1;
     public static final int CELLING_HEIGHT = 5;
@@ -66,21 +67,50 @@ public abstract class LabyrinthSection {
 
     /**
      * Get the block at location within the section
+     * 
      * @param sectionX x (south positive) coordinate
      * @param sectionY y (up positive) coordinate
      * @param sectionZ z (east positive) coordinate
-     * @param nSet material set for section to the north (-x)
-     * @param eSet material set for section to the east (+z)
-     * @param sSet material set for section to the south (+x)
-     * @param wSet material set for section to the west (-z)
+     * @param nSet     material set for section to the north (-x)
+     * @param eSet     material set for section to the east (+z)
+     * @param sSet     material set for section to the south (+x)
+     * @param wSet     material set for section to the west (-z)
      * @return block state at location
      */
     public abstract BlockState sample(int sectionX, int sectionY, int sectionZ, LabyrinthMaterialSet nSet,
             LabyrinthMaterialSet eSet, LabyrinthMaterialSet sSet, LabyrinthMaterialSet wSet, NoiseGenerator noise);
 
+    protected boolean isRand(int sectionX, int sectionY, int sectionZ, NoiseGenerator noise) {
+        return noise.noise(sectionX * 2, sectionY * 2, sectionZ * 2) > 0.2;
+    }
+
+    protected LabyrinthMaterialSet getMaterialSet(int sectionX, int sectionY, int sectionZ, LabyrinthMaterialSet nSet,
+            LabyrinthMaterialSet eSet, LabyrinthMaterialSet sSet, LabyrinthMaterialSet wSet) {
+
+        if (sectionX == 0) {
+            if (sectionY % 2 == 0 && sectionZ % 2 == 0) {
+                return nSet;
+            }
+        } else if (sectionX == 15) {
+            if (sectionY % 2 == 0 && sectionZ % 2 == 0) {
+                return sSet;
+            }
+        } else if (sectionZ == 0) {
+            if (sectionY % 2 == 0 && sectionX % 2 == 0) {
+                return eSet;
+            }
+        } else if (sectionZ == 15) {
+            if (sectionY % 2 == 0 && sectionX % 2 == 0) {
+                return wSet;
+            }
+        }
+        return set;
+    }
+
     /**
      * If this section could connect to other section in direction from this section
-     * @param other section to check against
+     * 
+     * @param other     section to check against
      * @param direction direction from this section
      * @return if the connection types match on specified face
      */
@@ -90,9 +120,10 @@ public abstract class LabyrinthSection {
 
     /**
      * If this section could connect to other section in direction from this section
-     * @param other section to check against
+     * 
+     * @param other            section to check against
      * @param otherOrientation override direction for other section
-     * @param direction direction from this section
+     * @param direction        direction from this section
      * @return if the connection types match on specified face
      */
     public boolean canConnect(LabyrinthSection other, Direction otherOrientation, Direction direction) {
