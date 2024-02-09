@@ -75,7 +75,8 @@ public abstract class LabyrinthSection {
      * @param eSet     material set for section to the east (+x)
      * @param sSet     material set for section to the south (+z)
      * @param wSet     material set for section to the west (-x)
-     * @return block state at location
+     * @param noise    random noise generator for random replacement
+     * @return Block state at location
      */
     public abstract BlockState sample(int sectionX, int sectionY, int sectionZ, LabyrinthMaterialSet nSet,
             LabyrinthMaterialSet eSet, LabyrinthMaterialSet sSet, LabyrinthMaterialSet wSet, NoiseGenerator noise);
@@ -112,7 +113,7 @@ public abstract class LabyrinthSection {
      * 
      * @param other     section to check against
      * @param direction direction from this section
-     * @return if the connection types match on specified face
+     * @return If the connection types match on specified face
      */
     public boolean canConnect(LabyrinthSection other, Direction direction) {
         return canConnect(other, other.orientation, direction);
@@ -124,7 +125,7 @@ public abstract class LabyrinthSection {
      * @param other            section to check against
      * @param otherOrientation override direction for other section
      * @param direction        direction from this section
-     * @return if the connection types match on specified face
+     * @return If the connection types match on specified face
      */
     public boolean canConnect(LabyrinthSection other, Direction otherOrientation, Direction direction) {
         ConnectionType[] con = getConnections();

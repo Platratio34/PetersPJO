@@ -91,6 +91,11 @@ public class DoorManager extends PersistentState {
         return state;
     }
 
+    /**
+     * Get the current door manager
+     * 
+     * @return door manager
+     */
     public static DoorManager get() {
         return manager;
     }
@@ -104,29 +109,43 @@ public class DoorManager extends PersistentState {
         return map;
     }
 
-    public DoorData getDoor(RegistryKey<World> dimensionKey, BlockPos pos) {
-        HashMap<BlockPos, DoorData> map = getDim(dimensionKey);
+    /**
+     * Get the door at provided location in world
+     * 
+     * @param worldKey world door is in
+     * @param pos      position of bottom of door
+     * @return Door or null if not present
+     */
+    public DoorData getDoor(RegistryKey<World> worldKey, BlockPos pos) {
+        HashMap<BlockPos, DoorData> map = getDim(worldKey);
         if (!map.containsKey(pos)) {
             return null;
         }
         return map.get(pos);
     }
 
-    protected void putDoor(RegistryKey<World> dimensionKey, BlockPos pos, DoorData door) {
-        getDim(dimensionKey).put(pos, door);
+    protected void putDoor(RegistryKey<World> worldKey, BlockPos pos, DoorData door) {
+        getDim(worldKey).put(pos, door);
         markDirty();
     }
 
-    public DoorData getOrCreateDoor(RegistryKey<World> dimensionKey, BlockPos pos) {
-        HashMap<BlockPos, DoorData> map = getDim(dimensionKey);
+    /**
+     * Get the door at provided location in world OR create one if none exist
+     * 
+     * @param worldKey world door is in
+     * @param pos      position of bottom of door
+     * @return Door or null if not present
+     */
+    public DoorData getOrCreateDoor(RegistryKey<World> worldKey, BlockPos pos) {
+        HashMap<BlockPos, DoorData> map = getDim(worldKey);
         if (!map.containsKey(pos)) {
             DoorData door = new DoorData();
             PJO.LOGGER.info(
-                    "New labyrinth door created at " + pos.toString() + " in " + dimensionKey.getValue().toString());
-            if (dimensionKey.equals(PJODimensions.LABYRINTH)) {
+                    "New labyrinth door created at " + pos.toString() + " in " + worldKey.getValue().toString());
+            if (worldKey.equals(PJODimensions.LABYRINTH)) {
                 door.labyrinthPosition = pos;
             } else {
-                door.targetDimension = dimensionKey;
+                door.targetDimension = worldKey;
                 door.targetPos = pos;
             }
             map.put(pos, door);
@@ -136,8 +155,15 @@ public class DoorManager extends PersistentState {
         return map.get(pos);
     }
 
-    public boolean hasDoor(RegistryKey<World> dimensionKey, BlockPos pos) {
-        return getDim(dimensionKey).containsKey(pos);
+    /**
+     * Check if the manager has a door at location in world
+     * 
+     * @param worldKey world to check
+     * @param pos      location to check
+     * @return If a door is known at location
+     */
+    public boolean hasDoor(RegistryKey<World> worldKey, BlockPos pos) {
+        return getDim(worldKey).containsKey(pos);
     }
 
     private static NbtIntArray posToNbt(BlockPos pos) {
@@ -198,6 +224,13 @@ public class DoorManager extends PersistentState {
             return server.getWorld(targetDimension);
         }
 
+        /**
+         * Attempt to teleport an entity thought this door
+         * 
+         * @param world  server world the entity is currently in
+         * @param entity entity to teleport
+         * @return If the entity was teleported
+         */
         public boolean tryTeleport(World world, Entity entity) {
             if (!connected) {
                 return false;
@@ -215,8 +248,12 @@ public class DoorManager extends PersistentState {
             ServerWorld tWorld = world.getServer().getWorld(tWorldKey);
             if (!tWorld.getBlockState(tPos).getBlock().equals(PJOBlocks.LABYRINTH_DOOR)) {
                 connected = false;
-                targetDimension = null;
-                targetPos = null;
+                if (isInLabyrinth) {
+                    targetDimension = null;
+                    targetPos = null;
+                } else {
+                    labyrinthPosition = null;
+                }
                 manager.getDim(tWorldKey).remove(tPos);
                 manager.markDirty();
                 PJO.LOGGER.info("Link broken to " + tPos.toString() + " in " + tWorldKey.getValue().toString());
@@ -253,6 +290,13 @@ public class DoorManager extends PersistentState {
             manager.markDirty();
         }
 
+        /**
+         * Try to connect this door. If in labyrinth, searches overworld, otherwise
+         * searches labyrinth
+         * 
+         * @param server minecraft server door exists on
+         * @return If a connection able to be established
+         */
         public boolean tryConnect(MinecraftServer server) {
             if (labyrinthPosition != null) { // this door is in the labyrinth
                 Mutable posInOverworld = LabyrinthMap.translatePositionFrom(labyrinthPosition);
@@ -260,27 +304,12 @@ public class DoorManager extends PersistentState {
                 ServerWorld world = server.getWorld(World.OVERWORLD);
 
                 if (manager.hasDoor(World.OVERWORLD, posInOverworld.toImmutable())) {
-                    // DoorData other = manager.getDoor(World.OVERWORLD,
-                    // posInOverworld.toImmutable());
-                    // this.targetPos = posInOverworld.toImmutable();
-                    // this.targetDimension = World.OVERWORLD;
-                    // this.connected = true;
-                    // if (other.connected) {
-                    // this.oneWayOut = true;
-                    // manager.markDirty();
-                    // } else {
-                    // manager.putDoor(World.OVERWORLD, posInOverworld.toImmutable(), this);
-                    // }
                     connect(World.OVERWORLD, posInOverworld);
                     return true;
                 } else if (world.getBlockState(posInOverworld).getBlock().equals(PJOBlocks.LABYRINTH_DOOR)) {
                     if (world.getBlockState(posInOverworld).get(DoorBlock.HALF) == DoubleBlockHalf.UPPER) {
                         posInOverworld.setY(posInOverworld.getY() - 1);
                     }
-                    // this.targetPos = posInOverworld.toImmutable();
-                    // this.targetDimension = World.OVERWORLD;
-                    // this.connected = true;
-                    // manager.putDoor(World.OVERWORLD, posInOverworld.toImmutable(), this);
                     connect(World.OVERWORLD, posInOverworld);
                     return true;
                 }
@@ -288,20 +317,6 @@ public class DoorManager extends PersistentState {
                 for (int i = -63; i < 320; i += 1) { // lets try up and down from here
                     BlockPos pos = new BlockPos(posInOverworld.getX(), i, posInOverworld.getZ());
                     if (world.getBlockState(pos).getBlock().equals(PJOBlocks.LABYRINTH_DOOR)) {
-                        // this.targetPos = pos;
-                        // this.targetDimension = World.OVERWORLD;
-                        // this.connected = true;
-                        // if (manager.hasDoor(World.OVERWORLD, pos.toImmutable())) {
-                        // DoorData other = manager.getDoor(World.OVERWORLD, pos.toImmutable());
-                        // if (other.connected) {
-                        // this.oneWayOut = true;
-                        // manager.markDirty();
-                        // } else {
-                        // manager.putDoor(World.OVERWORLD, pos.toImmutable(), this);
-                        // }
-                        // } else {
-                        // manager.putDoor(World.OVERWORLD, pos.toImmutable(), this);
-                        // }
                         connect(World.OVERWORLD, pos);
                         return true;
                     }
@@ -324,25 +339,12 @@ public class DoorManager extends PersistentState {
                 posInLabyrinth.setY(y);
 
                 if (manager.hasDoor(PJODimensions.LABYRINTH, posInLabyrinth.toImmutable())) {
-                    // DoorData other = manager.getDoor(PJODimensions.LABYRINTH,
-                    // posInLabyrinth.toImmutable());
-                    // this.labyrinthPosition = posInLabyrinth.toImmutable();
-                    // this.connected = true;
-                    // if (other.connected) {
-                    // this.oneWayIn = true;
-                    // manager.markDirty();
-                    // } else {
-                    // manager.putDoor(PJODimensions.LABYRINTH, posInLabyrinth.toImmutable(), this);
-                    // }
                     connect(PJODimensions.LABYRINTH, posInLabyrinth);
                     return true;
                 } else if (world.getBlockState(posInLabyrinth).getBlock().equals(PJOBlocks.LABYRINTH_DOOR)) {
                     if (world.getBlockState(posInLabyrinth).get(DoorBlock.HALF) == DoubleBlockHalf.UPPER) {
                         posInLabyrinth.setY(posInLabyrinth.getY() - 1);
                     }
-                    // this.labyrinthPosition = posInLabyrinth.toImmutable();
-                    // this.connected = true;
-                    // manager.putDoor(PJODimensions.LABYRINTH, posInLabyrinth.toImmutable(), this);
                     connect(PJODimensions.LABYRINTH, posInLabyrinth);
                     return true;
                 }
@@ -350,19 +352,6 @@ public class DoorManager extends PersistentState {
                 for (int i = 2; i < 128; i += 8) { // lets try up and down from here
                     BlockPos pos = new BlockPos(posInLabyrinth.getX(), i, posInLabyrinth.getZ());
                     if (world.getBlockState(pos).getBlock().equals(PJOBlocks.LABYRINTH_DOOR)) {
-                        // this.labyrinthPosition = pos;
-                        // this.connected = true;
-                        // if (manager.hasDoor(PJODimensions.LABYRINTH, pos.toImmutable())) {
-                        // DoorData other = manager.getDoor(PJODimensions.LABYRINTH, pos.toImmutable());
-                        // if (other.connected) {
-                        // this.oneWayIn = true;
-                        // manager.markDirty();
-                        // } else {
-                        // manager.putDoor(PJODimensions.LABYRINTH, pos.toImmutable(), this);
-                        // }
-                        // } else {
-                        // manager.putDoor(PJODimensions.LABYRINTH, pos.toImmutable(), this);
-                        // }
                         connect(PJODimensions.LABYRINTH, pos);
                         return true;
                     }
