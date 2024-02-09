@@ -17,6 +17,7 @@ import com.peter.peterspjo.blocks.PJOBlocks;
 import com.peter.peterspjo.entities.PJOEntities;
 import com.peter.peterspjo.items.PJOItems;
 import com.peter.peterspjo.worldgen.UnderworldChunkGenerator;
+import com.peter.peterspjo.worldgen.labyrinth.DoorManager;
 import com.peter.peterspjo.worldgen.labyrinth.LabyrinthChunkGenerator;
 import com.peter.peterspjo.worldgen.labyrinth.LabyrinthMap;
 
@@ -45,6 +46,7 @@ public class PJO implements ModInitializer {
         ServerLifecycleEvents.SERVER_STARTED.register((server) -> {
             PJO.server = server;
             LabyrinthMap.getServerState(server);
+            DoorManager.getServerState(server);
         });
 
 		LOGGER.info("Loaded Peter's PJO");

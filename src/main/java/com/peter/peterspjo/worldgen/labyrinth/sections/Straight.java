@@ -18,6 +18,10 @@ public class Straight extends LabyrinthSection {
     public BlockState sample(int sectionX, int sectionY, int sectionZ, LabyrinthMaterialSet nSet,
             LabyrinthMaterialSet eSet, LabyrinthMaterialSet sSet, LabyrinthMaterialSet wSet, NoiseGenerator noise) {
         int c1 = sectionX;
+
+        if (sectionY < FLOOR_HEIGHT || sectionY > CELLING_HEIGHT) {
+            return DEFAULT_BLOCK.getDefaultState();
+        }
         
         if (orientation == Direction.EAST || orientation == Direction.WEST) {
             c1 = sectionZ;

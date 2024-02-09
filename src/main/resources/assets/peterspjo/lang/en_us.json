@@ -1,6 +1,7 @@
 {
     "itemGroup.peterspjo.main": "Percy Jackson",
     "itemGroup.peterspjo.special_weapons": "Percy Jackson Special Weapons",
+    "itemGroup.peterspjo.dimension_blocks": "Percy Jackson Dimensions",
 
     "item.peterspjo.drachma": "Drachma",
     "item.peterspjo.drachma.tooltip": "Coin of the Gods",
@@ -24,6 +25,8 @@
     
     "block.peterspjo.underworld_sand_dark": "Dark Underworld Sand",
     "block.peterspjo.underworld_sand_dark.tooltip": "",
+
+    "block.peterspjo.labyrinth_door": "Labyrinth Door",
     
     "item.peterspjo.riptide": "Anaklusmos",
     "item.peterspjo.riptide.tooltip": "(Riptide) Some say the pen is mightier than the sword, others have a sword pen",

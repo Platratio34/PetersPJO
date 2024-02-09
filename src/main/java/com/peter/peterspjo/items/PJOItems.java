@@ -1,17 +1,15 @@
 package com.peter.peterspjo.items;
 
 import com.peter.peterspjo.PJO;
-import com.peter.peterspjo.blocks.IronBrazier;
-import com.peter.peterspjo.blocks.PJOBlocks;
-import com.peter.peterspjo.blocks.StoneBrazier;
-import com.peter.peterspjo.blocks.UnderworldSandDarkBlock;
-import com.peter.peterspjo.entities.Empousai;
-import com.peter.peterspjo.entities.Hellhound;
-import com.peter.peterspjo.items.armor.CelestialBronzeArmorMaterial;
+import com.peter.peterspjo.blocks.*;
+import com.peter.peterspjo.blocks.fluids.*;
+import com.peter.peterspjo.entities.*;
+import com.peter.peterspjo.items.armor.*;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.BucketItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.registry.Registries;
@@ -40,8 +38,12 @@ public class PJOItems {
     public static final BlockItem IRON_BRAZIER = IronBrazier.ITEM;
     public static final BlockItem STONE_BRAZIER = StoneBrazier.ITEM;
 
+    public static final BlockItem LABYRINTH_DOOR = LabyrinthDoor.ITEM;
+
     public static final SpawnEggItem EMPOUSAI_SPAWN_EGG = Empousai.EGG;
     public static final SpawnEggItem HELLHOUND_SPAWN_EGG = Hellhound.EGG;
+
+    public static final BucketItem STYX_BUCKET = StyxWater.BUCKET;
 
     public static void init() {
         Registry.register(Registries.ITEM, DRACHMA_ID, DRACHMA);

@@ -18,6 +18,8 @@ import net.minecraft.world.World;
 
 public class LabyrinthMap extends PersistentState {
 
+    private static final String NAME = "labyrinth_map";
+
     private static LabyrinthMap map;
 
     private MapLayer[] layers = new MapLayer[16];
@@ -42,14 +44,11 @@ public class LabyrinthMap extends PersistentState {
         return state;
     }
 
-    // private static Type<LabyrinthMap> type = new Type<>(LabyrinthMap::new,
-    // LabyrinthMap::createFromNbt, null);
-
     public static LabyrinthMap getServerState(MinecraftServer server) {
         PersistentStateManager persistentStateManager = server.getWorld(World.OVERWORLD).getPersistentStateManager();
-        LabyrinthMap state = persistentStateManager.getOrCreate(LabyrinthMap::createFromNbt, LabyrinthMap::new,
-                PJO.NAMESPACE);
+        LabyrinthMap state = persistentStateManager.getOrCreate(LabyrinthMap::createFromNbt, LabyrinthMap::new, NAME);
         map = state;
+        state.markDirty();
         return state;
     }
 

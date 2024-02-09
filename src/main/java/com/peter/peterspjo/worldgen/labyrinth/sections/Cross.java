@@ -22,13 +22,17 @@ public class Cross extends LabyrinthSection {
         boolean rand = isRand(sectionX, sectionY, sectionZ, noise);
         LabyrinthMaterialSet useSet = getMaterialSet(sectionX, sectionY, sectionZ, nSet, eSet, sSet, wSet);
 
-        if ((sectionX < CORRIDOR_N_MIN || sectionX > CORRIDOR_N_MAX)
-                && (sectionZ < CORRIDOR_N_MIN || sectionZ > CORRIDOR_N_MAX)) {
+        if ((sectionX > CORRIDOR_N_MIN && sectionX < CORRIDOR_N_MAX)
+                && (sectionZ > CORRIDOR_N_MIN && sectionZ < CORRIDOR_N_MAX)) {
             if (sectionY == CELLING_HEIGHT + 1) {
                 return useSet.getCelling(rand).getDefaultState();
-            } else if (sectionY == CELLING_HEIGHT) {
+            } else if (sectionY == CELLING_HEIGHT) {    
                 return DEFAULT_AIR.getDefaultState();
             }
+        }
+
+        if (sectionY < FLOOR_HEIGHT || sectionY > CELLING_HEIGHT) {
+            return DEFAULT_BLOCK.getDefaultState();
         }
 
         if ((sectionX < CORRIDOR_N_MIN || sectionX > CORRIDOR_N_MAX)

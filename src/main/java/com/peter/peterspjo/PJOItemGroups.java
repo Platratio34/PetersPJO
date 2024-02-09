@@ -41,9 +41,21 @@ public class PJOItemGroups {
             })
             .build();
     public static final Identifier SPECIAL_WEAPONS_ID = new Identifier(PJO.NAMESPACE, "special_weapons");
+
+    public static final ItemGroup DIMENSION_BLOCKS = FabricItemGroup.builder()
+            .icon(() -> new ItemStack(PJOItems.RIPTIDE))
+            .displayName(Text.translatable("itemGroup.peterspjo.dimension_blocks"))
+            .entries((context, entries) -> {
+                entries.add(PJOItems.UNDERWORLD_SAND_DARK);
+                entries.add(PJOItems.STYX_BUCKET);
+                entries.add(PJOItems.LABYRINTH_DOOR);
+            })
+            .build();
+    public static final Identifier DIMENSION_BLOCKS_ID = new Identifier(PJO.NAMESPACE, "dimension_blocks");
     
     public static void init() {
         Registry.register(Registries.ITEM_GROUP, MAIN_ID, MAIN);
         Registry.register(Registries.ITEM_GROUP, SPECIAL_WEAPONS_ID, SPECIAL_WEAPONS);
+        Registry.register(Registries.ITEM_GROUP, DIMENSION_BLOCKS_ID, DIMENSION_BLOCKS);
     }
 }

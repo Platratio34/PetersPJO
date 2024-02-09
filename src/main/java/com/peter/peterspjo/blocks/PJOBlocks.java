@@ -25,6 +25,8 @@ public class PJOBlocks {
     public static final Block UNDERWORLD_SAND_DARK = UnderworldSandDarkBlock.BLOCK;
     public static final Block IRON_BRAZIER = IronBrazier.BLOCK;
     public static final Block STONE_BRAZIER = StoneBrazier.BLOCK;
+
+    public static final Block LABYRINTH_DOOR = LabyrinthDoor.BLOCK;
     
     public static final FluidBlock STYX_WATER = StyxWater.BLOCK;
     

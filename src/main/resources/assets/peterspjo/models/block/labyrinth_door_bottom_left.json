@@ -1,0 +1,7 @@
+{
+    "parent": "minecraft:block/door_bottom_left",
+    "textures": {
+      "bottom": "peterspjo:block/labyrinth_door_bottom",
+      "top": "peterspjo:block/labyrinth_door_top"
+    }
+  }
