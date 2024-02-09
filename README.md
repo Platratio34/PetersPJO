@@ -153,8 +153,8 @@ Things will go here
     <summary>Battle of the Labyrinth</summary>
 
 > #### The Labyrinth
-> - [ ] Dimension
-> - [ ] Dimension gen
+> - [x] Dimension
+> - [x] Dimension gen
 > - [ ] Entrances
 > - [x] Stone type
 > - [x] Cobblestone type
@@ -166,7 +166,7 @@ Things will go here
 > - [ ] Corner corridor section
 > - [ ] T corridor section
 > - [ ] End corridor section
-> - [ ] Straight corridor with room section
+> - [x] Straight corridor with room section
 > - [ ] Cross corridor with room section
 > - [ ] Corner corridor with room section
 > - [ ] T corridor with room section
