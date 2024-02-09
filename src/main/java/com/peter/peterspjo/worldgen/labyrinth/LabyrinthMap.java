@@ -9,6 +9,8 @@ import com.peter.peterspjo.worldgen.labyrinth.sections.LabyrinthSection;
 
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockPos.Mutable;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
@@ -121,7 +123,7 @@ public class LabyrinthMap extends PersistentState {
         public LabyrinthSection get(ChunkPos pos) {
             LabyrinthSection section = layer.get(pos);
             if (section == null)
-                PJO.LOGGER.error("Tried to get labyrinth section for "+pos.toString()+" but was null");
+                PJO.LOGGER.error("Tried to get labyrinth section for " + pos.toString() + " but was null");
             return section;
         }
 
@@ -130,4 +132,11 @@ public class LabyrinthMap extends PersistentState {
         }
     }
 
+    public static Mutable translatePositionTo(BlockPos pos) {
+        return new Mutable(pos.getX() / 16, pos.getY(), pos.getZ() / 16);
+    }
+
+    public static Mutable translatePositionFrom(BlockPos pos) {
+        return new Mutable(pos.getX() * 16, pos.getY(), pos.getZ() * 16);
+    }
 }
