@@ -1,0 +1,11 @@
+{
+    "type": "peterspjo:labyrinth",
+    "generator": {
+        "type": "peterspjo:labyrinth",
+        "settings": "minecraft:nether",
+        "biome_source": {
+            "type": "fixed",
+            "biome": "peterspjo:labyrinth"
+        }
+    }
+}

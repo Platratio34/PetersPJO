@@ -71,10 +71,10 @@ public abstract class LabyrinthSection {
      * @param sectionX x (south positive) coordinate
      * @param sectionY y (up positive) coordinate
      * @param sectionZ z (east positive) coordinate
-     * @param nSet     material set for section to the north (-x)
-     * @param eSet     material set for section to the east (+z)
-     * @param sSet     material set for section to the south (+x)
-     * @param wSet     material set for section to the west (-z)
+     * @param nSet     material set for section to the north (-z)
+     * @param eSet     material set for section to the east (+x)
+     * @param sSet     material set for section to the south (+z)
+     * @param wSet     material set for section to the west (-x)
      * @return block state at location
      */
     public abstract BlockState sample(int sectionX, int sectionY, int sectionZ, LabyrinthMaterialSet nSet,
@@ -88,20 +88,20 @@ public abstract class LabyrinthSection {
             LabyrinthMaterialSet eSet, LabyrinthMaterialSet sSet, LabyrinthMaterialSet wSet) {
 
         if (sectionX == 0) {
-            if (sectionY % 2 == 0 && sectionZ % 2 == 0) {
-                return nSet;
+            if (sectionY % 2 == sectionZ % 2) {
+                return wSet;
             }
         } else if (sectionX == 15) {
-            if (sectionY % 2 == 0 && sectionZ % 2 == 0) {
-                return sSet;
+            if (sectionY % 2 == sectionZ % 2) {
+                return wSet;
             }
         } else if (sectionZ == 0) {
-            if (sectionY % 2 == 0 && sectionX % 2 == 0) {
-                return eSet;
+            if (sectionY % 2 == sectionX % 2) {
+                return nSet;
             }
         } else if (sectionZ == 15) {
-            if (sectionY % 2 == 0 && sectionX % 2 == 0) {
-                return wSet;
+            if (sectionY % 2 == sectionX % 2) {
+                return sSet;
             }
         }
         return set;
@@ -144,8 +144,28 @@ public abstract class LabyrinthSection {
         }
     }
 
-    public static final Function<Direction, LabyrinthSection> STRAIGHT = Straight::new;
-    public static final Function<Direction, LabyrinthSection> CROSS = Cross::new;
+    public static final SectionGen STRAIGHT = new SectionGen(Straight::new);
+    public static final SectionGen STRAIGHT_ROOM = new SectionGen(StraightRoom::new);
+    public static final SectionGen CROSS = new SectionGen(Cross::new);
+
+    public static final SectionGen[] SECTIONS = {
+            STRAIGHT,
+            STRAIGHT_ROOM,
+            CROSS,
+    };
+
+    public static class SectionGen {
+
+        private Function<Direction, LabyrinthSection> func;
+
+        public SectionGen(Function<Direction, LabyrinthSection> func) {
+            this.func = func;
+        }
+
+        public LabyrinthSection gen(Direction orientation) {
+            return func.apply(orientation);
+        }
+    }
 
     public static enum ConnectionType {
         WALL,

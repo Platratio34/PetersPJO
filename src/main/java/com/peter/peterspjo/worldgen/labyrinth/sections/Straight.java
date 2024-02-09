@@ -34,7 +34,7 @@ public class Straight extends LabyrinthSection {
             return useSet.getFloor(rand).getDefaultState();
         } else if (sectionY == CELLING_HEIGHT) {
             return useSet.getCelling(rand).getDefaultState();
-        } else if (sectionY > FLOOR_HEIGHT || sectionY < CELLING_HEIGHT) {
+        } else if (sectionY > FLOOR_HEIGHT && sectionY < CELLING_HEIGHT) {
             return DEFAULT_AIR.getDefaultState();
         }
 

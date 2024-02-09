@@ -137,7 +137,7 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
                 set.add(chunkSection);
             }
 
-            return CompletableFuture.supplyAsync(Util.debugSupplier("wgen_fill_noise", () -> {
+            return CompletableFuture.supplyAsync(Util.debugSupplier("wgen_fill_underworld", () -> {
                 return this.populateNoise(blender, structureAccessor, noiseConfig, chunk, j, k);
             }), Util.getMainWorkerExecutor()).whenCompleteAsync((chunkx, throwable) -> {
                 Iterator var3 = set.iterator();

@@ -8,4 +8,6 @@ import net.minecraft.util.Identifier;
 public class PJODamageTypes {
 
     public static final RegistryKey<DamageType> STYX = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, new Identifier(PJO.NAMESPACE, "styx"));
+
+	public static final RegistryKey<DamageType> CELESTIAL_DAMAGE_TYPE = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, new Identifier(PJO.NAMESPACE, "celestial"));
 }

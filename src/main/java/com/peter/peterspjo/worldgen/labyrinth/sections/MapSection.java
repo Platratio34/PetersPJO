@@ -48,12 +48,13 @@ public class MapSection extends LabyrinthSection {
                 x = sectionZ;
                 z = 15 - sectionX;
                 break;
-        
+
             default:
                 break;
         }
+        
 
-        int bt = map[z][sectionZ][x];
+        int bt = map[sectionY][z][x];
         switch (bt) {
             case AIR:
                 return DEFAULT_AIR.getDefaultState();
