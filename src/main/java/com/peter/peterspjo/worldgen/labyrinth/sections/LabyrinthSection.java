@@ -31,7 +31,7 @@ public abstract class LabyrinthSection {
     /** ID of labyrinth section. <b>MUST BE UNIQUE</b>. Used for storage */
     public final String id;
 
-    /** Connection types, ordered: north, east, south, west */
+    /** Connection types, ordered: north, east, south, west, up, down */
     public final ConnectionType[] connections;
 
     /** Orientation of section */
@@ -64,11 +64,11 @@ public abstract class LabyrinthSection {
             case NORTH:
                 return connections;
             case EAST:
-                return new ConnectionType[] { connections[1], connections[2], connections[3], connections[0] };
+                return new ConnectionType[] { connections[1], connections[2], connections[3], connections[0], connections[4], connections[5] };
             case SOUTH:
-                return new ConnectionType[] { connections[2], connections[3], connections[0], connections[1] };
+                return new ConnectionType[] { connections[2], connections[3], connections[0], connections[1], connections[4], connections[5] };
             case WEST:
-                return new ConnectionType[] { connections[3], connections[0], connections[1], connections[2] };
+                return new ConnectionType[] { connections[3], connections[0], connections[1], connections[2], connections[4], connections[5] };
 
             default:
                 return connections;
@@ -212,12 +212,14 @@ public abstract class LabyrinthSection {
     public static final SectionGen STRAIGHT = new SectionGen(Straight::new);
     public static final SectionGen STRAIGHT_ROOM = new SectionGen(StraightRoom::new);
     public static final SectionGen CROSS = new SectionGen(Cross::new);
+    public static final SectionGen CROSS_ROOM = new SectionGen(CrossRoom::new);
 
     /** All sections used in generation */
     public static final SectionGen[] SECTIONS = {
             STRAIGHT,
             STRAIGHT_ROOM,
             CROSS,
+            CROSS_ROOM,
     };
 
     /** Map of sections by type IDs */
