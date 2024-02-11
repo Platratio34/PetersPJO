@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.function.BiFunction;
 
 import com.peter.peterspjo.util.NoiseGenerator;
+import com.peter.peterspjo.worldgen.labyrinth.LabyrinthMap;
 import com.peter.peterspjo.worldgen.labyrinth.LabyrinthMaterials;
 import com.peter.peterspjo.worldgen.labyrinth.LabyrinthMaterials.LabyrinthMaterialSet;
 
@@ -11,6 +12,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Direction;
 
 public abstract class LabyrinthSection {
@@ -226,6 +228,10 @@ public abstract class LabyrinthSection {
         }
     }
 
+    public boolean canPlace(ChunkPos pos, int yIndex, LabyrinthMap map) {
+        return true;
+    }
+
     /**
      * Convert this section into an NBT compound that can be stored.<br><br>
      * Contains section type ID, orientation, and material set ID
@@ -258,6 +264,8 @@ public abstract class LabyrinthSection {
     public static final SectionGen STRAIGHT_ROOM = new SectionGen(StraightRoom::new);
     public static final SectionGen CROSS = new SectionGen(Cross::new);
     public static final SectionGen CROSS_ROOM = new SectionGen(CrossRoom::new);
+    public static final SectionGen CROSS_ROOM_UP = new SectionGen(CrossRoomUp::new);
+    public static final SectionGen CROSS_ROOM_DOWN = new SectionGen(CrossRoomDown::new);
 
     /** All sections used in generation */
     public static final SectionGen[] SECTIONS = {
@@ -265,6 +273,8 @@ public abstract class LabyrinthSection {
             STRAIGHT_ROOM,
             CROSS,
             CROSS_ROOM,
+            CROSS_ROOM_UP,
+            CROSS_ROOM_DOWN,
     };
 
     /** Map of sections by type IDs */
@@ -305,6 +315,7 @@ public abstract class LabyrinthSection {
          * @see LabyrinthSection#CORRIDOR_N_MIN
          * @see LabyrinthSection#CORRIDOR_N_MAX
         */
-        CORRIDOR_NARROW
+        CORRIDOR_NARROW,
+        VERTICAL_NARROW,
     }
 }

@@ -96,7 +96,7 @@ public class LabyrinthMap extends PersistentState {
         if (chunkPos.x == 0 && chunkPos.z == 0) { // if this is the origin chunk, always make it cross room
             LabyrinthSection section = LabyrinthSection.CROSS_ROOM.gen(Direction.NORTH, LabyrinthMaterials.DEFAULT);
             layers[yIndex].set(chunkPos, section);
-            PJO.LOGGER.info("Generated section default for labyrinth @ " + chunkPos.toString() + ", y index " + yIndex);
+            // PJO.LOGGER.info("Generated section default for labyrinth @ " + chunkPos.toString() + ", y index " + yIndex);
             return section;
         }
         // check if pre-req chunks have already been generated
@@ -149,28 +149,33 @@ public class LabyrinthMap extends PersistentState {
         final int maxIterations = (4 * LabyrinthSection.SECTIONS.length) + 2;
         while (!valid) {
             iterationCounter++;
-            if (yIndex > 0) {
-                if (layers[yIndex - 1].get(chunkPos).canConnectCorridor(section, Direction.DOWN)) {
-                    valid = true;
-                }
-            }
             if (chunkPos.z > 0) {
-                if (layers[yIndex].get(zN).canConnectCorridor(section, Direction.DOWN)) {
+                if (layers[yIndex].get(zN).canConnectCorridor(section, Direction.SOUTH)) {
                     valid = true;
                 }
             } else if (chunkPos.z < 0) {
-                if (layers[yIndex].get(zP).canConnectCorridor(section, Direction.DOWN)) {
+                if (layers[yIndex].get(zP).canConnectCorridor(section, Direction.NORTH)) {
                     valid = true;
                 }
             }
             if (chunkPos.x > 0) {
-                if (layers[yIndex].get(xN).canConnectCorridor(section, Direction.DOWN)) {
+                if (layers[yIndex].get(xN).canConnectCorridor(section, Direction.EAST)) {
                     valid = true;
                 }
             } else if (chunkPos.x < 0) {
-                if (layers[yIndex].get(xP).canConnectCorridor(section, Direction.DOWN)) {
+                if (layers[yIndex].get(xP).canConnectCorridor(section, Direction.WEST)) {
                     valid = true;
                 }
+            }
+            if (yIndex > 0) {
+                if (layers[yIndex - 1].get(chunkPos).canConnectCorridor(section, Direction.UP)) {
+                    valid = true;
+                } else if (!layers[yIndex - 1].get(chunkPos).canConnect(section, Direction.UP)) {
+                    valid = false;
+                }
+            }
+            if (valid && !section.canPlace(chunkPos, yIndex, this)) {
+                valid = false;
             }
             if (!valid) {
                 dirIndex++;
@@ -198,7 +203,7 @@ public class LabyrinthMap extends PersistentState {
             }
         }
         // if (iterationCounter > 0) {
-            PJO.LOGGER.info("Generated section for labyrinth @ " + chunkPos.toString() + ", y index " + yIndex);
+            // PJO.LOGGER.info("Generated section for labyrinth @ " + chunkPos.toString() + ", y index " + yIndex);
         // }
         // section.set = LabyrinthMaterials.DEFAULT;
         layers[yIndex].set(chunkPos, section);
