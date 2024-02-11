@@ -41,8 +41,6 @@ Things will go here
 #### Special Weapons
 - [x] Riptide
 - [ ] Back-biter
-- [ ] Stygian Iron Sword
-- [ ] Throwable blue plastic hairbrush
 
 ### Armor
 - [x] Celestial Bronze
@@ -176,6 +174,10 @@ Things will go here
 > - [x] [Empousai](https://riordan.fandom.com/wiki/Empousa)
 > - [ ] [Telekhines](https://riordan.fandom.com/wiki/Telekhine)
 > - [ ] [Sphinx](https://riordan.fandom.com/wiki/Sphinx)
+> 
+> #### Special Weapons
+> - [ ] Stygian Iron Sword
+> - [ ] Throwable blue plastic hairbrush
 
 </details>
 
