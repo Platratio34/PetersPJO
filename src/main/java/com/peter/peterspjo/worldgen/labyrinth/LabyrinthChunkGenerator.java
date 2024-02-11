@@ -11,8 +11,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.peter.peterspjo.PJO;
 import com.peter.peterspjo.util.NoiseGenerator;
-import com.peter.peterspjo.worldgen.UnderworldBiomeSource;
-import com.peter.peterspjo.worldgen.UnderworldChunkGenerator;
 import com.peter.peterspjo.worldgen.labyrinth.LabyrinthMaterials.LabyrinthMaterialSet;
 import com.peter.peterspjo.worldgen.labyrinth.sections.LabyrinthSection;
 

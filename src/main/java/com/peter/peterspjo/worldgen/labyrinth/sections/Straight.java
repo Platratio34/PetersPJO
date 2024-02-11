@@ -8,10 +8,12 @@ import net.minecraft.util.math.Direction;
 
 public class Straight extends LabyrinthSection {
 
-    public Straight(Direction orientation) {
-        super(orientation);
-        connections = new ConnectionType[] { ConnectionType.CORRIDOR_NARROW, ConnectionType.WALL,
-                ConnectionType.CORRIDOR_NARROW, ConnectionType.WALL };
+    private static final String ID = "straight";
+    private static final ConnectionType[] CONNECTIONS = { ConnectionType.CORRIDOR_NARROW, ConnectionType.WALL,
+            ConnectionType.CORRIDOR_NARROW, ConnectionType.WALL };
+
+    public Straight(Direction orientation, LabyrinthMaterialSet set) {
+        super(ID, CONNECTIONS, orientation, set);
     }
 
     @Override

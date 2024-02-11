@@ -8,11 +8,12 @@ import net.minecraft.util.math.Direction;
 
 public class Cross extends LabyrinthSection {
 
-    public Cross(Direction orientation) {
-        super(orientation);
-        connections = new ConnectionType[] { ConnectionType.CORRIDOR_NARROW, ConnectionType.CORRIDOR_NARROW,
-                ConnectionType.CORRIDOR_NARROW,
-                ConnectionType.CORRIDOR_NARROW };
+    private static final String ID = "straight";
+    private static final ConnectionType[] CONNECTIONS = { ConnectionType.CORRIDOR_NARROW,
+            ConnectionType.CORRIDOR_NARROW, ConnectionType.CORRIDOR_NARROW, ConnectionType.CORRIDOR_NARROW };
+
+    public Cross(Direction orientation, LabyrinthMaterialSet set) {
+        super(ID, CONNECTIONS, orientation, set);
     }
 
     @Override

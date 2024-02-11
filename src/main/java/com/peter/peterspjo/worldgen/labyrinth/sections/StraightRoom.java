@@ -1,5 +1,7 @@
 package com.peter.peterspjo.worldgen.labyrinth.sections;
 
+import com.peter.peterspjo.worldgen.labyrinth.LabyrinthMaterials.LabyrinthMaterialSet;
+
 import net.minecraft.util.math.Direction;
 
 public class StraightRoom extends MapSection {
@@ -151,11 +153,12 @@ public class StraightRoom extends MapSection {
         },
     };
 
+    private static final String ID = "straight_room";
     public static final ConnectionType[] CONNECTIONS = { ConnectionType.CORRIDOR_NARROW, ConnectionType.WALL,
             ConnectionType.CORRIDOR_NARROW, ConnectionType.WALL };
 
-    public StraightRoom(Direction orientation) {
-        super(orientation, MAP, CONNECTIONS);
+    public StraightRoom(Direction orientation, LabyrinthMaterialSet set) {
+        super(MAP, ID, CONNECTIONS, orientation, set);
     }
 
 }

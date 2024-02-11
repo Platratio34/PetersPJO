@@ -8,20 +8,34 @@ import net.minecraft.util.math.Direction;
 
 public class MapSection extends LabyrinthSection {
 
+    /** Map value for air blocks */
     public static final int AIR = 0;
+    /** Map value for solid (fill) blocks */
     public static final int SOLID = 1;
+    /** Map value for floor blocks */
     public static final int FLOOR = 2;
+    /** Map value for wall blocks */
     public static final int WALL = 3;
+    /** Map value for celling blocks */
     public static final int CELLING = 4;
+    /** Map value for accent blocks */
     public static final int ACCENT = 5;
+    /** Map value for light blocks */
     public static final int LIGHT = 6;
 
     protected int[][][] map;
 
-    public MapSection(Direction orientation, int[][][] map, ConnectionType[] connections) {
-        super(orientation);
+    /**
+     * Create a new map based section
+     * @param map map of block types. North oriented
+     * @param id map ID <b>MUST BE UNIQUE TO TYPE</b>
+     * @param connections connection map for section
+     * @param orientation orientation of section instance
+     * @param set material set for section instance
+     */
+    public MapSection(int[][][] map, String id, ConnectionType[] connections, Direction orientation, LabyrinthMaterialSet set) {
+        super(id, connections, orientation, set);
         this.map = map;
-        this.connections = connections;
     }
 
     @Override

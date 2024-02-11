@@ -1,6 +1,8 @@
 package com.peter.peterspjo.worldgen.labyrinth.sections;
 
-import com.google.common.base.Function;
+import java.util.HashMap;
+import java.util.function.BiFunction;
+
 import com.peter.peterspjo.util.NoiseGenerator;
 import com.peter.peterspjo.worldgen.labyrinth.LabyrinthMaterials;
 import com.peter.peterspjo.worldgen.labyrinth.LabyrinthMaterials.LabyrinthMaterialSet;
@@ -8,6 +10,7 @@ import com.peter.peterspjo.worldgen.labyrinth.LabyrinthMaterials.LabyrinthMateri
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.Direction;
 
 public abstract class LabyrinthSection {
@@ -16,22 +19,38 @@ public abstract class LabyrinthSection {
     public static final Block DEFAULT_AIR = Blocks.AIR;
     public static final Block DEFAULT_LIGHT = Blocks.LANTERN;
 
+    /** Normal floor block y */
     public static final int FLOOR_HEIGHT = 1;
+    /** Normal celling block y */
     public static final int CELLING_HEIGHT = 5;
+    /** Narrow corridor wall block for minimum x and or z */
     public static final int CORRIDOR_N_MIN = 6;
+    /** Narrow corridor wall block for maximum x and or z */
     public static final int CORRIDOR_N_MAX = 9;
 
+    /** ID of labyrinth section. <b>MUST BE UNIQUE</b>. Used for storage */
+    public final String id;
+
     /** Connection types, ordered: north, east, south, west */
-    protected ConnectionType[] connections = { ConnectionType.WALL, ConnectionType.WALL, ConnectionType.WALL,
-            ConnectionType.WALL };
+    public final ConnectionType[] connections;
 
     /** Orientation of section */
-    protected Direction orientation;
+    public final Direction orientation;
     /** Material set for section */
-    public LabyrinthMaterialSet set = LabyrinthMaterials.DEFAULT;
+    public final LabyrinthMaterialSet set;
 
-    public LabyrinthSection(Direction orientation) {
+    /**
+     * Initialism the labyrinth section, setting ID, connections, and orientation
+     * @param id ID of section type
+     * @param connections section connections
+     * @param orientation orientation of section instance
+     * @param set material set for section instance
+     */
+    public LabyrinthSection(String id, ConnectionType[] connections, Direction orientation, LabyrinthMaterialSet set) {
+        this.id = id;
+        this.connections = connections;
         this.orientation = orientation;
+        this.set = set;
     }
 
     /**
@@ -68,9 +87,9 @@ public abstract class LabyrinthSection {
     /**
      * Get the block at location within the section
      * 
-     * @param sectionX x (south positive) coordinate
+     * @param sectionX x (east positive) coordinate
      * @param sectionY y (up positive) coordinate
-     * @param sectionZ z (east positive) coordinate
+     * @param sectionZ z (south positive) coordinate
      * @param nSet     material set for section to the north (-z)
      * @param eSet     material set for section to the east (+x)
      * @param sSet     material set for section to the south (+z)
@@ -81,10 +100,29 @@ public abstract class LabyrinthSection {
     public abstract BlockState sample(int sectionX, int sectionY, int sectionZ, LabyrinthMaterialSet nSet,
             LabyrinthMaterialSet eSet, LabyrinthMaterialSet sSet, LabyrinthMaterialSet wSet, NoiseGenerator noise);
 
+    /**
+     * Returns if the given location should have the random replace block of the material set
+     * @param sectionX x (east positive) coordinate
+     * @param sectionY y (up positive) coordinate
+     * @param sectionZ z (south positive) coordinate
+     * @param noise random noise generator for random replacement
+     * @return If the block should be the random replace block
+     */
     protected boolean isRand(int sectionX, int sectionY, int sectionZ, NoiseGenerator noise) {
         return noise.noise(sectionX * 2, sectionY * 2, sectionZ * 2) > 0.2;
     }
 
+    /**
+     * Gets the material set for a specific block, blending between sections
+     * @param sectionX x (east positive) coordinate
+     * @param sectionY y (up positive) coordinate
+     * @param sectionZ z (south positive) coordinate
+     * @param nSet     material set for section to the north (-z)
+     * @param eSet     material set for section to the east (+x)
+     * @param sSet     material set for section to the south (+z)
+     * @param wSet     material set for section to the west (-x)
+     * @return Material set to use for specific block, blending between sections
+     */
     protected LabyrinthMaterialSet getMaterialSet(int sectionX, int sectionY, int sectionZ, LabyrinthMaterialSet nSet,
             LabyrinthMaterialSet eSet, LabyrinthMaterialSet sSet, LabyrinthMaterialSet wSet) {
 
@@ -145,31 +183,80 @@ public abstract class LabyrinthSection {
         }
     }
 
+    /**
+     * Convert this section into an NBT compound that can be stored.<br><br>
+     * Contains section type ID, orientation, and material set ID
+     * @return NBT representing the section
+     */
+    public NbtCompound toNbt() {
+        NbtCompound nbt = new NbtCompound();
+        nbt.putString("id", id);
+        nbt.putInt("dir", orientation.getId());
+        nbt.putString("set", set.id);
+        return nbt;
+    }
+
+    /**
+     * Create a new labyrinth section from NBT written by the {@link #toNbt()}
+     * @param nbt NBT data to create a section from
+     * @return Section created from NBT data
+     * @see #toNbt()
+     */
+    public static LabyrinthSection sectionFromNbt(NbtCompound nbt) {
+        Direction direction = Direction.byId(nbt.getInt("dir"));
+        LabyrinthMaterialSet set = LabyrinthMaterials.MATERIALS_BY_ID.get(nbt.getString("set"));
+        LabyrinthSection section = SECTIONS_BY_ID.get(nbt.getString("id")).gen(direction, set);
+        return section;
+    }
+
     public static final SectionGen STRAIGHT = new SectionGen(Straight::new);
     public static final SectionGen STRAIGHT_ROOM = new SectionGen(StraightRoom::new);
     public static final SectionGen CROSS = new SectionGen(Cross::new);
 
+    /** All sections used in generation */
     public static final SectionGen[] SECTIONS = {
             STRAIGHT,
             STRAIGHT_ROOM,
             CROSS,
     };
 
-    public static class SectionGen {
+    /** Map of sections by type IDs */
+    public static final HashMap<String, SectionGen> SECTIONS_BY_ID = new HashMap<String, SectionGen>();
 
-        private Function<Direction, LabyrinthSection> func;
-
-        public SectionGen(Function<Direction, LabyrinthSection> func) {
-            this.func = func;
-        }
-
-        public LabyrinthSection gen(Direction orientation) {
-            return func.apply(orientation);
+    static {
+        for (int i = 0; i < SECTIONS.length; i++) {
+            SECTIONS_BY_ID.put(SECTIONS[i].gen(null,null).id, SECTIONS[i]);
         }
     }
 
+    public static class SectionGen {
+
+        private BiFunction<Direction, LabyrinthMaterialSet, LabyrinthSection> func;
+
+        public SectionGen(BiFunction<Direction, LabyrinthMaterialSet, LabyrinthSection> func) {
+            this.func = func;
+        }
+
+        /**
+         * Generate a new section of this type
+         * @param orientation orientation of section
+         * @param set material set for section
+         * @return New section
+         */
+        public LabyrinthSection gen(Direction orientation, LabyrinthMaterialSet set) {
+            return func.apply(orientation, set);
+        }
+    }
+
+    /** Connection type for labyrinth sections */
     public static enum ConnectionType {
+        /** Full solid wall */
         WALL,
+        /** 
+         * Narrow corridor (2 block wide at standard height)
+         * @see LabyrinthSection#CORRIDOR_N_MIN
+         * @see LabyrinthSection#CORRIDOR_N_MAX
+        */
         CORRIDOR_NARROW
     }
 }

@@ -94,7 +94,7 @@ public class DoorManager extends PersistentState {
     /**
      * Get the current door manager
      * 
-     * @return door manager
+     * @return Door manager
      */
     public static DoorManager get() {
         return manager;
@@ -134,7 +134,7 @@ public class DoorManager extends PersistentState {
      * 
      * @param worldKey world door is in
      * @param pos      position of bottom of door
-     * @return Door or null if not present
+     * @return Door at location
      */
     public DoorData getOrCreateDoor(RegistryKey<World> worldKey, BlockPos pos) {
         HashMap<BlockPos, DoorData> map = getDim(worldKey);
@@ -174,6 +174,7 @@ public class DoorManager extends PersistentState {
         return new BlockPos(array[0], array[1], array[2]);
     }
 
+    /** Data storage object for labyrinth doors */
     public static class DoorData {
 
         protected BlockPos labyrinthPosition;
@@ -217,11 +218,6 @@ public class DoorManager extends PersistentState {
                 nbt.put("tPos", posToNbt(targetPos));
             nbt.putBoolean("con", connected);
             return nbt;
-        }
-
-        public ServerWorld getTargetWorld(World world) {
-            MinecraftServer server = world.getServer();
-            return server.getWorld(targetDimension);
         }
 
         /**

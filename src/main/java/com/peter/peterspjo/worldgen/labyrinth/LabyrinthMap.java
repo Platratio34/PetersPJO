@@ -26,7 +26,7 @@ public class LabyrinthMap extends PersistentState {
 
     private MapLayer[] layers = new MapLayer[16];
 
-    private Lock locker = new ReentrantLock();
+    private Lock mapLocker = new ReentrantLock();
 
     private LabyrinthMap() {
         for (int i = 0; i < 16; i++) {
@@ -74,7 +74,7 @@ public class LabyrinthMap extends PersistentState {
         int yIndex = y / 8;
         MapLayer layer = layers[yIndex];
         LabyrinthSection section = null;
-        locker.lock();
+        mapLocker.lock();
         try {
             if (layer.has(chunkPos)) {
                 section = layer.get(chunkPos);
@@ -86,7 +86,7 @@ public class LabyrinthMap extends PersistentState {
             PJO.LOGGER.error("Could not get section for " + chunkPos.toString() + " at y=" + y);
             PJO.LOGGER.error(e.toString());
         } finally {
-            locker.unlock();
+            mapLocker.unlock();
         }
         return section;
     }
@@ -113,13 +113,10 @@ public class LabyrinthMap extends PersistentState {
 
             default:
                 break;
-        }
+        }String matSetId = LabyrinthMaterials.WEIGHTED_MATERIAL_ID[random.nextBetween(0,
+        LabyrinthMaterials.WEIGHTED_MATERIAL_ID.length - 1)];
         LabyrinthSection section = LabyrinthSection.SECTIONS[random.nextBetween(0,
-                LabyrinthSection.SECTIONS.length - 1)].gen(orientation);
-
-        int matSetIndex = LabyrinthMaterials.WEIGHTED_MATERIAL_INDEXES[random.nextBetween(0,
-                LabyrinthMaterials.WEIGHTED_MATERIAL_INDEXES.length - 1)];
-        section.set = LabyrinthMaterials.MATERIALS[matSetIndex];
+                LabyrinthSection.SECTIONS.length - 1)].gen(orientation, LabyrinthMaterials.MATERIALS_BY_ID.get(matSetId));
         // section.set = LabyrinthMaterials.DEFAULT;
         layers[yIndex].set(chunkPos, section);
         return section;
