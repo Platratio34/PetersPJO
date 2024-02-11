@@ -164,6 +164,6 @@ public class CrossRoomUp extends MapSection {
 
     @Override
     public boolean canPlace(ChunkPos pos, int yIndex, LabyrinthMap map) {
-        return yIndex < 16;
+        return yIndex < 15;
     }
 }

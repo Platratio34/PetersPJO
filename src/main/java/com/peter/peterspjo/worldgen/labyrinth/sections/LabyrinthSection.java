@@ -43,10 +43,11 @@ public abstract class LabyrinthSection {
 
     /**
      * Initialism the labyrinth section, setting ID, connections, and orientation
-     * @param id ID of section type
+     * 
+     * @param id          ID of section type
      * @param connections section connections
      * @param orientation orientation of section instance
-     * @param set material set for section instance
+     * @param set         material set for section instance
      */
     public LabyrinthSection(String id, ConnectionType[] connections, Direction orientation, LabyrinthMaterialSet set) {
         this.id = id;
@@ -66,11 +67,14 @@ public abstract class LabyrinthSection {
             case NORTH:
                 return connections;
             case EAST:
-                return new ConnectionType[] { connections[1], connections[2], connections[3], connections[0], connections[4], connections[5] };
+                return new ConnectionType[] { connections[1], connections[2], connections[3], connections[0],
+                        connections[4], connections[5] };
             case SOUTH:
-                return new ConnectionType[] { connections[2], connections[3], connections[0], connections[1], connections[4], connections[5] };
+                return new ConnectionType[] { connections[2], connections[3], connections[0], connections[1],
+                        connections[4], connections[5] };
             case WEST:
-                return new ConnectionType[] { connections[3], connections[0], connections[1], connections[2], connections[4], connections[5] };
+                return new ConnectionType[] { connections[3], connections[0], connections[1], connections[2],
+                        connections[4], connections[5] };
 
             default:
                 return connections;
@@ -103,11 +107,13 @@ public abstract class LabyrinthSection {
             LabyrinthMaterialSet eSet, LabyrinthMaterialSet sSet, LabyrinthMaterialSet wSet, NoiseGenerator noise);
 
     /**
-     * Returns if the given location should have the random replace block of the material set
+     * Returns if the given location should have the random replace block of the
+     * material set
+     * 
      * @param sectionX x (east positive) coordinate
      * @param sectionY y (up positive) coordinate
      * @param sectionZ z (south positive) coordinate
-     * @param noise random noise generator for random replacement
+     * @param noise    random noise generator for random replacement
      * @return If the block should be the random replace block
      */
     protected boolean isRand(int sectionX, int sectionY, int sectionZ, NoiseGenerator noise) {
@@ -116,6 +122,7 @@ public abstract class LabyrinthSection {
 
     /**
      * Gets the material set for a specific block, blending between sections
+     * 
      * @param sectionX x (east positive) coordinate
      * @param sectionY y (up positive) coordinate
      * @param sectionZ z (south positive) coordinate
@@ -134,7 +141,7 @@ public abstract class LabyrinthSection {
             }
         } else if (sectionX == 15) {
             if (sectionY % 2 == sectionZ % 2) {
-                return wSet;
+                return eSet;
             }
         } else if (sectionZ == 0) {
             if (sectionY % 2 == sectionX % 2) {
@@ -189,7 +196,8 @@ public abstract class LabyrinthSection {
     }
 
     /**
-     * If this section could connect to other section in direction from this section with a corridor
+     * If this section could connect to other section in direction from this section
+     * with a corridor
      * 
      * @param other     section to check against
      * @param direction direction from this section
@@ -200,7 +208,8 @@ public abstract class LabyrinthSection {
     }
 
     /**
-     * If this section could connect to other section in direction from this section with a corridor
+     * If this section could connect to other section in direction from this section
+     * with a corridor
      * 
      * @param other            section to check against
      * @param otherOrientation override direction for other section
@@ -233,8 +242,10 @@ public abstract class LabyrinthSection {
     }
 
     /**
-     * Convert this section into an NBT compound that can be stored.<br><br>
+     * Convert this section into an NBT compound that can be stored.<br>
+     * <br>
      * Contains section type ID, orientation, and material set ID
+     * 
      * @return NBT representing the section
      */
     public NbtCompound toNbt() {
@@ -247,6 +258,7 @@ public abstract class LabyrinthSection {
 
     /**
      * Create a new labyrinth section from NBT written by the {@link #toNbt()}
+     * 
      * @param nbt NBT data to create a section from
      * @return Section created from NBT data
      * @see #toNbt()
@@ -262,17 +274,23 @@ public abstract class LabyrinthSection {
 
     public static final SectionGen STRAIGHT = new SectionGen(Straight::new);
     public static final SectionGen STRAIGHT_ROOM = new SectionGen(StraightRoom::new);
+
     public static final SectionGen CROSS = new SectionGen(Cross::new);
     public static final SectionGen CROSS_ROOM = new SectionGen(CrossRoom::new);
+
     public static final SectionGen CROSS_ROOM_UP = new SectionGen(CrossRoomUp::new);
     public static final SectionGen CROSS_ROOM_DOWN = new SectionGen(CrossRoomDown::new);
 
+    public static final SectionGen CORNER = new SectionGen(Corner::new);
+
+    public static final SectionGen TEE = new SectionGen(Tee::new);
+
     /** All sections used in generation */
     public static final SectionGen[] SECTIONS = {
-            STRAIGHT,
-            STRAIGHT_ROOM,
-            CROSS,
-            CROSS_ROOM,
+            new SectionGen(STRAIGHT, STRAIGHT_ROOM),
+            new SectionGen(CROSS, CROSS_ROOM),
+            CORNER,
+            TEE,
             CROSS_ROOM_UP,
             CROSS_ROOM_DOWN,
     };
@@ -283,26 +301,81 @@ public abstract class LabyrinthSection {
     static {
         SECTIONS_BY_ID.put("empty", EMPTY);
         for (int i = 0; i < SECTIONS.length; i++) {
-            SECTIONS_BY_ID.put(SECTIONS[i].gen(null,null).id, SECTIONS[i]);
+            SECTIONS[i].addToMap();
+            // SECTIONS_BY_ID.put(SECTIONS[i].gen(null, null).id, SECTIONS[i]);
         }
     }
 
     public static class SectionGen {
 
         private BiFunction<Direction, LabyrinthMaterialSet, LabyrinthSection> func;
+        private SectionGen[] variants;
 
         public SectionGen(BiFunction<Direction, LabyrinthMaterialSet, LabyrinthSection> func) {
             this.func = func;
         }
 
+        public SectionGen(BiFunction<Direction, LabyrinthMaterialSet, LabyrinthSection> variant1,
+                BiFunction<Direction, LabyrinthMaterialSet, LabyrinthSection> variant2) {
+            this.variants = new SectionGen[] {
+                    new SectionGen(variant1),
+                    new SectionGen(variant2)
+            };
+        }
+
+        public SectionGen(SectionGen variant1, SectionGen variant2) {
+            this.variants = new SectionGen[] {
+                    variant1,
+                    variant2
+
+            };
+        }
+
+        public SectionGen(SectionGen[] variants) {
+            this.variants = variants;
+        }
+
         /**
          * Generate a new section of this type
+         * 
          * @param orientation orientation of section
-         * @param set material set for section
+         * @param set         material set for section
          * @return New section
          */
         public LabyrinthSection gen(Direction orientation, LabyrinthMaterialSet set) {
+            if (func == null) {
+                return variants[0].gen(orientation, set);
+            }
             return func.apply(orientation, set);
+        }
+
+        /**
+         * Generate a new section of this type
+         * 
+         * @param orientation orientation of section
+         * @param set         material set for section
+         * @param variant     section variation
+         * @return New section
+         */
+        public LabyrinthSection gen(Direction orientation, LabyrinthMaterialSet set, int variant) {
+            if (variants == null)
+                return func.apply(orientation, set);
+            else {
+                variant = variant % variants.length;
+                return variants[variant].gen(orientation, set);
+            }
+        }
+
+        protected void addToMap() {
+            // LabyrinthSection.
+            if (func != null) {
+                LabyrinthSection.SECTIONS_BY_ID.put(func.apply(null, null).id, this);
+            }
+            if (variants != null) {
+                for (int i = 0; i < variants.length; i++) {
+                    variants[i].addToMap();
+                }
+            }
         }
     }
 
@@ -310,11 +383,12 @@ public abstract class LabyrinthSection {
     public static enum ConnectionType {
         /** Full solid wall */
         WALL,
-        /** 
+        /**
          * Narrow corridor (2 block wide at standard height)
+         * 
          * @see LabyrinthSection#CORRIDOR_N_MIN
          * @see LabyrinthSection#CORRIDOR_N_MAX
-        */
+         */
         CORRIDOR_NARROW,
         VERTICAL_NARROW,
     }

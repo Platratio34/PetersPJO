@@ -37,13 +37,19 @@ public class LabyrinthMap extends PersistentState {
 
     @Override
     public NbtCompound writeNbt(NbtCompound nbt) {
-
+        NbtCompound layersNbt = new NbtCompound();
+        nbt.put("layers", layersNbt);
+        for (int i = 0; i < layers.length; i++) {
+            layersNbt.put(i+"", layers[i].toNbt());
+        }
         return nbt;
     }
 
     private static LabyrinthMap createFromNbt(NbtCompound tag) {
         LabyrinthMap state = new LabyrinthMap();
-
+        for (int i = 0; i < state.layers.length; i++) {
+            state.layers[i].fromNbt(tag.getCompound(i+""));
+        }
         return state;
     }
 
@@ -96,6 +102,7 @@ public class LabyrinthMap extends PersistentState {
         if (chunkPos.x == 0 && chunkPos.z == 0) { // if this is the origin chunk, always make it cross room
             LabyrinthSection section = LabyrinthSection.CROSS_ROOM.gen(Direction.NORTH, LabyrinthMaterials.DEFAULT);
             layers[yIndex].set(chunkPos, section);
+            markDirty();
             // PJO.LOGGER.info("Generated section default for labyrinth @ " + chunkPos.toString() + ", y index " + yIndex);
             return section;
         }
@@ -141,8 +148,10 @@ public class LabyrinthMap extends PersistentState {
         int sectionTypeIndex = random.nextBetween(0, LabyrinthSection.SECTIONS.length - 1);
         int startSectionType = sectionTypeIndex;
 
+        int sectionVariantIndex = random.nextBetween(0, 16);
+
         LabyrinthSection section = LabyrinthSection.SECTIONS[sectionTypeIndex].gen(Direction.byId(dirIndex),
-                materialSet);
+                materialSet, sectionVariantIndex);
         
         boolean valid = false;
         int iterationCounter = 0;
@@ -190,11 +199,12 @@ public class LabyrinthMap extends PersistentState {
                     if (sectionTypeIndex == startSectionType) {
                         PJO.LOGGER.warn("Unable to find labyrinth section to fit " + chunkPos.toString()
                                 + " at y index " + yIndex);
-                        section = LabyrinthSection.EMPTY.gen(Direction.byId(dirIndex), materialSet);
+                        // section = LabyrinthSection.EMPTY.gen(Direction.byId(dirIndex), materialSet, sectionVariantIndex);
+                        section = LabyrinthSection.SECTIONS[sectionTypeIndex].gen(Direction.byId(dirIndex), materialSet, sectionVariantIndex);
                         break;
                     }
                 }
-                section = LabyrinthSection.SECTIONS[sectionTypeIndex].gen(Direction.byId(dirIndex), materialSet);
+                section = LabyrinthSection.SECTIONS[sectionTypeIndex].gen(Direction.byId(dirIndex), materialSet, sectionVariantIndex);
             }
             if (iterationCounter > maxIterations) {
                 PJO.LOGGER.error(
@@ -207,6 +217,7 @@ public class LabyrinthMap extends PersistentState {
         // }
         // section.set = LabyrinthMaterials.DEFAULT;
         layers[yIndex].set(chunkPos, section);
+        markDirty();
         return section;
     }
 
@@ -216,6 +227,22 @@ public class LabyrinthMap extends PersistentState {
 
         public boolean has(ChunkPos pos) {
             return layer.containsKey(pos) && layer.get(pos) != null;
+        }
+
+        public NbtCompound toNbt() {
+            NbtCompound nbt = new NbtCompound();
+            for (ChunkPos pos : layer.keySet()) {
+                nbt.put(pos.toLong()+"", layer.get(pos).toNbt());
+            }
+            return nbt;
+        }
+
+        public void fromNbt(NbtCompound nbt) {
+            for (String key : nbt.getKeys()) {
+                long posLong = Long.parseLong(key);
+                ChunkPos pos = new ChunkPos(posLong);
+                layer.put(pos, LabyrinthSection.sectionFromNbt(nbt.getCompound(key)));
+            }
         }
 
         public LabyrinthSection get(ChunkPos pos) {
