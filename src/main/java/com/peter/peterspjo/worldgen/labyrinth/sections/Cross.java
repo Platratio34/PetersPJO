@@ -10,7 +10,7 @@ public class Cross extends LabyrinthSection {
 
     private static final String ID = "straight";
     private static final ConnectionType[] CONNECTIONS = { ConnectionType.CORRIDOR_NARROW,
-            ConnectionType.CORRIDOR_NARROW, ConnectionType.CORRIDOR_NARROW, ConnectionType.CORRIDOR_NARROW };
+            ConnectionType.CORRIDOR_NARROW, ConnectionType.CORRIDOR_NARROW, ConnectionType.CORRIDOR_NARROW, ConnectionType.WALL, ConnectionType.WALL };
 
     public Cross(Direction orientation, LabyrinthMaterialSet set) {
         super(ID, CONNECTIONS, orientation, set);

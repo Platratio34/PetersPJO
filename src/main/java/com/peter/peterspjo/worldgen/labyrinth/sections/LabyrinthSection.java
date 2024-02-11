@@ -177,7 +177,50 @@ public abstract class LabyrinthSection {
                 return con[2] == oCon[0];
             case WEST:
                 return con[3] == oCon[1];
+            case UP:
+                return con[4] == oCon[5];
+            case DOWN:
+                return con[5] == oCon[4];
+            default:
+                return false;
+        }
+    }
 
+    /**
+     * If this section could connect to other section in direction from this section with a corridor
+     * 
+     * @param other     section to check against
+     * @param direction direction from this section
+     * @return If the connection types match on specified face
+     */
+    public boolean canConnectCorridor(LabyrinthSection other, Direction direction) {
+        return canConnectCorridor(other, other.orientation, direction);
+    }
+
+    /**
+     * If this section could connect to other section in direction from this section with a corridor
+     * 
+     * @param other            section to check against
+     * @param otherOrientation override direction for other section
+     * @param direction        direction from this section
+     * @return If the connection types match on specified face
+     */
+    public boolean canConnectCorridor(LabyrinthSection other, Direction otherOrientation, Direction direction) {
+        ConnectionType[] con = getConnections();
+        ConnectionType[] oCon = other.getConnections(otherOrientation);
+        switch (direction) {
+            case NORTH:
+                return con[0] == oCon[2] && con[0] != ConnectionType.WALL;
+            case EAST:
+                return con[1] == oCon[3] && con[1] != ConnectionType.WALL;
+            case SOUTH:
+                return con[2] == oCon[0] && con[2] != ConnectionType.WALL;
+            case WEST:
+                return con[3] == oCon[1] && con[3] != ConnectionType.WALL;
+            case UP:
+                return con[4] == oCon[5] && con[4] != ConnectionType.WALL;
+            case DOWN:
+                return con[5] == oCon[4] && con[5] != ConnectionType.WALL;
             default:
                 return false;
         }
@@ -209,6 +252,8 @@ public abstract class LabyrinthSection {
         return section;
     }
 
+    public static final SectionGen EMPTY = new SectionGen(Empty::new);
+
     public static final SectionGen STRAIGHT = new SectionGen(Straight::new);
     public static final SectionGen STRAIGHT_ROOM = new SectionGen(StraightRoom::new);
     public static final SectionGen CROSS = new SectionGen(Cross::new);
@@ -226,6 +271,7 @@ public abstract class LabyrinthSection {
     public static final HashMap<String, SectionGen> SECTIONS_BY_ID = new HashMap<String, SectionGen>();
 
     static {
+        SECTIONS_BY_ID.put("empty", EMPTY);
         for (int i = 0; i < SECTIONS.length; i++) {
             SECTIONS_BY_ID.put(SECTIONS[i].gen(null,null).id, SECTIONS[i]);
         }

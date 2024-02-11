@@ -5,7 +5,11 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import com.peter.peterspjo.PJO;
+import com.peter.peterspjo.PJODamageTypes;
+import com.peter.peterspjo.worldgen.PJODimensions;
+import com.peter.peterspjo.worldgen.labyrinth.LabyrinthMaterials.LabyrinthMaterialSet;
 import com.peter.peterspjo.worldgen.labyrinth.sections.LabyrinthSection;
+import com.peter.peterspjo.worldgen.labyrinth.sections.LabyrinthSection.SectionGen;
 
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.MinecraftServer;
@@ -47,7 +51,7 @@ public class LabyrinthMap extends PersistentState {
     }
 
     public static LabyrinthMap getServerState(MinecraftServer server) {
-        PersistentStateManager persistentStateManager = server.getWorld(World.OVERWORLD).getPersistentStateManager();
+        PersistentStateManager persistentStateManager = server.getWorld(PJODimensions.LABYRINTH).getPersistentStateManager();
         LabyrinthMap state = persistentStateManager.getOrCreate(LabyrinthMap::createFromNbt, LabyrinthMap::new, NAME);
         map = state;
         state.markDirty();
@@ -92,31 +96,113 @@ public class LabyrinthMap extends PersistentState {
     }
 
     private LabyrinthSection generate(ChunkPos chunkPos, int yIndex) {
+        if (chunkPos.x == 0 && chunkPos.z == 0) { // if this is the origin chunk, always make it cross room
+            LabyrinthSection section = LabyrinthSection.CROSS_ROOM.gen(Direction.NORTH, LabyrinthMaterials.DEFAULT);
+            layers[yIndex].set(chunkPos, section);
+            PJO.LOGGER.info("Generated section default for labyrinth @ " + chunkPos.toString() + ", y index " + yIndex);
+            return section;
+        }
+        // check if pre-req chunks have already been generated
+        ChunkPos xP = new ChunkPos(chunkPos.x + 1, chunkPos.z);
+        ChunkPos xN = new ChunkPos(chunkPos.x - 1, chunkPos.z);
+        ChunkPos zP = new ChunkPos(chunkPos.x, chunkPos.z + 1);
+        ChunkPos zN = new ChunkPos(chunkPos.x, chunkPos.z - 1);
+        if (yIndex > 0) {
+            if (!layers[yIndex - 1].has(chunkPos)) {
+                generate(chunkPos, yIndex - 1);
+            }
+        }
+        if (chunkPos.z > 0) {
+            if (!layers[yIndex].has(zN)) {
+                generate(zN, yIndex);
+            }
+        } else if (chunkPos.z < 0) {
+            if (!layers[yIndex].has(zP)) {
+                generate(zP, yIndex);
+            }
+        }
+        if (chunkPos.x > 0) {
+            if (!layers[yIndex].has(xN)) {
+                generate(xN, yIndex);
+            }
+        } else if (chunkPos.x < 0) {
+            if (!layers[yIndex].has(xP)) {
+                generate(xP, yIndex);
+            }
+        }
+
         // LabyrinthSection section =
         // LabyrinthSection.STRAIGHT_ROOM.apply(Direction.NORTH);
         Random random = Random.create(chunkPos.toLong() + (yIndex * 2));
-        Direction orientation = Direction.NORTH;
         int dirIndex = random.nextBetween(0, 3);
-        switch (dirIndex) {
-            case 0:
-                orientation = Direction.NORTH;
-                break;
-            case 1:
-                orientation = Direction.EAST;
-                break;
-            case 2:
-                orientation = Direction.SOUTH;
-                break;
-            case 3:
-                orientation = Direction.WEST;
-                break;
+        int startDir = dirIndex;
 
-            default:
+        String matSetId = LabyrinthMaterials.WEIGHTED_MATERIAL_ID[random.nextBetween(0,
+                LabyrinthMaterials.WEIGHTED_MATERIAL_ID.length - 1)];
+        LabyrinthMaterialSet materialSet = LabyrinthMaterials.MATERIALS_BY_ID.get(matSetId);
+
+        int sectionTypeIndex = random.nextBetween(0, LabyrinthSection.SECTIONS.length - 1);
+        int startSectionType = sectionTypeIndex;
+
+        LabyrinthSection section = LabyrinthSection.SECTIONS[sectionTypeIndex].gen(Direction.byId(dirIndex),
+                materialSet);
+        
+        boolean valid = false;
+        int iterationCounter = 0;
+        final int maxIterations = (4 * LabyrinthSection.SECTIONS.length) + 2;
+        while (!valid) {
+            iterationCounter++;
+            if (yIndex > 0) {
+                if (layers[yIndex - 1].get(chunkPos).canConnectCorridor(section, Direction.DOWN)) {
+                    valid = true;
+                }
+            }
+            if (chunkPos.z > 0) {
+                if (layers[yIndex].get(zN).canConnectCorridor(section, Direction.DOWN)) {
+                    valid = true;
+                }
+            } else if (chunkPos.z < 0) {
+                if (layers[yIndex].get(zP).canConnectCorridor(section, Direction.DOWN)) {
+                    valid = true;
+                }
+            }
+            if (chunkPos.x > 0) {
+                if (layers[yIndex].get(xN).canConnectCorridor(section, Direction.DOWN)) {
+                    valid = true;
+                }
+            } else if (chunkPos.x < 0) {
+                if (layers[yIndex].get(xP).canConnectCorridor(section, Direction.DOWN)) {
+                    valid = true;
+                }
+            }
+            if (!valid) {
+                dirIndex++;
+                if (dirIndex > 3) {
+                    dirIndex = 0;
+                }
+                if (dirIndex == startDir) {
+                    sectionTypeIndex++;
+                    if (sectionTypeIndex >= LabyrinthSection.SECTIONS.length) {
+                        sectionTypeIndex = 0;
+                    }
+                    if (sectionTypeIndex == startSectionType) {
+                        PJO.LOGGER.warn("Unable to find labyrinth section to fit " + chunkPos.toString()
+                                + " at y index " + yIndex);
+                        section = LabyrinthSection.EMPTY.gen(Direction.byId(dirIndex), materialSet);
+                        break;
+                    }
+                }
+                section = LabyrinthSection.SECTIONS[sectionTypeIndex].gen(Direction.byId(dirIndex), materialSet);
+            }
+            if (iterationCounter > maxIterations) {
+                PJO.LOGGER.error(
+                        "Took to long to generating labyrinth section @ " + chunkPos.toString() + ", y index " + yIndex);
                 break;
-        }String matSetId = LabyrinthMaterials.WEIGHTED_MATERIAL_ID[random.nextBetween(0,
-        LabyrinthMaterials.WEIGHTED_MATERIAL_ID.length - 1)];
-        LabyrinthSection section = LabyrinthSection.SECTIONS[random.nextBetween(0,
-                LabyrinthSection.SECTIONS.length - 1)].gen(orientation, LabyrinthMaterials.MATERIALS_BY_ID.get(matSetId));
+            }
+        }
+        // if (iterationCounter > 0) {
+            PJO.LOGGER.info("Generated section for labyrinth @ " + chunkPos.toString() + ", y index " + yIndex);
+        // }
         // section.set = LabyrinthMaterials.DEFAULT;
         layers[yIndex].set(chunkPos, section);
         return section;
@@ -131,6 +217,10 @@ public class LabyrinthMap extends PersistentState {
         }
 
         public LabyrinthSection get(ChunkPos pos) {
+            if (!layer.containsKey(pos)) {
+                PJO.LOGGER.error("Tried to get labyrinth section for " + pos.toString() + " but was not present");
+                return null;
+            }
             LabyrinthSection section = layer.get(pos);
             if (section == null)
                 PJO.LOGGER.error("Tried to get labyrinth section for " + pos.toString() + " but was null");

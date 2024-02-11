@@ -85,7 +85,7 @@ public class DoorManager extends PersistentState {
     }
 
     public static DoorManager getServerState(MinecraftServer server) {
-        PersistentStateManager persistentStateManager = server.getWorld(World.OVERWORLD).getPersistentStateManager();
+        PersistentStateManager persistentStateManager = server.getWorld(PJODimensions.LABYRINTH).getPersistentStateManager();
         DoorManager state = persistentStateManager.getOrCreate(DoorManager::createFromNbt, DoorManager::new, NAME);
         manager = state;
         return state;
