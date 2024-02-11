@@ -6,7 +6,6 @@ import com.peter.peterspjo.PJO;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.client.item.TooltipContext;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -17,7 +16,6 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
 
 public class RiptideItem extends Sword {
@@ -47,23 +45,10 @@ public class RiptideItem extends Sword {
         return 10;
     }
 
-    // public UseAction getUseAction(ItemStack stack) {
-    //     return UseAction.BOW;
-    // }
-
     @Override
     public boolean isUsedOnRelease(ItemStack stack) {
         return false;
     }
-
-    // @Override
-    // public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-    //     NbtCompound nbt = stack.getOrCreateNbt();
-    //     nbt.putBoolean("is_sword", !nbt.getBoolean("is_sword"));
-    //     stack.setNbt(nbt);
-    //     System.out.println("Thing "+nbt.getBoolean("is_sword"));
-    //     return super.finishUsing(stack, world, user);
-    // }
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {

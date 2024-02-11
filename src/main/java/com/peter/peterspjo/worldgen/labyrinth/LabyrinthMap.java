@@ -5,11 +5,9 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import com.peter.peterspjo.PJO;
-import com.peter.peterspjo.PJODamageTypes;
 import com.peter.peterspjo.worldgen.PJODimensions;
 import com.peter.peterspjo.worldgen.labyrinth.LabyrinthMaterials.LabyrinthMaterialSet;
 import com.peter.peterspjo.worldgen.labyrinth.sections.LabyrinthSection;
-import com.peter.peterspjo.worldgen.labyrinth.sections.LabyrinthSection.SectionGen;
 
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.MinecraftServer;
@@ -20,7 +18,6 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.PersistentState;
 import net.minecraft.world.PersistentStateManager;
-import net.minecraft.world.World;
 
 public class LabyrinthMap extends PersistentState {
 

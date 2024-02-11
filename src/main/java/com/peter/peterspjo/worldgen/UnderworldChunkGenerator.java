@@ -32,7 +32,6 @@ import net.minecraft.world.biome.source.BiomeAccess;
 import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkSection;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.world.gen.StructureWeightSampler;
 import net.minecraft.world.gen.GenerationStep.Carver;
@@ -78,8 +77,6 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
         AquiferSampler.FluidLevel fluidLevel = new AquiferSampler.FluidLevel(-54, Blocks.LAVA.getDefaultState());
         int i = settings.seaLevel();
         AquiferSampler.FluidLevel fluidLevel2 = new AquiferSampler.FluidLevel(i, settings.defaultFluid());
-        AquiferSampler.FluidLevel fluidLevel3 = new AquiferSampler.FluidLevel(DimensionType.MIN_HEIGHT * 2,
-                Blocks.AIR.getDefaultState());
         return (x, y, z) -> {
             return y < Math.min(-54, i) ? fluidLevel : fluidLevel2;
         };
@@ -140,10 +137,10 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
             return CompletableFuture.supplyAsync(Util.debugSupplier("wgen_fill_underworld", () -> {
                 return this.populateNoise(blender, structureAccessor, noiseConfig, chunk, j, k);
             }), Util.getMainWorkerExecutor()).whenCompleteAsync((chunkx, throwable) -> {
-                Iterator var3 = set.iterator();
+                Iterator<ChunkSection> var3 = set.iterator();
 
                 while (var3.hasNext()) {
-                    ChunkSection chunkSection = (ChunkSection) var3.next();
+                    ChunkSection chunkSection = var3.next();
                     chunkSection.unlock();
                 }
 
@@ -187,7 +184,6 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
         ChunkPos chunkPos = chunk.getPos();
         int offsetX = chunkPos.getStartX();
         int offsetZ = chunkPos.getStartZ();
-        AquiferSampler aquiferSampler = chunkNoiseSampler.getAquiferSampler();
         chunkNoiseSampler.sampleStartDensity();
         BlockPos.Mutable mutable = new BlockPos.Mutable();
         int hCellBlockCount = chunkNoiseSampler.getHorizontalCellBlockCount();

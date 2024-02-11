@@ -113,10 +113,10 @@ public class LabyrinthChunkGenerator extends ChunkGenerator {
             return CompletableFuture.supplyAsync(Util.debugSupplier("wgen_fill_labyrinth", () -> {
                 return this.populateNoise(blender, structureAccessor, noiseConfig, chunk, j, k);
             }), Util.getMainWorkerExecutor()).whenCompleteAsync((chunkx, throwable) -> {
-                Iterator var3 = set.iterator();
+                Iterator<ChunkSection> var3 = set.iterator();
 
                 while (var3.hasNext()) {
-                    ChunkSection chunkSection = (ChunkSection) var3.next();
+                    ChunkSection chunkSection = var3.next();
                     chunkSection.unlock();
                 }
 
