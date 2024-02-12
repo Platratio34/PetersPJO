@@ -29,6 +29,7 @@ public class PJOItemGroups {
                 entries.add(PJOItems.STONE_BRAZIER);
                 entries.add(PJOItems.EMPOUSAI_SPAWN_EGG);
                 entries.add(PJOItems.HELLHOUND_SPAWN_EGG);
+                entries.add(PJOItems.PEGASUS_SPAWN_EGG);
             })
             .build();
     public static final Identifier MAIN_ID = new Identifier(PJO.NAMESPACE, "main_group");

@@ -42,6 +42,7 @@ public class PJOItems {
 
     public static final SpawnEggItem EMPOUSAI_SPAWN_EGG = Empousai.EGG;
     public static final SpawnEggItem HELLHOUND_SPAWN_EGG = Hellhound.EGG;
+    public static final SpawnEggItem PEGASUS_SPAWN_EGG = Pegasus.EGG;
 
     public static final BucketItem STYX_BUCKET = StyxWater.BUCKET;
 

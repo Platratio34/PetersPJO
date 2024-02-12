@@ -8,6 +8,7 @@ public class PJOEntities {
 
     public static final EntityType<Empousai> EMPOUSAI = Empousai.TYPE;
     public static final EntityType<Hellhound> HELLHOUND = Hellhound.TYPE;
+    public static final EntityType<Pegasus> PEGASUS = Pegasus.TYPE;
 
     public static final ArrayList<EntityType<?>> MONSTERS = new ArrayList<EntityType<?>>();
 
@@ -15,5 +16,6 @@ public class PJOEntities {
         SpearEntity.init();
         Empousai.register();
         Hellhound.register();
+        Pegasus.register();
     }
 }
