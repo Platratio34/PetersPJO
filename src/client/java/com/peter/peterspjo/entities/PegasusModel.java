@@ -63,12 +63,12 @@ public class PegasusModel extends HorseEntityModel<Pegasus> {
                 ModelTransform.pivot(-5.0F, 4.0F, 0.0F));
 
         ModelPartData wingRMid = wingRBase.addChild(EntityModelPartNames.RIGHT_WING + "_mid",
-                ModelPartBuilder.create().uv(64, 17).cuboid(-9.0F, 0.0F, -5.0F, 9.0F, 1.0F, 13.0F, new Dilation(0.0F)),
-                ModelTransform.pivot(-9.0F, -1.0F, 0.0F));
+                ModelPartBuilder.create().uv(64, 17).cuboid(-9.0F, -1.0F, -5.0F, 9.0F, 1.0F, 13.0F, new Dilation(0.0F)),
+                ModelTransform.pivot(-9.0F, 0.0F, 0.0F));
 
         ModelPartData wingRTip = wingRMid.addChild(EntityModelPartNames.RIGHT_WING_TIP,
-                ModelPartBuilder.create().uv(64, 31).cuboid(-7.0F, -1.0F, -4.0F, 7.0F, 1.0F, 10.0F, new Dilation(0.0F)),
-                ModelTransform.pivot(-9.0F, 1.0F, 0.0F));
+                ModelPartBuilder.create().uv(64, 31).cuboid(-7.0F, 0.0F, -4.0F, 7.0F, 1.0F, 10.0F, new Dilation(0.0F)),
+                ModelTransform.pivot(-9.0F, 0.0F, 0.0F));
 
         ModelPartData wingLBase = modelPartData.addChild(EntityModelPartNames.LEFT_WING_BASE,
                 ModelPartBuilder.create().uv(64, 0).mirrored()
@@ -77,13 +77,13 @@ public class PegasusModel extends HorseEntityModel<Pegasus> {
 
         ModelPartData wingLMid = wingLBase.addChild(EntityModelPartNames.LEFT_WING + "_mid",
                 ModelPartBuilder.create().uv(64, 17).mirrored()
-                        .cuboid(0.0F, 0.0F, -5.0F, 9.0F, 1.0F, 13.0F, new Dilation(0.0F)).mirrored(false),
-                ModelTransform.pivot(9.0F, -1.0F, 0.0F));
+                        .cuboid(0.0F, -1.0F, -5.0F, 9.0F, 1.0F, 13.0F, new Dilation(0.0F)).mirrored(false),
+                ModelTransform.pivot(9.0F, 0.0F, 0.0F));
 
         ModelPartData wingLTip = wingLMid.addChild(EntityModelPartNames.LEFT_WING_TIP,
                 ModelPartBuilder.create().uv(64, 31).mirrored()
-                        .cuboid(0.0F, -1.0F, -4.0F, 7.0F, 1.0F, 10.0F, new Dilation(0.0F)).mirrored(false),
-                ModelTransform.pivot(9.0F, 1.0F, 0.0F));
+                        .cuboid(0.0F, 0.0F, -4.0F, 7.0F, 1.0F, 10.0F, new Dilation(0.0F)).mirrored(false),
+                ModelTransform.pivot(9.0F, 0.0F, 0.0F));
         return TexturedModelData.of(modelData, 128, 64);
     }
 
@@ -96,9 +96,13 @@ public class PegasusModel extends HorseEntityModel<Pegasus> {
     private static final double GROUND_TIME_TO_FOLD = 1;
     private static final double PI2 = Math.PI * 2;
 
+    private static final double TIP_LERP_TIME = 1.5;
+    private static final double MID_LERP_TIME = 1;
+    private static final double BASE_LERP_TIME = 2;
+
     private double wingTime = 0;
     private double foldTime = 1;
-    private double groundTime = GROUND_TIME_TO_FOLD+2;
+    private double groundTime = GROUND_TIME_TO_FOLD+10;
 
     @Override
     public void animateModel(Pegasus entity, float limbAngle, float limbDistance, float tickDelta) {
@@ -125,17 +129,22 @@ public class PegasusModel extends HorseEntityModel<Pegasus> {
         wt = Math.sin(wingTime-0.4) * 35 + 5;
         
         if (entity.isOnGround()) {
-            groundTime += (tickDelta * 0.01);
-            foldTime = Math.min(Math.max(0, groundTime - GROUND_TIME_TO_FOLD) * 0.5, 1);
+            groundTime += (tickDelta * 0.3);
+            foldTime = Math.min(Math.max(0, groundTime - GROUND_TIME_TO_FOLD) * 0.5, 2);
         } else if (foldTime > 0) {
             groundTime = 0;
-            foldTime = Math.max(foldTime - (tickDelta * 0.1), 0);
+            foldTime = Math.max(foldTime - (tickDelta * 0.5), 0);
         }
         if (foldTime > 0) {
-            double tI = 1 - foldTime;
-            wb = (-85 * foldTime) + (wb * tI);
-            wm = (175 * foldTime) + (wm * tI);
-            wt = (-175 * foldTime) + (wt * tI);
+            double timeTip = Math.min(foldTime, TIP_LERP_TIME) / TIP_LERP_TIME;
+            double tITip = Math.max(1 - timeTip, 0);
+            double timeMid = Math.min(foldTime, MID_LERP_TIME) / MID_LERP_TIME;
+            double tIMid = Math.max(1 - timeMid, 0);
+            double timeBase = Math.min(foldTime, BASE_LERP_TIME) / BASE_LERP_TIME;
+            double tIBase = Math.max(1 - timeBase, 0);
+            wb = (-85 * timeBase) + (wb * tIBase);
+            wm = (-175 * timeMid) + (wm * tIMid);
+            wt = (175 * timeTip) + (wt * tITip);
         }
 
         wingRightBase.roll = (float) Math.toRadians(wb);
