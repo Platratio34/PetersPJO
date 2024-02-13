@@ -10,12 +10,17 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.passive.AbstractHorseEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.EntityView;
 import net.minecraft.world.World;
 
@@ -48,6 +53,59 @@ public class Pegasus extends AbstractHorseEntity {
     @Override
     public EntityView method_48926() {
         return super.getWorld();
+    }
+
+    @Override
+    public void onDamaged(DamageSource source) {
+        if (source.isOf(DamageTypes.FALL))
+            return;
+        super.onDamaged(source);
+    }
+
+    @Override
+    public boolean damage(DamageSource source, float amount) {
+        if (source.isOf(DamageTypes.FALL))
+            return false;
+        return super.damage(source, amount);
+    }
+
+    // private boolean fly = false;
+    // @Override
+    // public void startJumping(int height) {
+    //     if (isOnGround()) {
+    //         super.startJumping(height);
+    //     } else {
+    //         fly = true;
+    //     }
+    // }
+    
+    private int tSJ = 100000000;
+    @Override
+    protected void tickControlled(PlayerEntity controllingPlayer, Vec3d movementInput) {
+        super.tickControlled(controllingPlayer, movementInput);
+        tSJ++;
+        if (!this.isLogicalSideForUpdatingMovement())
+            return;
+        if (jumping && !isOnGround()) {
+            jumping = false;
+            tSJ = 0;
+        }
+        Vec3d cVel = this.getVelocity();
+        float f = MathHelper.sin(this.getYaw() * ((float) Math.PI / 180)) * -1;
+        float g = MathHelper.cos(this.getYaw() * ((float) Math.PI / 180));
+        float speed = controllingPlayer.forwardSpeed * 100f;
+        if (tSJ < 5) {
+            cVel.add(f * speed, 0.0, g * speed);
+            this.setVelocity(cVel.x, 1, cVel.z);
+        } else if (!isOnGround()) {
+            cVel.add(f * speed, 0.0, g * speed);
+            this.setVelocity(cVel.x, (float) Math.max(cVel.y, -0.2), cVel.z);
+        }
+    }
+    
+    @Override
+    protected float getOffGroundSpeed() {
+        return getMovementSpeed() * 0.9f;
     }
 
 }
