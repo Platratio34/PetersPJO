@@ -91,14 +91,61 @@ public class PegasusModel extends HorseEntityModel<Pegasus> {
     public void setAngles(Pegasus entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
             float headPitch) {
         super.setAngles(entity, limbSwing, limbSwingAmount, netHeadYaw, ageInTicks, headPitch);
-        wingRightBase.roll = (float)Math.toRadians(-85);
-        wingLeftBase.roll = (float)Math.toRadians(85);
+    }
+
+    private static final double GROUND_TIME_TO_FOLD = 1;
+    private static final double PI2 = Math.PI * 2;
+
+    private double wingTime = 0;
+    private double foldTime = 1;
+    private double groundTime = GROUND_TIME_TO_FOLD+2;
+
+    @Override
+    public void animateModel(Pegasus entity, float limbAngle, float limbDistance, float tickDelta) {
+        super.animateModel(entity, limbAngle, limbDistance, tickDelta);
+        double wb = 0;
+        double wm = 0;
+        double wt = 0;
+            // System.out.println(limbAngle + "," + limbDistance + "," + tickDelta);
+        double dWT = (tickDelta * 0.02 * PI2);
+        if (!entity.isOnGround()) {
+            if (wingTime > Math.PI) {
+                wingTime += dWT * 2;
+            } else {
+                wingTime += dWT;
+            }
+        } else if (wingTime <= Math.PI) {
+            wingTime = Math.max(wingTime - (dWT*0.3), 0);
+        } else {
+            wingTime = Math.min(wingTime + (dWT*0.3), PI2);
+        }
+        wingTime %= PI2;
+        wb = Math.sin(wingTime-0.2) * 20;
+        wm = Math.sin(wingTime-0.3) * 30;
+        wt = Math.sin(wingTime-0.4) * 35 + 5;
         
-        wingRightMid.roll = (float)Math.toRadians(175);
-        wingLeftMid.roll = (float)Math.toRadians(-175);
-        
-        wingRightTip.roll = (float)Math.toRadians(-175);
-        wingLeftTip.roll = (float)Math.toRadians(175);
+        if (entity.isOnGround()) {
+            groundTime += (tickDelta * 0.01);
+            foldTime = Math.min(Math.max(0, groundTime - GROUND_TIME_TO_FOLD) * 0.5, 1);
+        } else if (foldTime > 0) {
+            groundTime = 0;
+            foldTime = Math.max(foldTime - (tickDelta * 0.1), 0);
+        }
+        if (foldTime > 0) {
+            double tI = 1 - foldTime;
+            wb = (-85 * foldTime) + (wb * tI);
+            wm = (175 * foldTime) + (wm * tI);
+            wt = (-175 * foldTime) + (wt * tI);
+        }
+
+        wingRightBase.roll = (float) Math.toRadians(wb);
+        wingLeftBase.roll = (float) Math.toRadians(-wb);
+
+        wingRightMid.roll = (float) Math.toRadians(wm);
+        wingLeftMid.roll = (float) Math.toRadians(-wm);
+
+        wingRightTip.roll = (float) Math.toRadians(wt);
+        wingLeftTip.roll = (float) Math.toRadians(-wt);
     }
 
     @Override
