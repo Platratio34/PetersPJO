@@ -31,6 +31,7 @@ import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.animation.AnimatableManager.ControllerRegistrar;
+import software.bernie.geckolib.core.animation.AnimationController.State;
 import software.bernie.geckolib.core.object.PlayState;
 
 public class Pegasus extends AbstractHorseEntity implements GeoEntity {
@@ -46,13 +47,13 @@ public class Pegasus extends AbstractHorseEntity implements GeoEntity {
     public static final SpawnEggItem EGG = new SpawnEggItem(TYPE, 0x5b276c, 0xfdff2f, new FabricItemSettings());
 
     // private static final String ANIMATION_WING_IDLE_GROUND_NAME = "animation." + NAME + ".wing_idle_ground";
-    private static final String ANIMATION_WING_IDLE_AIR_NAME = "animation." + NAME + ".wing_idle_air";
-    private static final String ANIMATION_WING_FOLD_NAME = "animation." + NAME + ".wing_fold";
-    private static final String ANIMATION_WING_FLAP_NAME = "animation." + NAME + ".wing_flap";
-    private static final String ANIMATION_WING_LAUNCH_NAME = "animation." + NAME + ".wing_launch";
-    private static final String ANIMATION_BODY_LAUNCH_NAME = "animation." + NAME + ".body_launch";
-    private static final String ANIMATION_BODY_IDLE_NAME = "animation." + NAME + ".body_idle";
-    private static final String ANIMATION_BODY_WALK_NAME = "animation." + NAME + ".body_walk";
+    private static final String ANIMATION_WING_IDLE_AIR_NAME = "wing_idle_air";
+    private static final String ANIMATION_WING_FOLD_NAME = "wing_fold";
+    private static final String ANIMATION_WING_FLAP_NAME = "wing_flap";
+    private static final String ANIMATION_LAUNCH_NAME = "launch";
+    private static final String ANIMATION_BODY_LAUNCH_NAME = "body_launch";
+    private static final String ANIMATION_BODY_IDLE_NAME = "body_idle";
+    private static final String ANIMATION_BODY_WALK_NAME = "body_walk";
 
     // private static final RawAnimation ANIMATION_WING_IDLE_GROUND = RawAnimation.begin()
     //         .thenLoop(ANIMATION_WING_IDLE_GROUND_NAME);
@@ -63,7 +64,7 @@ public class Pegasus extends AbstractHorseEntity implements GeoEntity {
     private static final RawAnimation ANIMATION_WING_FLAP = RawAnimation.begin().thenLoop(ANIMATION_WING_FLAP_NAME);
     private static final RawAnimation ANIMATION_WING_FLAP_ONCE = RawAnimation.begin().thenPlay(ANIMATION_WING_FLAP_NAME)
             .thenLoop(ANIMATION_WING_IDLE_AIR_NAME);
-    private static final RawAnimation ANIMATION_WING_LAUNCH = RawAnimation.begin().thenPlay(ANIMATION_WING_LAUNCH_NAME)
+    private static final RawAnimation ANIMATION_LAUNCH = RawAnimation.begin().thenPlay(ANIMATION_LAUNCH_NAME)
             .thenLoop(ANIMATION_WING_IDLE_AIR_NAME);
     private static final RawAnimation ANIMATION_BODY_LAUNCH = RawAnimation.begin().thenPlay(ANIMATION_BODY_LAUNCH_NAME)
             .thenLoop(ANIMATION_BODY_WALK_NAME);
@@ -160,17 +161,21 @@ public class Pegasus extends AbstractHorseEntity implements GeoEntity {
     public void registerControllers(ControllerRegistrar controllers) {
         animationControllerWing = new AnimationController<Pegasus>(this, "controller_wing", 5,
                 this::animAtionPredicateWing);
-        animationControllerBody = new AnimationController<Pegasus>(this, "controller_body", 5,
-                this::animAtionPredicateBody);
+        // animationControllerBody = new AnimationController<Pegasus>(this, "controller_body", 5,
+        //         this::animAtionPredicateBody);
+        // controllers.add(animationControllerBody);
         controllers.add(animationControllerWing);
-        controllers.add(animationControllerBody);
     }
 
     private boolean currentlyPlayingWing(String animationName) {
+        if (animationControllerWing.getAnimationState() == State.STOPPED)
+            return false;
         return animationControllerWing.getCurrentAnimation().animation().name().equals(animationName);
     }
 
     private boolean currentlyPlayingBody(String animationName) {
+        if (animationControllerBody.getAnimationState() == State.STOPPED)
+            return false;
         return animationControllerBody.getCurrentAnimation().animation().name().equals(animationName);
     }
 
@@ -180,8 +185,8 @@ public class Pegasus extends AbstractHorseEntity implements GeoEntity {
             animationControllerWing.setAnimation(ANIMATION_WING_FOLD);
         } else {
             if (wasOnGround) {
-                animationControllerWing.setAnimation(ANIMATION_WING_LAUNCH);
-            } else if (!currentlyPlayingWing(ANIMATION_WING_LAUNCH_NAME)) {
+                animationControllerWing.setAnimation(ANIMATION_LAUNCH);
+            } else if (!currentlyPlayingWing(ANIMATION_LAUNCH_NAME)) {
                 if (Math.abs(this.forwardSpeed) > 0.1) {
                     animationControllerWing.setAnimation(ANIMATION_WING_FLAP);
                 } else {
@@ -194,23 +199,23 @@ public class Pegasus extends AbstractHorseEntity implements GeoEntity {
 
     private <T extends GeoAnimatable> PlayState animAtionPredicateBody(AnimationState<T> animationState) {
 
-        if (this.isOnGround()) {
-            if (Math.abs(this.forwardSpeed) > 0.1) {
-                animationControllerBody.setAnimation(ANIMATION_BODY_WALK);
-            } else {
-                animationControllerBody.setAnimation(ANIMATION_BODY_IDLE);
-            }
-        } else {
-            if (wasOnGround) {
-                animationControllerBody.setAnimation(ANIMATION_BODY_LAUNCH);
-            } else if (!currentlyPlayingBody(ANIMATION_BODY_LAUNCH_NAME)) {
-                if (Math.abs(this.forwardSpeed) > 0.1) {
-                    animationControllerBody.setAnimation(ANIMATION_BODY_WALK);
-                } else {
-                    animationControllerBody.setAnimation(ANIMATION_BODY_IDLE);
-                }
-            }
-        }
+        // if (this.isOnGround()) {
+        //     if (Math.abs(this.forwardSpeed) > 0.1) {
+        //         animationControllerBody.setAnimation(ANIMATION_BODY_WALK);
+        //     } else {
+        //         animationControllerBody.setAnimation(ANIMATION_BODY_IDLE);
+        //     }
+        // } else {
+        //     if (wasOnGround) {
+        //         animationControllerBody.setAnimation(ANIMATION_BODY_LAUNCH);
+        //     } else if (!currentlyPlayingBody(ANIMATION_BODY_LAUNCH_NAME)) {
+        //         if (Math.abs(this.forwardSpeed) > 0.1) {
+        //             animationControllerBody.setAnimation(ANIMATION_BODY_WALK);
+        //         } else {
+        //             animationControllerBody.setAnimation(ANIMATION_BODY_IDLE);
+        //         }
+        //     }
+        // }
         return PlayState.CONTINUE;
     }
 
