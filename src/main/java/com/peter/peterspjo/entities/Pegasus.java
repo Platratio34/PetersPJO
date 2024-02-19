@@ -5,6 +5,7 @@ import com.peter.peterspjo.PJO;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
@@ -12,12 +13,25 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageTypes;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.passive.AbstractDonkeyEntity;
 import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.StackReference;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.item.SpawnEggItem;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -34,7 +48,9 @@ import software.bernie.geckolib.core.animation.AnimatableManager.ControllerRegis
 import software.bernie.geckolib.core.animation.AnimationController.State;
 import software.bernie.geckolib.core.object.PlayState;
 
-public class Pegasus extends AbstractHorseEntity implements GeoEntity {
+public class Pegasus extends AbstractDonkeyEntity implements GeoEntity {
+
+    // private static final TrackedData<Boolean> CHEST = DataTracker.registerData(Pegasus.class, TrackedDataHandlerRegistry.BOOLEAN);
 
     private AnimatableInstanceCache animationCache = new SingletonAnimatableInstanceCache(this);
 
@@ -80,12 +96,12 @@ public class Pegasus extends AbstractHorseEntity implements GeoEntity {
         Registry.register(Registries.ITEM, EGG_ID, EGG);
     }
 
-    public Pegasus(EntityType<? extends AbstractHorseEntity> entityType, World world) {
+    public Pegasus(EntityType<? extends AbstractDonkeyEntity> entityType, World world) {
         super(entityType, world);
     }
 
     public static DefaultAttributeContainer.Builder createMobAttributes() {
-        return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 35.0)
+        return createBaseHorseAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 35.0)
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3f).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.0)
                 .add(EntityAttributes.GENERIC_ARMOR, 2.0).add(EntityAttributes.HORSE_JUMP_STRENGTH, 1.0);
     }
@@ -223,5 +239,147 @@ public class Pegasus extends AbstractHorseEntity implements GeoEntity {
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return animationCache;
     }
+
+    // @Override
+    // protected void initDataTracker() {
+    //     super.initDataTracker();
+    //     this.dataTracker.startTracking(CHEST, false);
+    // }
+
+    // public boolean hasChest() {
+    //     return this.dataTracker.get(CHEST);
+    // }
+
+    // public void setHasChest(boolean hasChest) {
+    //     this.dataTracker.set(CHEST, hasChest);
+    // }
+
+    // @Override
+    // protected int getInventorySize() {
+    //     if (this.hasChest()) {
+    //         return 17;
+    //     }
+    //     return super.getInventorySize();
+    // }
+
+    // @Override
+    // protected void dropInventory() {
+    //     super.dropInventory();
+    //     if (this.hasChest()) {
+    //         if (!this.getWorld().isClient) {
+    //             this.dropItem(Blocks.CHEST);
+    //         }
+    //         this.setHasChest(false);
+    //     }
+    // }
+
+    // @Override
+    // public void writeCustomDataToNbt(NbtCompound nbt) {
+    //     super.writeCustomDataToNbt(nbt);
+    //     nbt.putBoolean("ChestedHorse", this.hasChest());
+    //     if (this.hasChest()) {
+    //         NbtList nbtList = new NbtList();
+    //         for (int i = 2; i < this.items.size(); ++i) {
+    //             ItemStack itemStack = this.items.getStack(i);
+    //             if (itemStack.isEmpty()) continue;
+    //             NbtCompound nbtCompound = new NbtCompound();
+    //             nbtCompound.putByte("Slot", (byte)i);
+    //             itemStack.writeNbt(nbtCompound);
+    //             nbtList.add(nbtCompound);
+    //         }
+    //         nbt.put("Items", nbtList);
+    //     }
+    // }
+
+    // @Override
+    // public void readCustomDataFromNbt(NbtCompound nbt) {
+    //     super.readCustomDataFromNbt(nbt);
+    //     this.setHasChest(nbt.getBoolean("ChestedHorse"));
+    //     this.onChestedStatusChanged();
+    //     if (this.hasChest()) {
+    //         NbtList nbtList = nbt.getList("Items", NbtElement.COMPOUND_TYPE);
+    //         for (int i = 0; i < nbtList.size(); ++i) {
+    //             NbtCompound nbtCompound = nbtList.getCompound(i);
+    //             int j = nbtCompound.getByte("Slot") & 0xFF;
+    //             if (j < 2 || j >= this.items.size()) continue;
+    //             this.items.setStack(j, ItemStack.fromNbt(nbtCompound));
+    //         }
+    //     }
+    //     this.updateSaddle();
+    // }
+
+    // @Override
+    // public StackReference getStackReference(int mappedIndex) {
+    //     if (mappedIndex == 499) {
+    //         return new StackReference(){
+
+    //             @Override
+    //             public ItemStack get() {
+    //                 return Pegasus.this.hasChest() ? new ItemStack(Items.CHEST) : ItemStack.EMPTY;
+    //             }
+
+    //             @Override
+    //             public boolean set(ItemStack stack) {
+    //                 if (stack.isEmpty()) {
+    //                     if (Pegasus.this.hasChest()) {
+    //                         Pegasus.this.setHasChest(false);
+    //                         Pegasus.this.onChestedStatusChanged();
+    //                     }
+    //                     return true;
+    //                 }
+    //                 if (stack.isOf(Items.CHEST)) {
+    //                     if (!Pegasus.this.hasChest()) {
+    //                         Pegasus.this.setHasChest(true);
+    //                         Pegasus.this.onChestedStatusChanged();
+    //                     }
+    //                     return true;
+    //                 }
+    //                 return false;
+    //             }
+    //         };
+    //     }
+    //     return super.getStackReference(mappedIndex);
+    // }
+
+    // @Override
+    // public ActionResult interactMob(PlayerEntity player, Hand hand) {
+    //     boolean bl;
+    //     boolean bl2 = bl = !this.isBaby() && this.isTame() && player.shouldCancelInteraction();
+    //     if (this.hasPassengers() || bl) {
+    //         return super.interactMob(player, hand);
+    //     }
+    //     ItemStack itemStack = player.getStackInHand(hand);
+    //     if (!itemStack.isEmpty()) {
+    //         if (this.isBreedingItem(itemStack)) {
+    //             return this.interactHorse(player, itemStack);
+    //         }
+    //         if (!this.isTame()) {
+    //             this.playAngrySound();
+    //             return ActionResult.success(this.getWorld().isClient);
+    //         }
+    //         if (!this.hasChest() && itemStack.isOf(Items.CHEST)) {
+    //             this.addChest(player, itemStack);
+    //             return ActionResult.success(this.getWorld().isClient);
+    //         }
+    //     }
+    //     return super.interactMob(player, hand);
+    // }
+
+    // private void addChest(PlayerEntity player, ItemStack chest) {
+    //     this.setHasChest(true);
+    //     this.playAddChestSound();
+    //     if (!player.getAbilities().creativeMode) {
+    //         chest.decrement(1);
+    //     }
+    //     this.onChestedStatusChanged();
+    // }
+
+    // protected void playAddChestSound() {
+    //     this.playSound(SoundEvents.ENTITY_DONKEY_CHEST, 1.0f, (this.random.nextFloat() - this.random.nextFloat()) * 0.2f + 1.0f);
+    // }
+
+    // public int getInventoryColumns() {
+    //     return 5;
+    // }
 
 }
