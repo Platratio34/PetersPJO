@@ -80,7 +80,7 @@ Things will go here
 - [x] Hellhound
 - [ ] Centaur
 - [ ] Medusa
-- [ ] Pegasus
+- [x] Pegasus
 
 ### Structures
 - [x] Ruined Temple 1

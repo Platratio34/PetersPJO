@@ -12,8 +12,7 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageTypes;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.passive.AbstractHorseEntity;
+import net.minecraft.entity.passive.AbstractDonkeyEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.registry.Registries;
@@ -34,7 +33,9 @@ import software.bernie.geckolib.core.animation.AnimatableManager.ControllerRegis
 import software.bernie.geckolib.core.animation.AnimationController.State;
 import software.bernie.geckolib.core.object.PlayState;
 
-public class Pegasus extends AbstractHorseEntity implements GeoEntity {
+public class Pegasus extends AbstractDonkeyEntity implements GeoEntity {
+
+    // private static final TrackedData<Boolean> CHEST = DataTracker.registerData(Pegasus.class, TrackedDataHandlerRegistry.BOOLEAN);
 
     private AnimatableInstanceCache animationCache = new SingletonAnimatableInstanceCache(this);
 
@@ -80,12 +81,12 @@ public class Pegasus extends AbstractHorseEntity implements GeoEntity {
         Registry.register(Registries.ITEM, EGG_ID, EGG);
     }
 
-    public Pegasus(EntityType<? extends AbstractHorseEntity> entityType, World world) {
+    public Pegasus(EntityType<? extends AbstractDonkeyEntity> entityType, World world) {
         super(entityType, world);
     }
 
     public static DefaultAttributeContainer.Builder createMobAttributes() {
-        return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 35.0)
+        return createBaseHorseAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 35.0)
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3f).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.0)
                 .add(EntityAttributes.GENERIC_ARMOR, 2.0).add(EntityAttributes.HORSE_JUMP_STRENGTH, 1.0);
     }
