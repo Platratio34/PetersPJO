@@ -3,6 +3,7 @@ package com.peter.peterspjo.worldgen.labyrinth.sections;
 import java.util.HashMap;
 import java.util.function.BiFunction;
 
+import com.peter.peterspjo.blocks.PJOBlocks;
 import com.peter.peterspjo.util.NoiseGenerator;
 import com.peter.peterspjo.worldgen.labyrinth.LabyrinthMap;
 import com.peter.peterspjo.worldgen.labyrinth.LabyrinthMaterials;
@@ -20,6 +21,7 @@ public abstract class LabyrinthSection {
     public static final Block DEFAULT_BLOCK = Blocks.STONE;
     public static final Block DEFAULT_AIR = Blocks.AIR;
     public static final Block DEFAULT_LIGHT = Blocks.LANTERN;
+    public static final Block DEFAULT_DOOR = PJOBlocks.LABYRINTH_DOOR;
 
     /** Normal floor block y */
     public static final int FLOOR_HEIGHT = 1;

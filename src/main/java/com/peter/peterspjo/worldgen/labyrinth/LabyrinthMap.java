@@ -150,7 +150,7 @@ public class LabyrinthMap extends PersistentState {
 
         int sectionVariantIndex = random.nextBetween(0, 16);
 
-        LabyrinthSection section = LabyrinthSection.SECTIONS[sectionTypeIndex].gen(Direction.byId(dirIndex),
+        LabyrinthSection section = LabyrinthSection.SECTIONS[sectionTypeIndex].gen(Direction.byId(dirIndex+2),
                 materialSet, sectionVariantIndex);
         
         boolean valid = false;
@@ -197,14 +197,14 @@ public class LabyrinthMap extends PersistentState {
                         sectionTypeIndex = 0;
                     }
                     if (sectionTypeIndex == startSectionType) {
-                        PJO.LOGGER.warn("Unable to find labyrinth section to fit " + chunkPos.toString()
-                                + " at y index " + yIndex);
-                        // section = LabyrinthSection.EMPTY.gen(Direction.byId(dirIndex), materialSet, sectionVariantIndex);
-                        section = LabyrinthSection.SECTIONS[sectionTypeIndex].gen(Direction.byId(dirIndex), materialSet, sectionVariantIndex);
+                        // PJO.LOGGER.warn("Unable to find labyrinth section to fit " + chunkPos.toString()
+                        //         + " at y index " + yIndex);
+                        // section = LabyrinthSection.EMPTY.gen(Direction.byId(dirIndex+2), materialSet, sectionVariantIndex);
+                        section = LabyrinthSection.SECTIONS[sectionTypeIndex].gen(Direction.byId(dirIndex+2), materialSet, sectionVariantIndex);
                         break;
                     }
                 }
-                section = LabyrinthSection.SECTIONS[sectionTypeIndex].gen(Direction.byId(dirIndex), materialSet, sectionVariantIndex);
+                section = LabyrinthSection.SECTIONS[sectionTypeIndex].gen(Direction.byId(dirIndex+2), materialSet, sectionVariantIndex);
             }
             if (iterationCounter > maxIterations) {
                 PJO.LOGGER.error(
