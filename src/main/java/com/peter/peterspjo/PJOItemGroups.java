@@ -21,6 +21,7 @@ public class PJOItemGroups {
                 entries.add(PJOItems.CELESTIAL_BRONZE_BLOCK);
                 entries.add(PJOItems.CELESTIAL_BRONZE_SWORD);
                 entries.add(PJOItems.CELESTIAL_BRONZE_SPEAR);
+                entries.add(PJOItems.CELESTIAL_BRONZE_DAGGER);
                 entries.add(PJOItems.CELESTIAL_BRONZE_HELMET);
                 entries.add(PJOItems.CELESTIAL_BRONZE_CHESTPLATE);
                 entries.add(PJOItems.CELESTIAL_BRONZE_LEGGINGS);

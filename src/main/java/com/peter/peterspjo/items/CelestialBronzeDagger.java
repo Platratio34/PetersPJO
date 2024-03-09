@@ -14,24 +14,25 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
-public class CelestialBronzeSword extends Sword {
+public class CelestialBronzeDagger extends Sword {
 
-    public static final Identifier ID = new Identifier(PJO.NAMESPACE, "celestial_bronze_sword");
+    public static final String NAME = "celestial_bronze_dagger";
+    public static final Identifier ID = new Identifier(PJO.NAMESPACE, NAME);
 
-    public static final CelestialBronzeSword ITEM = Registry.register(Registries.ITEM, ID, new CelestialBronzeSword(
+    public static final CelestialBronzeDagger ITEM = Registry.register(Registries.ITEM, ID, new CelestialBronzeDagger(
             new FabricItemSettings()));
 
     public static void init() {}
-    
-    public CelestialBronzeSword(Settings settings) {
-        super(CelestialBronzeMaterial.INSTANCE, 6, -2f, settings);
+
+    public CelestialBronzeDagger(Settings settings) {
+        super(CelestialBronzeMaterial.INSTANCE, 4, 0.3f, settings);
     }
 
     @Override
     public void appendTooltip(ItemStack itemStack, World world, List<Text> tooltip, TooltipContext tooltipContext) {
 
         // default white text
-        tooltip.add(Text.translatable("item.peterspjo.celestial_bronze_sword.tooltip").formatted(Formatting.GOLD));
+        tooltip.add(Text.translatable("item."+PJO.NAMESPACE+"."+NAME+".tooltip").formatted(Formatting.GOLD));
     }
 
 }

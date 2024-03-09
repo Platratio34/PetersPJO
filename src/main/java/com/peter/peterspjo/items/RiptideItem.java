@@ -32,7 +32,7 @@ public class RiptideItem extends Sword {
     public boolean isSword = false;
 
     public RiptideItem(Settings settings) {
-        super(CelestialBronzeMaterial.INSTANCE, 8, 0.2f, settings);
+        super(CelestialBronzeMaterial.INSTANCE, 8, -2f, settings);
     }
 
     @Override

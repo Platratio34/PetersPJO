@@ -33,7 +33,7 @@ Things will go here
 - [x] Make spear throwable
 - [x] CB Sword
 - [x] CB Spear
-- [ ] CB Dagger
+- [x] CB Dagger
 - [ ] IG Sword
 - [ ] IG Spear
 - [ ] IG Dagger
