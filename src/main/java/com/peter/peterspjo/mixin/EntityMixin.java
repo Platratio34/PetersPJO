@@ -39,8 +39,8 @@ public abstract class EntityMixin {
 
     @Inject(method = "baseTick", at = @At("HEAD"))
     private void onBaseTick(CallbackInfo info) {
-        Entity thisAsEntity = (Entity)((Object)this);
-        if (thisAsEntity instanceof BoatEntity || (thisAsEntity.getVehicle() instanceof BoatEntity && !thisAsEntity.isSubmergedInWater())) {
+        Entity entity = (Entity) ((Object) this);
+        if (entity instanceof BoatEntity || (entity.getVehicle() instanceof BoatEntity && !entity.isSubmergedInWater())) {
             return;
         }
         if (isInStyx()) {

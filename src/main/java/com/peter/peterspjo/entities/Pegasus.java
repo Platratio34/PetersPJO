@@ -5,6 +5,7 @@ import com.peter.peterspjo.PJO;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
@@ -28,6 +29,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.EntityView;
@@ -54,7 +56,7 @@ public class Pegasus extends AbstractDonkeyEntity implements GeoEntity {
             .dimensions(EntityDimensions.changing(1.5f, 1.5f)).build();
 
     public static final Identifier EGG_ID = new Identifier(PJO.NAMESPACE, NAME + "_spawn_egg");
-    public static final SpawnEggItem EGG = new SpawnEggItem(TYPE, 0x5b276c, 0xfdff2f, new FabricItemSettings());
+    public static final SpawnEggItem EGG = new SpawnEggItem(TYPE, 0xC09E7D, 0xEEE500, new FabricItemSettings());
 
     // private static final String ANIMATION_WING_IDLE_GROUND_NAME = "animation." + NAME + ".wing_idle_ground";
     private static final String ANIMATION_WING_IDLE_AIR_NAME = "wing_idle_air";
@@ -107,15 +109,11 @@ public class Pegasus extends AbstractDonkeyEntity implements GeoEntity {
 
     @Override
     public void onDamaged(DamageSource source) {
-        if (source.isOf(DamageTypes.FALL))
-            return;
         super.onDamaged(source);
     }
 
     @Override
     public boolean damage(DamageSource source, float amount) {
-        if (source.isOf(DamageTypes.FALL))
-            return false;
         return super.damage(source, amount);
     }
 
@@ -165,6 +163,16 @@ public class Pegasus extends AbstractDonkeyEntity implements GeoEntity {
     @Override
     protected float getOffGroundSpeed() {
         return getMovementSpeed() * 0.9f;
+    }
+
+    @Override
+    public boolean handleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
+        return true;
+    }
+
+    @Override
+    protected void fall(double heightDifference, boolean onGround, BlockState state, BlockPos landedPosition) {
+        return;
     }
 
     @Override
