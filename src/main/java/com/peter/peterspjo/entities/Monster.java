@@ -4,6 +4,7 @@ import com.peter.peterspjo.PJODamageTypes;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.world.World;
 
@@ -21,6 +22,14 @@ public class Monster extends HostileEntity {
         //     return true;
         // }
         return super.isInvulnerableTo(damageSource);
+    }
+
+    @Override
+    public boolean damage(DamageSource source, float amount) {
+        if (source.isOf(DamageTypes.PLAYER_ATTACK)) {
+            amount *= 0.5f;
+        }
+        return super.damage(source, amount);
     }
 
 }

@@ -14,7 +14,7 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
-public class CelestialBronzeDagger extends Sword {
+public class CelestialBronzeDagger extends CelestialSword {
 
     public static final String NAME = "celestial_bronze_dagger";
     public static final Identifier ID = new Identifier(PJO.NAMESPACE, NAME);
@@ -24,7 +24,7 @@ public class CelestialBronzeDagger extends Sword {
 
     public static void init() {}
 
-    public CelestialBronzeDagger(Settings settings) {
+    public CelestialBronzeDagger(FabricItemSettings settings) {
         super(CelestialBronzeMaterial.INSTANCE, 4, 0.3f, settings);
     }
 

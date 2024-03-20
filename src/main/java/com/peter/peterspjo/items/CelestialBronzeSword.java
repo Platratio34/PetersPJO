@@ -14,7 +14,7 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
-public class CelestialBronzeSword extends Sword {
+public class CelestialBronzeSword extends CelestialSword {
 
     public static final Identifier ID = new Identifier(PJO.NAMESPACE, "celestial_bronze_sword");
 
@@ -23,7 +23,7 @@ public class CelestialBronzeSword extends Sword {
 
     public static void init() {}
     
-    public CelestialBronzeSword(Settings settings) {
+    public CelestialBronzeSword(FabricItemSettings settings) {
         super(CelestialBronzeMaterial.INSTANCE, 6, -2f, settings);
     }
 

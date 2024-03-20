@@ -15,7 +15,7 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
-public class CelestialBronzeSpear extends Spear {
+public class CelestialBronzeSpear extends CelestialSpear {
 
     public static final String NAME = "celestial_bronze_spear";
     public static final Identifier ID = new Identifier(PJO.NAMESPACE, NAME);
@@ -24,7 +24,7 @@ public class CelestialBronzeSpear extends Spear {
 
     public static void init() {}
 
-    public CelestialBronzeSpear(ToolMaterial toolMaterial, int attackDamage, float attackSpeed, Settings settings) {
+    public CelestialBronzeSpear(ToolMaterial toolMaterial, int attackDamage, float attackSpeed, FabricItemSettings settings) {
         super(toolMaterial, attackDamage, attackSpeed, settings);
     }
 

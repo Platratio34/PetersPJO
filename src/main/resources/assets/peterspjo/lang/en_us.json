@@ -31,7 +31,14 @@
     "block.peterspjo.labyrinth_door": "Labyrinth Door",
     
     "item.peterspjo.riptide": "Anaklusmos",
-    "item.peterspjo.riptide.tooltip": "(Riptide) Some say the pen is mightier than the sword, others have a sword pen",
+    "item.peterspjo.riptide.tooltip": "(Riptide)",
+    "item.peterspjo.riptide.tooltip2": "Some say the pen is mightier than the sword,",
+    "item.peterspjo.riptide.tooltip3": "Others have a sword pen",
+
+    "item.peterspjo.celestial_bronze_helmet": "Celestial Bronze Helmet",
+    "item.peterspjo.celestial_bronze_chestplate": "Celestial Bronze Chestplate",
+    "item.peterspjo.celestial_bronze_leggings": "Celestial Bronze Leggings",
+    "item.peterspjo.celestial_bronze_boots": "Celestial Bronze Boots",
     
     "entity.peterspjo.empousai": "Empousai",
     "item.peterspjo.empousai_spawn_egg": "Empousai Spawn Egg",
@@ -60,6 +67,8 @@
     "advancement.peterspjo.got_riptide.description": "Find Anaklusmos (aka Riptide)",
 
     "death.attack.styx": "%s took a dip in the river Styx",
-    "death.attack.styx.player": "%s took a dip in the river Styx whilst trying to escape %s"
+    "death.attack.styx.player": "%s took a dip in the river Styx whilst trying to escape %s",
+
+    "enchantment.peterspjo.celestial": "Celestial"
 
 }

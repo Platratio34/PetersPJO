@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.peter.peterspjo.items.CelestialBronzeDagger;
-import com.peter.peterspjo.items.Spear;
+import com.peter.peterspjo.items.CelestialSpear;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
@@ -20,7 +20,7 @@ public class ClientPlayerInteractionManagerMixin {
     @Inject(method="getReachDistance", at=@At("HEAD"), cancellable = true)
     public void getReachDistance(CallbackInfoReturnable<Float> cir) {
         PlayerEntity player = instance.player;
-        if (player != null && player.getMainHandStack().getItem() instanceof Spear) {
+        if (player != null && player.getMainHandStack().getItem() instanceof CelestialSpear) {
             cir.setReturnValue(12.0f);
             cir.cancel();
         } else if (player != null && player.getMainHandStack().getItem() instanceof CelestialBronzeDagger) {
@@ -32,7 +32,7 @@ public class ClientPlayerInteractionManagerMixin {
     @Inject(method="hasExtendedReach", at=@At("HEAD"), cancellable = true)
     public void hasExtendedReach(CallbackInfoReturnable<Boolean> cir) {
         PlayerEntity player = instance.player;
-        if (player != null && player.getMainHandStack().getItem() instanceof Spear && player.getOffHandStack().isEmpty()) {
+        if (player != null && player.getMainHandStack().getItem() instanceof CelestialSpear && player.getOffHandStack().isEmpty()) {
             cir.setReturnValue(true);
             cir.cancel();
         }

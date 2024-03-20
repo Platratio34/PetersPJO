@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.peter.peterspjo.blocks.PJOBlocks;
+import com.peter.peterspjo.enchantments.PJOEnchantments;
 import com.peter.peterspjo.entities.PJOEntities;
 import com.peter.peterspjo.items.PJOItems;
 import com.peter.peterspjo.worldgen.UnderworldChunkGenerator;
@@ -37,7 +38,8 @@ public class PJO implements ModInitializer {
 		PJOBlocks.init();
 		PJOEntities.init();
 
-		PJOItemGroups.init();
+        PJOItemGroups.init();
+        PJOEnchantments.init();
 
         UnderworldChunkGenerator.register();
         LabyrinthChunkGenerator.register();
