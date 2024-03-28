@@ -1,5 +1,8 @@
 # Peter's Percy Jackson Mod
 
+> [!INFO]
+> This mod uses [GeckoLib](https://www.curseforge.com/minecraft/mc-mods/geckolib) for animations
+
 > [!CAUTION]
 > This mod contains spoilers for various Percy Jackson Books.
 > Attempts have been made to hide or obfuscate spoiler content but they will still exist in game.
