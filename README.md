@@ -81,7 +81,7 @@ Things will go here
 - [ ] Minotaur
 - [ ] Chimera
 - [x] Hellhound
-- [ ] Centaur
+- [x] Centaur
 - [ ] Medusa
 - [x] Pegasus
 
