@@ -1,6 +1,6 @@
 # Peter's Percy Jackson Mod
 
-> [!INFO]
+> [!IMPORTANT]
 > This mod uses [GeckoLib](https://www.curseforge.com/minecraft/mc-mods/geckolib) for animations
 
 > [!CAUTION]
