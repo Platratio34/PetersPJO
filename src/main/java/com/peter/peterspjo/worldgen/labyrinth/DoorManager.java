@@ -362,7 +362,7 @@ public class DoorManager extends PersistentState {
                     }
                 }
 
-                // TODO more attemping to find other end
+                // TODO more attempting to find other end
 
             }
             return false;
