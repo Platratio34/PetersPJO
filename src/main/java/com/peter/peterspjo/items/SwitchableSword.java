@@ -36,7 +36,7 @@ public abstract class SwitchableSword extends CelestialSword implements Switchab
             stack.set(IS_SWORD_COMPONENT, isSword);
             user.getItemCooldownManager().set(this, 1);
         }
-        return super.use(world, user, hand);
+        return TypedActionResult.success(stack, world.isClient());
     }
 
     @Override

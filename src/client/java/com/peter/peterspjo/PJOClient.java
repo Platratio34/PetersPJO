@@ -22,7 +22,7 @@ import net.minecraft.util.Identifier;
 public class PJOClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
-		EntityRendererRegistry.register(SpearEntity.TYPE, (context) -> new SpearEntityRenderer(context));
+        SpearEntityRenderer.register();
 		EmpousaiRenderer.register();
 		HellhoundRenderer.register();
 		PegasusRenderer.register();

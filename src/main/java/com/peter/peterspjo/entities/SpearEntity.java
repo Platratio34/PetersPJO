@@ -37,11 +37,14 @@ public class SpearEntity extends PersistentProjectileEntity {
 
     public SpearEntity(World world, LivingEntity owner) {
         super(TYPE, world); // TODO is this correct?
+        setOwner(owner);
+        setPosition(owner.getX(), owner.getEyeY() - 0.10000000149011612, owner.getZ());
         constructor();
     }
 
     public SpearEntity(World world, double x, double y, double z) {
         super(TYPE, world); // TODO is this correct?
+        setPosition(x, y, z);
         constructor();
     }
 
@@ -49,7 +52,7 @@ public class SpearEntity extends PersistentProjectileEntity {
         this.setDamage(5f);
         this.pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
         this.setSound(SoundEvents.ENTITY_ARROW_HIT);
-        // this.setPierceLevel((byte) 0xf);
+        this.setPierceLevel((byte) 0xf);
         // this.age
     }
 

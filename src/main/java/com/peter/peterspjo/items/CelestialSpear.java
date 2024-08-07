@@ -1,5 +1,6 @@
 package com.peter.peterspjo.items;
 
+import com.peter.peterspjo.PJO;
 import com.peter.peterspjo.entities.SpearEntity;
 
 import net.minecraft.item.Item;
@@ -21,8 +22,10 @@ public class CelestialSpear extends CelestialSword {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand); // creates a new ItemStack instance of the user's itemStack
                                                          // in-hand
-
-        user.getItemCooldownManager().set(this, 2);
+        // if (user.getItemCooldownManager().isCoolingDown(this)) {
+        //     return TypedActionResult.fail(itemStack);
+        // }
+        user.getItemCooldownManager().set(this, 10);
 
         if (!world.isClient) {
             SpearEntity spearEntity = new SpearEntity(world, user);
@@ -31,14 +34,11 @@ public class CelestialSpear extends CelestialSword {
                 s2.damage(1, user, (hand==Hand.MAIN_HAND) ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
             }
             spearEntity.setItem(s2);
-            spearEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0F, 1.5F, 0F);
+            spearEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0F, 1.5F, 1.0F);
             world.spawnEntity(spearEntity); // spawns entity
         }
 
         user.incrementStat(Stats.USED.getOrCreateStat(this));
-        if (!user.isCreative()) {
-            itemStack.decrement(1); // decrements itemStack if user is not in creative mode
-        }
         return TypedActionResult.success(itemStack, world.isClient());
     }
 
