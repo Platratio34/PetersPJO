@@ -36,14 +36,14 @@ public class SpearEntity extends PersistentProjectileEntity {
     }
 
     public SpearEntity(World world, LivingEntity owner) {
-        super(TYPE, world); // TODO is this correct?
+        super(TYPE, world);
         setOwner(owner);
         setPosition(owner.getX(), owner.getEyeY() - 0.10000000149011612, owner.getZ());
         constructor();
     }
 
     public SpearEntity(World world, double x, double y, double z) {
-        super(TYPE, world); // TODO is this correct?
+        super(TYPE, world);
         setPosition(x, y, z);
         constructor();
     }

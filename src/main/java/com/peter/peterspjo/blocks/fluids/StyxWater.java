@@ -1,6 +1,7 @@
 package com.peter.peterspjo.blocks.fluids;
 
 import com.peter.peterspjo.PJO;
+import com.peter.peterspjo.worldgen.PJODimensions;
 
 import net.minecraft.item.Item;
 import net.minecraft.block.AbstractBlock;
@@ -51,8 +52,8 @@ public abstract class StyxWater extends WaterFluid {
     }
 
     @Override
-    protected boolean isInfinite(World world) { // TODO make this only true in underworld
-        return true;
+    protected boolean isInfinite(World world) {
+        return world.getDimensionEntry() == PJODimensions.UNDERWORLD;
     }
 
     @Override

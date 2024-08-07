@@ -61,13 +61,17 @@ public class Pegasus extends AbstractDonkeyEntity implements GeoEntity {
     private static final RawAnimation ANIMATION_WING_FOLD = RawAnimation.begin()
             .thenPlayAndHold(ANIMATION_WING_FOLD_NAME);
     private static final RawAnimation ANIMATION_WING_FLAP = RawAnimation.begin().thenLoop(ANIMATION_WING_FLAP_NAME);
+    @SuppressWarnings("unused")
     private static final RawAnimation ANIMATION_WING_FLAP_ONCE = RawAnimation.begin().thenPlay(ANIMATION_WING_FLAP_NAME)
             .thenLoop(ANIMATION_WING_IDLE_AIR_NAME);
     private static final RawAnimation ANIMATION_LAUNCH = RawAnimation.begin().thenPlay(ANIMATION_LAUNCH_NAME)
             .thenLoop(ANIMATION_WING_IDLE_AIR_NAME);
+    @SuppressWarnings("unused")
     private static final RawAnimation ANIMATION_BODY_LAUNCH = RawAnimation.begin().thenPlay(ANIMATION_BODY_LAUNCH_NAME)
             .thenLoop(ANIMATION_BODY_WALK_NAME);
+    @SuppressWarnings("unused")
     private static final RawAnimation ANIMATION_BODY_IDLE = RawAnimation.begin().thenLoop(ANIMATION_BODY_IDLE_NAME);
+    @SuppressWarnings("unused")
     private static final RawAnimation ANIMATION_BODY_WALK = RawAnimation.begin().thenLoop(ANIMATION_BODY_WALK_NAME);
 
     private AnimationController<Pegasus> animationControllerWing;
@@ -173,7 +177,8 @@ public class Pegasus extends AbstractDonkeyEntity implements GeoEntity {
             return false;
         return animationControllerWing.getCurrentAnimation().animation().name().equals(animationName);
     }
-
+    
+    @SuppressWarnings("unused")
     private boolean currentlyPlayingBody(String animationName) {
         if (animationControllerBody.getAnimationState() == State.STOPPED)
             return false;
@@ -197,7 +202,8 @@ public class Pegasus extends AbstractDonkeyEntity implements GeoEntity {
         }
         return PlayState.CONTINUE;
     }
-
+    
+    @SuppressWarnings("unused")
     private <T extends GeoAnimatable> PlayState animAtionPredicateBody(AnimationState<T> animationState) {
 
         // if (this.isOnGround()) {

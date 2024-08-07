@@ -69,8 +69,10 @@ public class PetersPJODataGenerator implements DataGeneratorEntrypoint {
                             Text.translatable(langBase + "kill_all_monster.description"),
                             background,
                             AdvancementFrame.CHALLENGE, true, true, false);
+            @SuppressWarnings("unused")
             AdvancementEntry killAllMonster = requireAllListedMobsKilled(killAllMonsterBuilder).build(consumer,
                     PJO.NAMESPACE + "/kill_all_monster");
+            @SuppressWarnings("unused")
             AdvancementEntry got_riptide = Advancement.Builder.create().parent(root)
                     .display(PJOItems.RIPTIDE,
                             Text.translatable(langBase + "got_riptide.title"),

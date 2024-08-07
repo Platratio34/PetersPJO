@@ -20,6 +20,7 @@ public class EmpousaiModel extends BipedEntityModel<Empousai> {
 
     public static final EntityModelLayer LAYER = new EntityModelLayer(Empousai.ID, "main");
 
+    @SuppressWarnings("unused")
     private final List<ModelPart> parts;
     public final ModelPart leftSleeve;
     public final ModelPart rightSleeve;
@@ -56,7 +57,6 @@ public class EmpousaiModel extends BipedEntityModel<Empousai> {
         Dilation dilation = Dilation.NONE;
         ModelData modelData = BipedEntityModel.getModelData(dilation, 0.0f);
         ModelPartData modelPartData = modelData.getRoot();
-        float f = 0.25f;
         modelPartData.addChild(EntityModelPartNames.LEFT_ARM,
                 ModelPartBuilder.create().uv(32, 48).cuboid(-1.0f, -2.0f, -2.0f, 4.0f, 12.0f, 4.0f, dilation),
                 ModelTransform.pivot(5.0f, 2.0f, 0.0f));

@@ -1,6 +1,5 @@
 package com.peter.peterspjo.items;
 
-import com.peter.peterspjo.PJO;
 import com.peter.peterspjo.entities.SpearEntity;
 
 import net.minecraft.item.Item;
@@ -20,11 +19,7 @@ public class CelestialSpear extends CelestialSword {
     }
 
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        ItemStack itemStack = user.getStackInHand(hand); // creates a new ItemStack instance of the user's itemStack
-                                                         // in-hand
-        // if (user.getItemCooldownManager().isCoolingDown(this)) {
-        //     return TypedActionResult.fail(itemStack);
-        // }
+        ItemStack itemStack = user.getStackInHand(hand);
         user.getItemCooldownManager().set(this, 10);
 
         if (!world.isClient) {

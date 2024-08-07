@@ -66,6 +66,7 @@ public class PegasusModel extends HorseEntityModel<Pegasus> {
                 ModelPartBuilder.create().uv(64, 17).cuboid(-9.0F, -1.0F, -5.0F, 9.0F, 1.0F, 13.0F, new Dilation(0.0F)),
                 ModelTransform.pivot(-9.0F, 0.0F, 0.0F));
 
+        @SuppressWarnings("unused")
         ModelPartData wingRTip = wingRMid.addChild(EntityModelPartNames.RIGHT_WING_TIP,
                 ModelPartBuilder.create().uv(64, 31).cuboid(-7.0F, 0.0F, -4.0F, 7.0F, 1.0F, 10.0F, new Dilation(0.0F)),
                 ModelTransform.pivot(-9.0F, 0.0F, 0.0F));
@@ -80,6 +81,7 @@ public class PegasusModel extends HorseEntityModel<Pegasus> {
                         .cuboid(0.0F, -1.0F, -5.0F, 9.0F, 1.0F, 13.0F, new Dilation(0.0F)).mirrored(false),
                 ModelTransform.pivot(9.0F, 0.0F, 0.0F));
 
+        @SuppressWarnings("unused")
         ModelPartData wingLTip = wingLMid.addChild(EntityModelPartNames.LEFT_WING_TIP,
                 ModelPartBuilder.create().uv(64, 31).mirrored()
                         .cuboid(0.0F, 0.0F, -4.0F, 7.0F, 1.0F, 10.0F, new Dilation(0.0F)).mirrored(false),
@@ -102,7 +104,7 @@ public class PegasusModel extends HorseEntityModel<Pegasus> {
 
     private double wingTime = 0;
     private double foldTime = 1;
-    private double groundTime = GROUND_TIME_TO_FOLD+10;
+    private double groundTime = GROUND_TIME_TO_FOLD + 10;
 
     @Override
     public void animateModel(Pegasus entity, float limbAngle, float limbDistance, float tickDelta) {
@@ -161,10 +163,14 @@ public class PegasusModel extends HorseEntityModel<Pegasus> {
     public void render(MatrixStack matrices, VertexConsumer vertexConsumer, int light, int overlay, int color) {
         super.render(matrices, vertexConsumer, light, overlay, color);
         wingRightBase.render(matrices, vertexConsumer, light, overlay, color);
-        // wingRightMid.render(matrices, vertexConsumer, light, overlay, red, green, blue, alpha);
-        // wingLeftMid.render(matrices, vertexConsumer, light, overlay, red, green, blue, alpha);
+        // wingRightMid.render(matrices, vertexConsumer, light, overlay, red, green,
+        // blue, alpha);
+        // wingLeftMid.render(matrices, vertexConsumer, light, overlay, red, green,
+        // blue, alpha);
         wingLeftBase.render(matrices, vertexConsumer, light, overlay, color);
-        // wingRightTip.render(matrices, vertexConsumer, light, overlay, red, green, blue, alpha);
-        // wingLeftTip.render(matrices, vertexConsumer, light, overlay, red, green, blue, alpha);
+        // wingRightTip.render(matrices, vertexConsumer, light, overlay, red, green,
+        // blue, alpha);
+        // wingLeftTip.render(matrices, vertexConsumer, light, overlay, red, green,
+        // blue, alpha);
     }
 }
