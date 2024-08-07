@@ -3,10 +3,10 @@ package com.peter.peterspjo.blocks;
 import java.util.List;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.item.TooltipContext;
+import net.minecraft.item.Item.TooltipContext;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
-import net.minecraft.world.BlockView;
 
 public class TooltipedBlock extends Block {
 
@@ -18,7 +18,7 @@ public class TooltipedBlock extends Block {
     }
 
     @Override
-    public void appendTooltip(ItemStack itemStack, BlockView world, List<Text> tooltip, TooltipContext tooltipContext) {
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType options) {
         tooltip.add(this.tooltip);
     }
 

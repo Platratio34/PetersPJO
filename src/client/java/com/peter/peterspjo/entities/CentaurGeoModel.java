@@ -3,7 +3,6 @@ package com.peter.peterspjo.entities;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -11,41 +10,35 @@ import java.util.UUID;
 
 import javax.imageio.ImageIO;
 
-import org.lwjgl.opengl.GL33;
-
-import com.google.common.collect.Maps;
 import com.peter.peterspjo.PJO;
 import com.peter.peterspjo.rendering.DynamicEntityTexture;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.texture.NativeImage;
 import net.minecraft.entity.passive.HorseColor;
 import net.minecraft.resource.Resource;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Util;
-import software.bernie.geckolib.cache.texture.AnimatableTexture;
 
 public class CentaurGeoModel<T extends Centaur> extends GeoAnimatedModel<T> {
     
-    private static final Map<HorseColor, Identifier> HORSE_TEXTURES = (Map)Util.make(Maps.newEnumMap(HorseColor.class), map -> {
-        map.put(HorseColor.WHITE, new Identifier("textures/entity/horse/horse_white.png"));
-        map.put(HorseColor.CREAMY, new Identifier("textures/entity/horse/horse_creamy.png"));
-        map.put(HorseColor.CHESTNUT, new Identifier("textures/entity/horse/horse_chestnut.png"));
-        map.put(HorseColor.BROWN, new Identifier("textures/entity/horse/horse_brown.png"));
-        map.put(HorseColor.BLACK, new Identifier("textures/entity/horse/horse_black.png"));
-        map.put(HorseColor.GRAY, new Identifier("textures/entity/horse/horse_gray.png"));
-        map.put(HorseColor.DARK_BROWN, new Identifier("textures/entity/horse/horse_darkbrown.png"));
-    });
+    private static final Map<HorseColor, Identifier> HORSE_TEXTURES = Map.of(
+        HorseColor.WHITE, Identifier.of(PJO.NAMESPACE, "textures/entity/horse/horse_white.png"),
+        HorseColor.CREAMY, Identifier.of(PJO.NAMESPACE, "textures/entity/horse/horse_creamy.png"),
+        HorseColor.CHESTNUT, Identifier.of(PJO.NAMESPACE, "textures/entity/horse/horse_chestnut.png"),
+        HorseColor.BROWN, Identifier.of(PJO.NAMESPACE, "textures/entity/horse/horse_brown.png"),
+        HorseColor.BLACK, Identifier.of(PJO.NAMESPACE, "textures/entity/horse/horse_black.png"),
+        HorseColor.GRAY, Identifier.of(PJO.NAMESPACE, "textures/entity/horse/horse_gray.png"),
+        HorseColor.DARK_BROWN, Identifier.of(PJO.NAMESPACE, "textures/entity/horse/horse_darkbrown.png")
+    );
     
     private static final Identifier[] UPPER_TEXTURES = {
-        new Identifier(PJO.NAMESPACE, "textures/entity/centaur/centaur.png"),
-        new Identifier(PJO.NAMESPACE, "textures/entity/centaur/centaur.png"),
-        new Identifier(PJO.NAMESPACE, "textures/entity/centaur/centaur.png"),
-        new Identifier(PJO.NAMESPACE, "textures/entity/centaur/centaur.png"),
-        new Identifier(PJO.NAMESPACE, "textures/entity/centaur/centaur.png"),
-        new Identifier(PJO.NAMESPACE, "textures/entity/centaur/centaur.png"),
-        new Identifier(PJO.NAMESPACE, "textures/entity/centaur/centaur.png"),
-        new Identifier(PJO.NAMESPACE, "textures/entity/centaur/centaur.png")
+        Identifier.of(PJO.NAMESPACE, "textures/entity/centaur/centaur.png"),
+        Identifier.of(PJO.NAMESPACE, "textures/entity/centaur/centaur.png"),
+        Identifier.of(PJO.NAMESPACE, "textures/entity/centaur/centaur.png"),
+        Identifier.of(PJO.NAMESPACE, "textures/entity/centaur/centaur.png"),
+        Identifier.of(PJO.NAMESPACE, "textures/entity/centaur/centaur.png"),
+        Identifier.of(PJO.NAMESPACE, "textures/entity/centaur/centaur.png"),
+        Identifier.of(PJO.NAMESPACE, "textures/entity/centaur/centaur.png"),
+        Identifier.of(PJO.NAMESPACE, "textures/entity/centaur/centaur.png")
     };
 
     private static HashMap<UUID, DynamicEntityTexture> textures = new HashMap<UUID, DynamicEntityTexture>();

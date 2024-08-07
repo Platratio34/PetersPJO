@@ -3,7 +3,7 @@ package com.peter.peterspjo.worldgen;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.peter.peterspjo.PJO;
 
@@ -19,13 +19,13 @@ import net.minecraft.world.biome.source.util.MultiNoiseUtil.MultiNoiseSampler;
 
 public class UnderworldBiomeSource extends BiomeSource {
 
-    public static final Codec<UnderworldBiomeSource> CODEC = RecordCodecBuilder
-            .create(instance -> instance
+    public static final MapCodec<UnderworldBiomeSource> CODEC = RecordCodecBuilder
+            .mapCodec(instance -> instance
                     .group(RegistryOps.getEntryCodec(PJOBiomes.UNDERWORLD_PLAINS), RegistryOps.getEntryCodec(PJOBiomes.UNDERWORLD_OUTER), RegistryOps.getEntryCodec(PJOBiomes.UNDERWORLD_CELLING), RegistryOps.getEntryCodec(PJOBiomes.UNDERWORLD_ASPHODEL_FIELDS))
                     .apply(instance, UnderworldBiomeSource::new));
 
     public static void register() {
-        Registry.register(Registries.BIOME_SOURCE, new Identifier(PJO.NAMESPACE, "underworld"), CODEC);
+        Registry.register(Registries.BIOME_SOURCE, Identifier.of(PJO.NAMESPACE, "underworld"), CODEC);
     }
     // private static final RegistryEntry<Biome> UNDERWORLD_PLAINS_ENTRY =
     // Registries.;
@@ -63,15 +63,18 @@ public class UnderworldBiomeSource extends BiomeSource {
         if (flatDistFromOrigin > UnderworldChunkGenerator.EREBOS_SIZE) {
             return outer;
         }
-        if (wy >= -24 && wy <= 32 && flatDistFromOrigin < UnderworldChunkGenerator.EREBOS_SIZE - UnderworldChunkGenerator.ASPHODEL_INNER_OFFSET
-                && flatDistFromOrigin > UnderworldChunkGenerator.EREBOS_SIZE - UnderworldChunkGenerator.ASPHODEL_INNER_OFFSET - UnderworldChunkGenerator.ASPHODEL_WIDTH) {
+        if (wy >= -24 && wy <= 32
+                && flatDistFromOrigin < UnderworldChunkGenerator.EREBOS_SIZE
+                        - UnderworldChunkGenerator.ASPHODEL_INNER_OFFSET
+                && flatDistFromOrigin > UnderworldChunkGenerator.EREBOS_SIZE
+                        - UnderworldChunkGenerator.ASPHODEL_INNER_OFFSET - UnderworldChunkGenerator.ASPHODEL_WIDTH) {
             return asphodel;
         }
         return plains;
     }
 
     @Override
-    protected Codec<? extends BiomeSource> getCodec() {
+    protected MapCodec<? extends BiomeSource> getCodec() {
         return CODEC;
     }
 

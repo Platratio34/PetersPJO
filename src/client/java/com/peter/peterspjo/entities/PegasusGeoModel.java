@@ -1,7 +1,7 @@
 package com.peter.peterspjo.entities;
 
+import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.cache.object.GeoBone;
-import software.bernie.geckolib.core.animation.AnimationState;
 
 public class PegasusGeoModel<T extends Pegasus> extends GeoAnimatedModel<T> {
 

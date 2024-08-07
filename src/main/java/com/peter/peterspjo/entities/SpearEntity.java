@@ -2,9 +2,8 @@ package com.peter.peterspjo.entities;
 
 import com.peter.peterspjo.PJO;
 import com.peter.peterspjo.items.CelestialBronzeSpear;
+import com.peter.peterspjo.items.PJOItems;
 
-import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
-import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnGroup;
@@ -19,11 +18,10 @@ import net.minecraft.world.World;
 public class SpearEntity extends PersistentProjectileEntity {
 
     public static final String NAME = "spear_entity";
-    public static final Identifier ID = new Identifier(PJO.NAMESPACE, NAME);
-    public static final EntityType<SpearEntity> TYPE = FabricEntityTypeBuilder
-            .<SpearEntity>create(SpawnGroup.MISC, SpearEntity::new)
-            .dimensions(EntityDimensions.fixed(0.25f, 0.25f))
-            .trackRangeBlocks(16).trackedUpdateRate(10)
+    public static final Identifier ID = Identifier.of(PJO.NAMESPACE, NAME);
+    public static final EntityType<SpearEntity> TYPE = EntityType.Builder.<SpearEntity>create(SpearEntity::new, SpawnGroup.MISC)
+            .dimensions(0.25f, 0.25f)
+            .maxTrackingRange(16).trackingTickInterval(10)
             .build();
     
     private ItemStack stack = new ItemStack(CelestialBronzeSpear.ITEM);
@@ -38,12 +36,12 @@ public class SpearEntity extends PersistentProjectileEntity {
     }
 
     public SpearEntity(World world, LivingEntity owner) {
-        super(TYPE, owner, world); // null will be changed later
+        super(TYPE, world); // TODO is this correct?
         constructor();
     }
 
     public SpearEntity(World world, double x, double y, double z) {
-        super(TYPE, x, y, z, world); // null will be changed later
+        super(TYPE, world); // TODO is this correct?
         constructor();
     }
 
@@ -51,7 +49,7 @@ public class SpearEntity extends PersistentProjectileEntity {
         this.setDamage(5f);
         this.pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
         this.setSound(SoundEvents.ENTITY_ARROW_HIT);
-        this.setPierceLevel((byte) 0xf);
+        // this.setPierceLevel((byte) 0xf);
         // this.age
     }
 
@@ -65,6 +63,11 @@ public class SpearEntity extends PersistentProjectileEntity {
     }
     // super.onEntityHit(entityHitResult);
     // Entity ent = entityHitResult.getEntity();
+
+    @Override
+    protected ItemStack getDefaultItemStack() {
+        return new ItemStack(PJOItems.CELESTIAL_BRONZE_SPEAR);
+    }
 
     // if (ent instanceof LivingEntity livingEntity) {
     // livingEntity.playSound(SoundEvents.ENTITY_ARROW_HIT, 2f, 1f);

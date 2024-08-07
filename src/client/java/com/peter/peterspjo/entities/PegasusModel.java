@@ -110,7 +110,7 @@ public class PegasusModel extends HorseEntityModel<Pegasus> {
         double wb = 0;
         double wm = 0;
         double wt = 0;
-            // System.out.println(limbAngle + "," + limbDistance + "," + tickDelta);
+        // System.out.println(limbAngle + "," + limbDistance + "," + tickDelta);
         double dWT = (tickDelta * 0.02 * PI2);
         if (!entity.isOnGround()) {
             if (wingTime > Math.PI) {
@@ -119,15 +119,15 @@ public class PegasusModel extends HorseEntityModel<Pegasus> {
                 wingTime += dWT;
             }
         } else if (wingTime <= Math.PI) {
-            wingTime = Math.max(wingTime - (dWT*0.3), 0);
+            wingTime = Math.max(wingTime - (dWT * 0.3), 0);
         } else {
-            wingTime = Math.min(wingTime + (dWT*0.3), PI2);
+            wingTime = Math.min(wingTime + (dWT * 0.3), PI2);
         }
         wingTime %= PI2;
-        wb = Math.sin(wingTime-0.2) * 20;
-        wm = Math.sin(wingTime-0.3) * 30;
-        wt = Math.sin(wingTime-0.4) * 35 + 5;
-        
+        wb = Math.sin(wingTime - 0.2) * 20;
+        wm = Math.sin(wingTime - 0.3) * 30;
+        wt = Math.sin(wingTime - 0.4) * 35 + 5;
+
         if (entity.isOnGround()) {
             groundTime += (tickDelta * 0.3);
             foldTime = Math.min(Math.max(0, groundTime - GROUND_TIME_TO_FOLD) * 0.5, 2);
@@ -158,13 +158,12 @@ public class PegasusModel extends HorseEntityModel<Pegasus> {
     }
 
     @Override
-    public void render(MatrixStack matrices, VertexConsumer vertexConsumer, int light, int overlay, float red,
-            float green, float blue, float alpha) {
-        super.render(matrices, vertexConsumer, light, overlay, red, green, blue, alpha);
-        wingRightBase.render(matrices, vertexConsumer, light, overlay, red, green, blue, alpha);
+    public void render(MatrixStack matrices, VertexConsumer vertexConsumer, int light, int overlay, int color) {
+        super.render(matrices, vertexConsumer, light, overlay, color);
+        wingRightBase.render(matrices, vertexConsumer, light, overlay, color);
         // wingRightMid.render(matrices, vertexConsumer, light, overlay, red, green, blue, alpha);
         // wingLeftMid.render(matrices, vertexConsumer, light, overlay, red, green, blue, alpha);
-        wingLeftBase.render(matrices, vertexConsumer, light, overlay, red, green, blue, alpha);
+        wingLeftBase.render(matrices, vertexConsumer, light, overlay, color);
         // wingRightTip.render(matrices, vertexConsumer, light, overlay, red, green, blue, alpha);
         // wingLeftTip.render(matrices, vertexConsumer, light, overlay, red, green, blue, alpha);
     }

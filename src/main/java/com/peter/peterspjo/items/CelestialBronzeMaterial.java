@@ -1,7 +1,9 @@
 package com.peter.peterspjo.items;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.registry.tag.TagKey;
 
 public class CelestialBronzeMaterial implements ToolMaterial {
 
@@ -23,11 +25,6 @@ public class CelestialBronzeMaterial implements ToolMaterial {
     }
 
     @Override
-    public int getMiningLevel() {
-        return 1;
-    }
-
-    @Override
     public int getEnchantability() {
         return 30;
     }
@@ -37,5 +34,10 @@ public class CelestialBronzeMaterial implements ToolMaterial {
         return Ingredient.ofItems(CelestialBronzeIngot.ITEM);
     }
 
+    @Override
+    public TagKey<Block> getInverseTag() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getInverseTag'");
+    }
 
 }

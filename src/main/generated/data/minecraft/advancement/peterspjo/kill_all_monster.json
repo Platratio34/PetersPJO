@@ -31,18 +31,15 @@
     }
   },
   "display": {
-    "announce_to_chat": true,
     "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
     "description": {
       "translate": "advancement.peterspjo.kill_all_monster.description"
     },
     "frame": "challenge",
-    "hidden": false,
     "icon": {
-      "item": "peterspjo:celestial_bronze_sword",
-      "nbt": "{Damage:0}"
+      "count": 1,
+      "id": "peterspjo:celestial_bronze_sword"
     },
-    "show_toast": true,
     "title": {
       "translate": "advancement.peterspjo.kill_all_monster.title"
     }

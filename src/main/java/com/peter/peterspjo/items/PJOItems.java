@@ -6,11 +6,10 @@ import com.peter.peterspjo.blocks.fluids.*;
 import com.peter.peterspjo.entities.*;
 import com.peter.peterspjo.items.armor.*;
 
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.item.Item;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.BucketItem;
-import net.minecraft.item.Item;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -20,8 +19,8 @@ import net.minecraft.util.Identifier;
 
 public class PJOItems {
     
-    public static final Item DRACHMA = new TooltipedItem(new FabricItemSettings(), Text.translatable("item.peterspjo.drachma.tooltip").formatted(Formatting.GOLD));
-    public static final Identifier DRACHMA_ID = new Identifier(PJO.NAMESPACE, "drachma");
+    public static final Item DRACHMA = new TooltipedItem(new Item.Settings(), Text.translatable("item.peterspjo.drachma.tooltip").formatted(Formatting.GOLD));
+    public static final Identifier DRACHMA_ID = Identifier.of(PJO.NAMESPACE, "drachma");
 
     public static final CelestialBronzeIngot CELESTIAL_BRONZE_INGOT = CelestialBronzeIngot.ITEM;
     public static final CelestialBronzeSword CELESTIAL_BRONZE_SWORD = CelestialBronzeSword.ITEM;
@@ -54,8 +53,6 @@ public class PJOItems {
 
         CelestialBronzeSword.init();
         CelestialBronzeSpear.init();
-
-        CelestialBronzeArmorMaterial.register();
 
         RiptideItem.register();
     }

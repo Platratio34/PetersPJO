@@ -15,6 +15,7 @@ import net.minecraft.nbt.NbtIntArray;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
@@ -28,12 +29,14 @@ public class DoorManager extends PersistentState {
 
     private static String NAME = "labyrinth_door_manager";
 
+    private static Type<DoorManager> TYPE = new Type<DoorManager>(DoorManager::new, DoorManager::createFromNbt, null);
+
     private static DoorManager manager;
 
     protected HashMap<RegistryKey<World>, HashMap<BlockPos, DoorData>> doors = new HashMap<RegistryKey<World>, HashMap<BlockPos, DoorData>>();
 
     @Override
-    public NbtCompound writeNbt(NbtCompound nbt) {
+    public NbtCompound writeNbt(NbtCompound nbt, WrapperLookup registryLookup) {
         for (RegistryKey<World> worldKey : doors.keySet()) {
             NbtList worldNbt = new NbtList();
             nbt.put(worldKey.getValue().toString(), worldNbt);
@@ -46,11 +49,16 @@ public class DoorManager extends PersistentState {
         return nbt;
     }
 
-    private static DoorManager createFromNbt(NbtCompound nbt) {
+    private static Identifier worldID(String worldString) {
+        String[] parts = worldString.split(":");
+        return Identifier.of(parts[0], parts[1]);
+    }
+
+    private static DoorManager createFromNbt(NbtCompound nbt, WrapperLookup registryLookup) {
         PJO.LOGGER.info("Loading labyrinth doors");
         DoorManager state = new DoorManager();
         for (String worldString : nbt.getKeys()) {
-            RegistryKey<World> worldKey = RegistryKey.of(RegistryKeys.WORLD, new Identifier(worldString));
+            RegistryKey<World> worldKey = RegistryKey.of(RegistryKeys.WORLD, worldID(worldString));
             boolean isLabyrinth = worldKey.equals(PJODimensions.LABYRINTH);
             HashMap<BlockPos, DoorData> worldDoors;
             if (state.doors.containsKey(worldKey)) {
@@ -85,8 +93,9 @@ public class DoorManager extends PersistentState {
     }
 
     public static DoorManager getServerState(MinecraftServer server) {
-        PersistentStateManager persistentStateManager = server.getWorld(PJODimensions.LABYRINTH).getPersistentStateManager();
-        DoorManager state = persistentStateManager.getOrCreate(DoorManager::createFromNbt, DoorManager::new, NAME);
+        PersistentStateManager persistentStateManager = server.getWorld(PJODimensions.LABYRINTH)
+                .getPersistentStateManager();
+        DoorManager state = persistentStateManager.getOrCreate(TYPE, NAME);
         manager = state;
         return state;
     }
@@ -204,7 +213,7 @@ public class DoorManager extends PersistentState {
             }
             if (nbt.contains("tPos")) {
                 targetPos = nbtToPos(nbt.getIntArray("tPos"));
-                targetDimension = RegistryKey.of(RegistryKeys.WORLD, new Identifier(nbt.getString("tDim")));
+                targetDimension = RegistryKey.of(RegistryKeys.WORLD, worldID(nbt.getString("tDim")));
             }
         }
 

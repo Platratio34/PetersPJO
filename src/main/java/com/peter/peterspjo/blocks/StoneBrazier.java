@@ -2,14 +2,16 @@ package com.peter.peterspjo.blocks;
 
 import java.util.List;
 
+import com.mojang.serialization.MapCodec;
 import com.peter.peterspjo.PJO;
 
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.minecraft.item.Item;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalFacingBlock;
-import net.minecraft.client.item.TooltipContext;
+import net.minecraft.item.Item.TooltipContext;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
@@ -21,22 +23,23 @@ import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldAccess;
 
 public class StoneBrazier extends HorizontalFacingBlock {
 
     public static final String NAME = "stone_brazier";
-    public static final Identifier ID = new Identifier(PJO.NAMESPACE, NAME);
+    public static final Identifier ID = Identifier.of(PJO.NAMESPACE, NAME);
 
     public static final IntProperty VARIANT = IntProperty.of("variant", 0, 5);
-    // public static final EnumProperty<Variant> VARIENT;
+
+    public static final MapCodec<StoneBrazier> CODEC = createCodec(StoneBrazier::new);
 
     public static final StoneBrazier BLOCK = new StoneBrazier(
-            FabricBlockSettings.create().strength(4.0f).sounds(BlockSoundGroup.STONE).nonOpaque());
-    public static final BlockItem ITEM = new BlockItem(BLOCK, new FabricItemSettings());
+            AbstractBlock.Settings.create().strength(4.0f).sounds(BlockSoundGroup.STONE).nonOpaque());
+    public static final BlockItem ITEM = new BlockItem(BLOCK, new Item.Settings());
 
     public static void register() {
         Registry.register(Registries.BLOCK, ID, BLOCK);
@@ -50,7 +53,7 @@ public class StoneBrazier extends HorizontalFacingBlock {
     }
 
     @Override
-    public void appendTooltip(ItemStack itemStack, BlockView world, List<Text> tooltip, TooltipContext tooltipContext) {
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType options) {
         tooltip.add(Text.translatable("block." + PJO.NAMESPACE + "." + NAME + ".tooltip"));
     }
 
@@ -132,23 +135,41 @@ public class StoneBrazier extends HorizontalFacingBlock {
                 ctx.getHorizontalPlayerFacing());
     }
 
-    public static enum Variant {
-        SINGLE(0),
-        END(1),
-        LINE(2),
-        CORNER(3),
-        SIDE(4),
-        MIDDLE(5);
+    public Variant getVariant() {
+        return Variant.SINGLE;
+    }
+
+    public static enum Variant implements StringIdentifiable {
+        SINGLE(0, "single"),
+        END(1, "end"),
+        LINE(2, "line"),
+        CORNER(3, "corner"),
+        SIDE(4, "side"),
+        MIDDLE(5, "middle");
 
         private int id;
+        private String name;
 
-        Variant(int id){
+        Variant(int id, String name){
             this.id = id;
+            this.name = name;
         }
 
-        public int getID(){
+        public int getID() {
             return id;
         }
+
+        @Override
+        public String asString() {
+            return name;
+        }
+        
+        public static final StringIdentifiable.BasicCodec<Variant> CODEC = StringIdentifiable.createCodec(Variant::values);
+    }
+
+    @Override
+    protected MapCodec<StoneBrazier> getCodec() {
+        return CODEC;
     }
 
 }

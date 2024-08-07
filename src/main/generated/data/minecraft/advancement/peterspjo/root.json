@@ -4,9 +4,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "peterspjo:celestial_bronze_block"
-            ]
+            "items": "peterspjo:celestial_bronze_block"
           }
         ]
       },
@@ -16,9 +14,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "peterspjo:celestial_bronze_ingot"
-            ]
+            "items": "peterspjo:celestial_bronze_ingot"
           }
         ]
       },
@@ -26,17 +22,14 @@
     }
   },
   "display": {
-    "announce_to_chat": true,
     "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
     "description": {
       "translate": "advancement.peterspjo.got_cb.description"
     },
-    "frame": "task",
-    "hidden": false,
     "icon": {
-      "item": "peterspjo:celestial_bronze_ingot"
+      "count": 1,
+      "id": "peterspjo:celestial_bronze_ingot"
     },
-    "show_toast": true,
     "title": {
       "translate": "advancement.peterspjo.got_cb.title"
     }

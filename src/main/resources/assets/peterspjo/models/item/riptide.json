@@ -6,7 +6,7 @@
   "overrides": [
     {
       "predicate": {
-        "is_sword": 1
+        "peterspjo:is_sword": 1
       },
       "model": "peterspjo:item/riptide_sword"
     }

@@ -69,7 +69,7 @@ public class HellhoundModel extends EntityModel<Hellhound> {
     @Override
     public void setAngles(Hellhound entity, float limbSwing, float limbSwingAmount, float ageInTicks, float headYaw,
             float headPitch) {
-        boolean rolled = entity.getRoll() > 4;
+        boolean rolled = false; // TODO was change from entity.getRoll() > 4 correct?
         this.head.yaw = headYaw * ((float)Math.PI / 180);
         this.head.pitch = rolled ? -0.7853982f
                 : (this.leaningPitch > 0.0f
@@ -114,13 +114,12 @@ public class HellhoundModel extends EntityModel<Hellhound> {
     }
 
     @Override
-    public void render(MatrixStack matrices, VertexConsumer vertexConsumer, int light, int overlay, float red,
-            float green, float blue, float alpha) {
-        body.render(matrices, vertexConsumer, light, overlay, red, green, blue, alpha);
-        head.render(matrices, vertexConsumer, light, overlay, red, green, blue, alpha);
-        leg_rf.render(matrices, vertexConsumer, light, overlay, red, green, blue, alpha);
-        leg_lf.render(matrices, vertexConsumer, light, overlay, red, green, blue, alpha);
-        leg_rb.render(matrices, vertexConsumer, light, overlay, red, green, blue, alpha);
-        leg_lb.render(matrices, vertexConsumer, light, overlay, red, green, blue, alpha);
+    public void render(MatrixStack matrices, VertexConsumer vertexConsumer, int light, int overlay, int color) {
+        body.render(matrices, vertexConsumer, light, overlay, color);
+        head.render(matrices, vertexConsumer, light, overlay, color);
+        leg_rf.render(matrices, vertexConsumer, light, overlay, color);
+        leg_lf.render(matrices, vertexConsumer, light, overlay, color);
+        leg_rb.render(matrices, vertexConsumer, light, overlay, color);
+        leg_lb.render(matrices, vertexConsumer, light, overlay, color);
     }
 }

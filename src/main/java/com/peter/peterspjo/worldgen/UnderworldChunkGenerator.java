@@ -4,12 +4,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
 import java.util.function.Supplier;
 
 import com.google.common.base.Suppliers;
 import com.google.common.collect.Sets;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.peter.peterspjo.PJO;
 import com.peter.peterspjo.blocks.PJOBlocks;
@@ -49,7 +48,7 @@ import net.minecraft.world.Heightmap.Type;
 
 public final class UnderworldChunkGenerator extends ChunkGenerator {
 
-    public static final Codec<UnderworldChunkGenerator> CODEC = RecordCodecBuilder.create((instance) -> {
+    public static final MapCodec<UnderworldChunkGenerator> CODEC = RecordCodecBuilder.mapCodec((instance) -> {
         return instance.group(BiomeSource.CODEC.fieldOf("biome_source").forGetter((generator) -> {
             return generator.biomeSource;
         }), ChunkGeneratorSettings.REGISTRY_CODEC.fieldOf("settings").forGetter((generator) -> {
@@ -61,7 +60,7 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
     private final Supplier<AquiferSampler.FluidLevelSampler> fluidLevelSampler;
 
     public static void register() {
-        Registry.register(Registries.CHUNK_GENERATOR, new Identifier(PJO.NAMESPACE, "underworld"), CODEC);
+        Registry.register(Registries.CHUNK_GENERATOR, Identifier.of(PJO.NAMESPACE, "underworld"), CODEC);
         UnderworldBiomeSource.register();
     }
 
@@ -87,7 +86,7 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
     }
 
     @Override
-    protected Codec<? extends ChunkGenerator> getCodec() {
+    protected MapCodec<UnderworldChunkGenerator> getCodec() {
         return CODEC;
     }
 
@@ -113,9 +112,8 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
     }
 
     @Override
-    public CompletableFuture<Chunk> populateNoise(Executor executor, Blender blender, NoiseConfig noiseConfig,
-            StructureAccessor structureAccessor,
-            Chunk chunk) {
+    public CompletableFuture<Chunk> populateNoise(Blender blender, NoiseConfig noiseConfig,
+            StructureAccessor structureAccessor, Chunk chunk) {
         GenerationShapeConfig generationShapeConfig = ((ChunkGeneratorSettings) this.settings.value())
                 .generationShapeConfig().trimHeight(chunk.getHeightLimitView());
         int i = generationShapeConfig.minimumY();
@@ -144,7 +142,7 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
                     chunkSection.unlock();
                 }
 
-            }, executor);
+            });
         }
     }
 
@@ -237,8 +235,6 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
                                 int terrainHeight = getTerrainHeightAtLocation(worldBlockX, worldBlockZ, noise,
                                         flatDistFromOrigin);
 
-                                
-
                                 if (worldBlockY > CELLING_HEIGHT) {
                                     int stepHeight = getOuterStepHeight(flatDistFromOrigin);
                                     int rDepth = stepHeight - terrainHeight;
@@ -313,7 +309,9 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
                                 } else if (worldBlockY == terrainHeight) {
                                     if (flatDistFromOrigin > EREBOS_SIZE) {
                                         blockState = FLOOR_TOP_OUTER.getDefaultState();
-                                    } else if (flatDistFromOrigin < EREBOS_SIZE - ASPHODEL_INNER_OFFSET && flatDistFromOrigin > EREBOS_SIZE - ASPHODEL_INNER_OFFSET - ASPHODEL_WIDTH) {
+                                    } else if (flatDistFromOrigin < EREBOS_SIZE - ASPHODEL_INNER_OFFSET
+                                            && flatDistFromOrigin > EREBOS_SIZE - ASPHODEL_INNER_OFFSET
+                                                    - ASPHODEL_WIDTH) {
                                         blockState = FLOOR_ASPHODEL.getDefaultState();
                                     } else if (flatDistFromOrigin > PALACE_PIT_SIZE + 4) {
                                         blockState = FLOOR_TOP_INNER.getDefaultState();
@@ -357,7 +355,8 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
                                     oceanFloorHeightmap.trackUpdate(chunkBlockX, worldBlockY, chunkBlockZ, blockState);
                                     worldSurfaceHeightMap.trackUpdate(chunkBlockX, worldBlockY, chunkBlockZ,
                                             blockState);
-                                    // if (aquiferSampler.needsFluidTick() && !blockState.getFluidState().isEmpty()) {
+                                    // if (aquiferSampler.needsFluidTick() && !blockState.getFluidState().isEmpty())
+                                    // {
                                     if (!blockState.getFluidState().isEmpty()) {
                                         mutable.set(worldBlockX, worldBlockY, worldBlockZ);
                                         chunk.markBlockForPostProcessing(mutable);

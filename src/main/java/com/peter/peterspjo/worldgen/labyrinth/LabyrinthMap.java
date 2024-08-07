@@ -10,6 +10,7 @@ import com.peter.peterspjo.worldgen.labyrinth.LabyrinthMaterials.LabyrinthMateri
 import com.peter.peterspjo.worldgen.labyrinth.sections.LabyrinthSection;
 
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockPos.Mutable;
@@ -22,6 +23,9 @@ import net.minecraft.world.PersistentStateManager;
 public class LabyrinthMap extends PersistentState {
 
     private static final String NAME = "labyrinth_map";
+
+    private static final Type<LabyrinthMap> TYPE = new Type<LabyrinthMap>(LabyrinthMap::new,
+            LabyrinthMap::createFromNbt, null);
 
     private static LabyrinthMap map;
 
@@ -36,7 +40,7 @@ public class LabyrinthMap extends PersistentState {
     }
 
     @Override
-    public NbtCompound writeNbt(NbtCompound nbt) {
+    public NbtCompound writeNbt(NbtCompound nbt, WrapperLookup registryLookup) {
         NbtCompound layersNbt = new NbtCompound();
         nbt.put("layers", layersNbt);
         for (int i = 0; i < layers.length; i++) {
@@ -45,7 +49,7 @@ public class LabyrinthMap extends PersistentState {
         return nbt;
     }
 
-    private static LabyrinthMap createFromNbt(NbtCompound tag) {
+    private static LabyrinthMap createFromNbt(NbtCompound tag, WrapperLookup registryLookup) {
         LabyrinthMap state = new LabyrinthMap();
         for (int i = 0; i < state.layers.length; i++) {
             state.layers[i].fromNbt(tag.getCompound(i+""));
@@ -55,7 +59,7 @@ public class LabyrinthMap extends PersistentState {
 
     public static LabyrinthMap getServerState(MinecraftServer server) {
         PersistentStateManager persistentStateManager = server.getWorld(PJODimensions.LABYRINTH).getPersistentStateManager();
-        LabyrinthMap state = persistentStateManager.getOrCreate(LabyrinthMap::createFromNbt, LabyrinthMap::new, NAME);
+        LabyrinthMap state = persistentStateManager.getOrCreate(TYPE, NAME);
         map = state;
         state.markDirty();
         return state;

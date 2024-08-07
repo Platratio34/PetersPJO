@@ -2,10 +2,8 @@ package com.peter.peterspjo.entities;
 
 import com.peter.peterspjo.PJO;
 
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.item.Item;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
-import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
-import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
@@ -28,12 +26,12 @@ import net.minecraft.world.World;
 public class Hellhound extends Monster {
 
     public static final String NAME = "hellhound";
-    public static final Identifier ID = new Identifier(PJO.NAMESPACE, NAME);
-    public static final EntityType<Hellhound> TYPE = FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, Hellhound::new)
-            .dimensions(EntityDimensions.changing(1.75f, 2f)).build();
+    public static final Identifier ID = Identifier.of(PJO.NAMESPACE, NAME);
+    public static final EntityType<Hellhound> TYPE = EntityType.Builder.create(Hellhound::new, SpawnGroup.MONSTER)
+            .dimensions(1.75f, 2f).build();
 
-    public static final Identifier EGG_ID = new Identifier(PJO.NAMESPACE, NAME + "_spawn_egg");
-    public static final SpawnEggItem EGG = new SpawnEggItem(TYPE, 0x2c2c2c, 0x232323, new FabricItemSettings());
+    public static final Identifier EGG_ID = Identifier.of(PJO.NAMESPACE, NAME + "_spawn_egg");
+    public static final SpawnEggItem EGG = new SpawnEggItem(TYPE, 0x2c2c2c, 0x232323, new Item.Settings());
 
     public static void register() {
         Registry.register(Registries.ENTITY_TYPE, ID, TYPE);

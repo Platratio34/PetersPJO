@@ -1,5 +1,6 @@
 package com.peter.peterspjo.datagen;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 import com.peter.peterspjo.PJO;
@@ -16,9 +17,11 @@ import net.minecraft.advancement.criterion.OnKilledCriterion;
 import net.minecraft.entity.EntityType;
 import net.minecraft.predicate.entity.EntityPredicate;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.advancement.*;
+import net.minecraft.advancement.AdvancementRequirements.CriterionMerger;
 
 public class PetersPJODataGenerator implements DataGeneratorEntrypoint {
 
@@ -32,15 +35,15 @@ public class PetersPJODataGenerator implements DataGeneratorEntrypoint {
 
     static class AdvancementProvider extends FabricAdvancementProvider {
 
-        protected AdvancementProvider(FabricDataOutput output) {
-            super(output);
+        protected AdvancementProvider(FabricDataOutput output, CompletableFuture<WrapperLookup> registryLookup) {
+            super(output, registryLookup);
         }
 
         @Override
-        public void generateAdvancement(Consumer<Advancement> consumer) {
+        public void generateAdvancement(WrapperLookup registryLookup, Consumer<AdvancementEntry> consumer) {
             String langBase = "advancement." + PJO.NAMESPACE + ".";
-            Identifier background = new Identifier("textures/gui/advancements/backgrounds/adventure.png");
-            Advancement root = Advancement.Builder.create()
+            Identifier background = Identifier.ofVanilla("textures/gui/advancements/backgrounds/adventure.png");
+            AdvancementEntry root = Advancement.Builder.create()
                     .display(PJOItems.CELESTIAL_BRONZE_INGOT,
                             Text.translatable(langBase + "got_cb.title"),
                             Text.translatable(langBase + "got_cb.description"),
@@ -58,7 +61,7 @@ public class PetersPJODataGenerator implements DataGeneratorEntrypoint {
                             Text.translatable(langBase + "kill_monster.description"),
                             background,
                             AdvancementFrame.TASK, true, true, false);
-            Advancement killMonster = requireAnyListedMobKilled(killMonsterBuilder).build(consumer,
+            AdvancementEntry killMonster = requireAnyListedMobKilled(killMonsterBuilder).build(consumer,
                     PJO.NAMESPACE + "/kill_monster");
             Advancement.Builder killAllMonsterBuilder = Advancement.Builder.create().parent(killMonster)
                     .display(PJOItems.CELESTIAL_BRONZE_SWORD,
@@ -66,9 +69,9 @@ public class PetersPJODataGenerator implements DataGeneratorEntrypoint {
                             Text.translatable(langBase + "kill_all_monster.description"),
                             background,
                             AdvancementFrame.CHALLENGE, true, true, false);
-            Advancement killAllMonster = requireAllListedMobsKilled(killAllMonsterBuilder).build(consumer,
+            AdvancementEntry killAllMonster = requireAllListedMobsKilled(killAllMonsterBuilder).build(consumer,
                     PJO.NAMESPACE + "/kill_all_monster");
-            Advancement got_riptide = Advancement.Builder.create().parent(root)
+            AdvancementEntry got_riptide = Advancement.Builder.create().parent(root)
                     .display(PJOItems.RIPTIDE,
                             Text.translatable(langBase + "got_riptide.title"),
                             Text.translatable(langBase + "got_riptide.description"),

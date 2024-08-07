@@ -1,11 +1,9 @@
 package com.peter.peterspjo.items;
 
 import com.peter.peterspjo.PJODamageTypes;
-import com.peter.peterspjo.enchantments.CelestialEnchantment;
-import com.peter.peterspjo.enchantments.PJOEnchantments;
 import com.peter.peterspjo.entities.Monster;
 
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.item.Item;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.ItemStack;
@@ -15,18 +13,18 @@ import net.minecraft.util.Rarity;
 
 public class CelestialSword extends SwordItem {
 
-    public CelestialSword(ToolMaterial toolMaterial, int attackDamage, float attackSpeed, FabricItemSettings settings) {
-        super(toolMaterial, attackDamage, attackSpeed, settings);
+    public int attackDamage;
+
+    public CelestialSword(ToolMaterial toolMaterial, int attackDamage, float attackSpeed, Item.Settings settings) {
+        super(toolMaterial, settings.rarity(getRarity()));
+        this.attackDamage = attackDamage;
     }
 
     @Override
     public ItemStack getDefaultStack() {
         ItemStack stack = super.getDefaultStack();
-        System.out.println("Thing");
         if (this instanceof Switchable) {
-            stack = ((Switchable)this).getDefaultStateStack(stack);
-        } else if (PJOEnchantments.has(stack, CelestialEnchantment.ID)) {
-            stack.addEnchantment(PJOEnchantments.CELESTIAL, 1);
+            stack = ((Switchable) this).getDefaultStateStack(stack);
         }
         return stack;
     }
@@ -39,13 +37,12 @@ public class CelestialSword extends SwordItem {
         if (target instanceof Monster) {
             DamageSource source = new DamageSource(
                     attacker.getDamageSources().registry.entryOf(PJODamageTypes.CELESTIAL_DAMAGE_TYPE), attacker);
-            target.damage(source, this.getAttackDamage());
+            target.damage(source, this.attackDamage);
         }
         return super.postHit(stack, target, attacker);
     }
-    
-    @Override
-    public Rarity getRarity(ItemStack stack) {
+
+    public static Rarity getRarity() {
         return Rarity.UNCOMMON;
     }
 

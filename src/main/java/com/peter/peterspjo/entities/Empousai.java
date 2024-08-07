@@ -2,10 +2,8 @@ package com.peter.peterspjo.entities;
 
 import com.peter.peterspjo.PJO;
 
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.item.Item;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
-import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
-import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
@@ -28,12 +26,12 @@ import net.minecraft.world.World;
 public class Empousai extends Monster {
 
     public static final String NAME = "empousai";
-    public static final Identifier ID = new Identifier(PJO.NAMESPACE, NAME);
-    public static final EntityType<Empousai> TYPE = FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, Empousai::new)
-            .dimensions(EntityDimensions.changing(0.75f, 2f)).build();
+    public static final Identifier ID = Identifier.of(PJO.NAMESPACE, NAME);
+    public static final EntityType<Empousai> TYPE = EntityType.Builder.create(Empousai::new, SpawnGroup.MONSTER)
+            .dimensions(0.75f, 2f).build();
 
-    public static final Identifier EGG_ID = new Identifier(PJO.NAMESPACE, NAME + "_spawn_egg");
-    public static final SpawnEggItem EGG = new SpawnEggItem(TYPE, 0x5b276c, 0xfdff2f, new FabricItemSettings());
+    public static final Identifier EGG_ID = Identifier.of(PJO.NAMESPACE, NAME + "_spawn_egg");
+    public static final SpawnEggItem EGG = new SpawnEggItem(TYPE, 0x5b276c, 0xfdff2f, new Item.Settings());
 
     public static void register() {
         Registry.register(Registries.ENTITY_TYPE, ID, TYPE);

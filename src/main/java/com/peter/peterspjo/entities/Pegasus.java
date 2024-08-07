@@ -2,11 +2,9 @@ package com.peter.peterspjo.entities;
 
 import com.peter.peterspjo.PJO;
 
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.item.Item;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
-import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -21,33 +19,32 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.EntityView;
 import net.minecraft.world.World;
 import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.GeoAnimatable;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.AnimationState;
-import software.bernie.geckolib.core.animation.RawAnimation;
-import software.bernie.geckolib.core.animation.AnimatableManager.ControllerRegistrar;
-import software.bernie.geckolib.core.animation.AnimationController.State;
-import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.animatable.GeoAnimatable;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animatable.instance.SingletonAnimatableInstanceCache;
+import software.bernie.geckolib.animation.AnimatableManager.ControllerRegistrar;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.AnimationController.State;
+import software.bernie.geckolib.animation.AnimationState;
+import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.animation.RawAnimation;
 
 public class Pegasus extends AbstractDonkeyEntity implements GeoEntity {
-
 
     private AnimatableInstanceCache animationCache = new SingletonAnimatableInstanceCache(this);
 
     public static final String NAME = "pegasus";
-    public static final Identifier ID = new Identifier(PJO.NAMESPACE, NAME);
-    public static final EntityType<Pegasus> TYPE = FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, Pegasus::new)
-            .dimensions(EntityDimensions.changing(1.5f, 1.5f)).build();
+    public static final Identifier ID = Identifier.of(PJO.NAMESPACE, NAME);
+    public static final EntityType<Pegasus> TYPE = EntityType.Builder.create(Pegasus::new, SpawnGroup.CREATURE)
+            .dimensions(1.5f, 1.5f).build();
 
-    public static final Identifier EGG_ID = new Identifier(PJO.NAMESPACE, NAME + "_spawn_egg");
-    public static final SpawnEggItem EGG = new SpawnEggItem(TYPE, 0xC09E7D, 0xEEE500, new FabricItemSettings());
+    public static final Identifier EGG_ID = Identifier.of(PJO.NAMESPACE, NAME + "_spawn_egg");
+    public static final SpawnEggItem EGG = new SpawnEggItem(TYPE, 0xC09E7D, 0xEEE500, new Item.Settings());
 
-    // private static final String ANIMATION_WING_IDLE_GROUND_NAME = "animation." + NAME + ".wing_idle_ground";
+    // private static final String ANIMATION_WING_IDLE_GROUND_NAME = "animation." +
+    // NAME + ".wing_idle_ground";
     private static final String ANIMATION_WING_IDLE_AIR_NAME = "wing_idle_air";
     private static final String ANIMATION_WING_FOLD_NAME = "wing_fold";
     private static final String ANIMATION_WING_FLAP_NAME = "wing_flap";
@@ -56,8 +53,9 @@ public class Pegasus extends AbstractDonkeyEntity implements GeoEntity {
     private static final String ANIMATION_BODY_IDLE_NAME = "body_idle";
     private static final String ANIMATION_BODY_WALK_NAME = "body_walk";
 
-    // private static final RawAnimation ANIMATION_WING_IDLE_GROUND = RawAnimation.begin()
-    //         .thenLoop(ANIMATION_WING_IDLE_GROUND_NAME);
+    // private static final RawAnimation ANIMATION_WING_IDLE_GROUND =
+    // RawAnimation.begin()
+    // .thenLoop(ANIMATION_WING_IDLE_GROUND_NAME);
     private static final RawAnimation ANIMATION_WING_IDLE_AIR = RawAnimation.begin()
             .thenLoop(ANIMATION_WING_IDLE_AIR_NAME);
     private static final RawAnimation ANIMATION_WING_FOLD = RawAnimation.begin()
@@ -88,12 +86,7 @@ public class Pegasus extends AbstractDonkeyEntity implements GeoEntity {
     public static DefaultAttributeContainer.Builder createMobAttributes() {
         return createBaseHorseAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 35.0)
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3f).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.0)
-                .add(EntityAttributes.GENERIC_ARMOR, 2.0).add(EntityAttributes.HORSE_JUMP_STRENGTH, 1.0);
-    }
-
-    @Override
-    public EntityView method_48926() {
-        return super.getWorld();
+                .add(EntityAttributes.GENERIC_ARMOR, 2.0).add(EntityAttributes.GENERIC_JUMP_STRENGTH, 1.0);
     }
 
     @Override
@@ -168,8 +161,9 @@ public class Pegasus extends AbstractDonkeyEntity implements GeoEntity {
     public void registerControllers(ControllerRegistrar controllers) {
         animationControllerWing = new AnimationController<Pegasus>(this, "controller_wing", 5,
                 this::animAtionPredicateWing);
-        // animationControllerBody = new AnimationController<Pegasus>(this, "controller_body", 5,
-        //         this::animAtionPredicateBody);
+        // animationControllerBody = new AnimationController<Pegasus>(this,
+        // "controller_body", 5,
+        // this::animAtionPredicateBody);
         // controllers.add(animationControllerBody);
         controllers.add(animationControllerWing);
     }
@@ -207,21 +201,21 @@ public class Pegasus extends AbstractDonkeyEntity implements GeoEntity {
     private <T extends GeoAnimatable> PlayState animAtionPredicateBody(AnimationState<T> animationState) {
 
         // if (this.isOnGround()) {
-        //     if (Math.abs(this.forwardSpeed) > 0.1) {
-        //         animationControllerBody.setAnimation(ANIMATION_BODY_WALK);
-        //     } else {
-        //         animationControllerBody.setAnimation(ANIMATION_BODY_IDLE);
-        //     }
+        // if (Math.abs(this.forwardSpeed) > 0.1) {
+        // animationControllerBody.setAnimation(ANIMATION_BODY_WALK);
         // } else {
-        //     if (wasOnGround) {
-        //         animationControllerBody.setAnimation(ANIMATION_BODY_LAUNCH);
-        //     } else if (!currentlyPlayingBody(ANIMATION_BODY_LAUNCH_NAME)) {
-        //         if (Math.abs(this.forwardSpeed) > 0.1) {
-        //             animationControllerBody.setAnimation(ANIMATION_BODY_WALK);
-        //         } else {
-        //             animationControllerBody.setAnimation(ANIMATION_BODY_IDLE);
-        //         }
-        //     }
+        // animationControllerBody.setAnimation(ANIMATION_BODY_IDLE);
+        // }
+        // } else {
+        // if (wasOnGround) {
+        // animationControllerBody.setAnimation(ANIMATION_BODY_LAUNCH);
+        // } else if (!currentlyPlayingBody(ANIMATION_BODY_LAUNCH_NAME)) {
+        // if (Math.abs(this.forwardSpeed) > 0.1) {
+        // animationControllerBody.setAnimation(ANIMATION_BODY_WALK);
+        // } else {
+        // animationControllerBody.setAnimation(ANIMATION_BODY_IDLE);
+        // }
+        // }
         // }
         return PlayState.CONTINUE;
     }

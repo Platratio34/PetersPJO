@@ -34,7 +34,7 @@ public class PJOItemGroups {
                 entries.add(PJOItems.CENTAUR_SPAWN_EGG);
             })
             .build();
-    public static final Identifier MAIN_ID = new Identifier(PJO.NAMESPACE, "main_group");
+    public static final Identifier MAIN_ID = Identifier.of(PJO.NAMESPACE, "main_group");
     
     public static final ItemGroup SPECIAL_WEAPONS = FabricItemGroup.builder()
             .icon(() -> new ItemStack(PJOItems.RIPTIDE))
@@ -43,7 +43,7 @@ public class PJOItemGroups {
                 entries.add(PJOItems.RIPTIDE);
             })
             .build();
-    public static final Identifier SPECIAL_WEAPONS_ID = new Identifier(PJO.NAMESPACE, "special_weapons");
+    public static final Identifier SPECIAL_WEAPONS_ID = Identifier.of(PJO.NAMESPACE, "special_weapons");
 
     public static final ItemGroup DIMENSION_BLOCKS = FabricItemGroup.builder()
             .icon(() -> new ItemStack(PJOItems.RIPTIDE))
@@ -54,7 +54,7 @@ public class PJOItemGroups {
                 entries.add(PJOItems.LABYRINTH_DOOR);
             })
             .build();
-    public static final Identifier DIMENSION_BLOCKS_ID = new Identifier(PJO.NAMESPACE, "dimension_blocks");
+    public static final Identifier DIMENSION_BLOCKS_ID = Identifier.of(PJO.NAMESPACE, "dimension_blocks");
     
     public static void init() {
         Registry.register(Registries.ITEM_GROUP, MAIN_ID, MAIN);

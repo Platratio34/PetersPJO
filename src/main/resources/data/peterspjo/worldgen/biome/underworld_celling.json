@@ -12,9 +12,7 @@
             "probability": 0.3,
             "options": {
                 "type": "falling_dust",
-                "block": {
-                    "Name":"minecraft:basalt"
-                }
+                "block_state": "minecraft:basalt"
             }
         }
     },

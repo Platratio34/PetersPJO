@@ -4,10 +4,10 @@ import com.peter.peterspjo.PJO;
 
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
+import software.bernie.geckolib.animatable.GeoAnimatable;
+import software.bernie.geckolib.animation.AnimationState;
+import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.constant.DataTickets;
-import software.bernie.geckolib.core.animatable.GeoAnimatable;
-import software.bernie.geckolib.core.animatable.model.CoreGeoBone;
-import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.model.data.EntityModelData;
 
@@ -30,7 +30,7 @@ public class GeoAnimatedModel<T extends GeoAnimatable> extends GeoModel<T> {
 		if (!this.turnsHead)
 			return;
 
-		CoreGeoBone head = getAnimationProcessor().getBone("head");
+		GeoBone head = getAnimationProcessor().getBone("head");
 
 		if (head != null) {
 			EntityModelData entityData = animationState.getData(DataTickets.ENTITY_MODEL_DATA);
@@ -42,17 +42,17 @@ public class GeoAnimatedModel<T extends GeoAnimatable> extends GeoModel<T> {
 
     @Override
     public Identifier getModelResource(T animatable) {
-        return new Identifier(PJO.NAMESPACE, "geo/" + modelName + ".geo.json");
+        return Identifier.of(PJO.NAMESPACE, "geo/" + modelName + ".geo.json");
     }
 
     @Override
     public Identifier getTextureResource(T animatable) {
-        return new Identifier(PJO.NAMESPACE, "textures/entity/" + modelName + "/" + modelName + ".png");
+        return Identifier.of(PJO.NAMESPACE, "textures/entity/" + modelName + "/" + modelName + ".png");
     }
 
     @Override
     public Identifier getAnimationResource(T animatable) {
-        return new Identifier(PJO.NAMESPACE, "animations/" + modelName + ".animation.json");
+        return Identifier.of(PJO.NAMESPACE, "animations/" + modelName + ".animation.json");
     }
 
 }

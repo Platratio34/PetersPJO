@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "peterspjo:riptide"
-            ]
+            "items": "peterspjo:riptide"
           }
         ]
       },
@@ -15,18 +13,15 @@
     }
   },
   "display": {
-    "announce_to_chat": true,
     "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
     "description": {
       "translate": "advancement.peterspjo.got_riptide.description"
     },
     "frame": "goal",
-    "hidden": false,
     "icon": {
-      "item": "peterspjo:riptide",
-      "nbt": "{Damage:0}"
+      "count": 1,
+      "id": "peterspjo:riptide"
     },
-    "show_toast": true,
     "title": {
       "translate": "advancement.peterspjo.got_riptide.title"
     }

@@ -2,10 +2,8 @@ package com.peter.peterspjo.entities;
 
 import com.peter.peterspjo.PJO;
 
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.item.Item;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
-import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
-import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.VariantHolder;
@@ -14,6 +12,7 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.data.DataTracker.Builder;
 import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.entity.passive.HorseColor;
 import net.minecraft.item.ItemStack;
@@ -23,18 +22,17 @@ import net.minecraft.nbt.NbtElement;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.world.EntityView;
 import net.minecraft.world.World;
+import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.GeoAnimatable;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager.ControllerRegistrar;
-import software.bernie.geckolib.core.animation.AnimationController.State;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.AnimationState;
-import software.bernie.geckolib.core.animation.RawAnimation;
-import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animatable.instance.SingletonAnimatableInstanceCache;
+import software.bernie.geckolib.animation.AnimatableManager.ControllerRegistrar;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.AnimationController.State;
+import software.bernie.geckolib.animation.AnimationState;
+import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.animation.RawAnimation;
 
 public class Centaur extends AbstractHorseEntity implements GeoEntity, VariantHolder<HorseColor> {
 
@@ -43,12 +41,12 @@ public class Centaur extends AbstractHorseEntity implements GeoEntity, VariantHo
     private static final TrackedData<Integer> VARIANT_UPPER = DataTracker.registerData(Centaur.class, TrackedDataHandlerRegistry.INTEGER);
 
     public static final String NAME = "centaur";
-    public static final Identifier ID = new Identifier(PJO.NAMESPACE, NAME);
-    public static final EntityType<Centaur> TYPE = FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, Centaur::new)
-            .dimensions(EntityDimensions.changing(1.5f, 1.5f)).build();
+    public static final Identifier ID = Identifier.of(PJO.NAMESPACE, NAME);
+    public static final EntityType<Centaur> TYPE = EntityType.Builder.create(Centaur::new, SpawnGroup.CREATURE)
+            .dimensions(1.5f, 1.5f).build();
 
-    public static final Identifier EGG_ID = new Identifier(PJO.NAMESPACE, NAME + "_spawn_egg");
-    public static final SpawnEggItem EGG = new SpawnEggItem(TYPE, 0x72460d, 0xFFFF00, new FabricItemSettings());
+    public static final Identifier EGG_ID = Identifier.of(PJO.NAMESPACE, NAME + "_spawn_egg");
+    public static final SpawnEggItem EGG = new SpawnEggItem(TYPE, 0x72460d, 0xFFFF00, new Item.Settings());
     
     private static final String ANIMATION_WALK_STAGE = "walking";
     private static final RawAnimation ANIMATION_WALK = RawAnimation.begin()
@@ -74,10 +72,10 @@ public class Centaur extends AbstractHorseEntity implements GeoEntity, VariantHo
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.dataTracker.startTracking(VARIANT, 0);
-        this.dataTracker.startTracking(VARIANT_UPPER, 0);
+    protected void initDataTracker(Builder builder) {
+        super.initDataTracker(builder);
+        this.dataTracker.set(VARIANT, 0);
+        this.dataTracker.set(VARIANT_UPPER, 0);
     }
 
     @Override
@@ -86,7 +84,7 @@ public class Centaur extends AbstractHorseEntity implements GeoEntity, VariantHo
         nbt.putInt("Variant", this.getHorseVariant());
         nbt.putInt("VariantUpper", this.getHorseVariant());
         if (!this.items.getStack(1).isEmpty()) {
-            nbt.put("ArmorItem", this.items.getStack(1).writeNbt(new NbtCompound()));
+            nbt.put("ArmorItem", this.items.getStack(1).encode(getRegistryManager()));
         }
     }
 
@@ -104,10 +102,10 @@ public class Centaur extends AbstractHorseEntity implements GeoEntity, VariantHo
         super.readCustomDataFromNbt(nbt);
         this.setHorseVariant(nbt.getInt("Variant"));
         this.setUpperVarient(nbt.getInt("VariantUpper"));
-        if (nbt.contains("ArmorItem", NbtElement.COMPOUND_TYPE) && !(itemStack = ItemStack.fromNbt(nbt.getCompound("ArmorItem"))).isEmpty() && this.isHorseArmor(itemStack)) {
+        if (nbt.contains("ArmorItem", NbtElement.COMPOUND_TYPE) && !(itemStack = ItemStack.fromNbt(getRegistryManager(), nbt.getCompound("ArmorItem")).get()).isEmpty() && this.isHorseArmor(itemStack)) { // TODO refactor to be more readable / understandable
             this.items.setStack(1, itemStack);
         }
-        this.updateSaddle();
+        this.updateSaddledFlag();
     }
 
     @Override
@@ -128,15 +126,15 @@ public class Centaur extends AbstractHorseEntity implements GeoEntity, VariantHo
         dataTracker.set(VARIANT_UPPER, variant);
     }
 
-    @Override
-    public EntityView method_48926() {
-        return super.getWorld();
-    }
+    // @Override
+    // public EntityView method_48926() {
+    //     return super.getWorld();
+    // }
 
     public static DefaultAttributeContainer.Builder createMobAttributes() {
         return createBaseHorseAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 35.0)
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3f).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.0)
-                .add(EntityAttributes.GENERIC_ARMOR, 2.0).add(EntityAttributes.HORSE_JUMP_STRENGTH, 1.0);
+                .add(EntityAttributes.GENERIC_ARMOR, 2.0).add(EntityAttributes.GENERIC_JUMP_STRENGTH, 1.0);
     }
 
     @Override

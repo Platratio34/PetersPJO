@@ -2,12 +2,11 @@ package com.peter.peterspjo.worldgen.labyrinth;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
 import java.util.Iterator;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.peter.peterspjo.PJO;
 import com.peter.peterspjo.util.NoiseGenerator;
@@ -43,7 +42,7 @@ import net.minecraft.world.gen.noise.NoiseConfig;
 
 public class LabyrinthChunkGenerator extends ChunkGenerator {
 
-    public static final Codec<LabyrinthChunkGenerator> CODEC = RecordCodecBuilder.create((instance) -> {
+    public static final MapCodec<LabyrinthChunkGenerator> CODEC = RecordCodecBuilder.mapCodec((instance) -> {
         return instance.group(BiomeSource.CODEC.fieldOf("biome_source").forGetter((generator) -> {
             return generator.biomeSource;
         }), ChunkGeneratorSettings.REGISTRY_CODEC.fieldOf("settings").forGetter((generator) -> {
@@ -54,7 +53,7 @@ public class LabyrinthChunkGenerator extends ChunkGenerator {
     private static final BlockState AIR = Blocks.AIR.getDefaultState();
 
     public static void register() {
-        Registry.register(Registries.CHUNK_GENERATOR, new Identifier(PJO.NAMESPACE, "labyrinth"), CODEC);
+        Registry.register(Registries.CHUNK_GENERATOR, Identifier.of(PJO.NAMESPACE, "labyrinth"), CODEC);
     }
 
     public LabyrinthChunkGenerator(BiomeSource biomeSource, RegistryEntry<ChunkGeneratorSettings> settings) {
@@ -63,7 +62,7 @@ public class LabyrinthChunkGenerator extends ChunkGenerator {
     }
 
     @Override
-    protected Codec<? extends ChunkGenerator> getCodec() {
+    protected MapCodec<LabyrinthChunkGenerator> getCodec() {
         return CODEC;
     }
 
@@ -89,9 +88,8 @@ public class LabyrinthChunkGenerator extends ChunkGenerator {
     }
 
     @Override
-    public CompletableFuture<Chunk> populateNoise(Executor executor, Blender blender, NoiseConfig noiseConfig,
-            StructureAccessor structureAccessor,
-            Chunk chunk) {
+    public CompletableFuture<Chunk> populateNoise(Blender blender, NoiseConfig noiseConfig,
+            StructureAccessor structureAccessor, Chunk chunk) {
         GenerationShapeConfig generationShapeConfig = ((ChunkGeneratorSettings) this.settings.value())
                 .generationShapeConfig().trimHeight(chunk.getHeightLimitView());
         int i = generationShapeConfig.minimumY();
@@ -120,7 +118,7 @@ public class LabyrinthChunkGenerator extends ChunkGenerator {
                     chunkSection.unlock();
                 }
 
-            }, executor);
+            });
         }
     }
 

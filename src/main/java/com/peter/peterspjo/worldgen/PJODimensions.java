@@ -11,12 +11,12 @@ import net.minecraft.world.dimension.DimensionType;
 public class PJODimensions {
 
     public static final RegistryKey<DimensionType> UNDERWORLD_TYPE = RegistryKey.of(RegistryKeys.DIMENSION_TYPE,
-            new Identifier(PJO.NAMESPACE, "underworld"));
+            Identifier.of(PJO.NAMESPACE, "underworld"));
     public static final RegistryKey<World> UNDERWORLD = RegistryKey.of(RegistryKeys.WORLD,
-            new Identifier(PJO.NAMESPACE, "underworld"));
+            Identifier.of(PJO.NAMESPACE, "underworld"));
     public static final RegistryKey<DimensionType> LABYRINTH_TYPE = RegistryKey.of(RegistryKeys.DIMENSION_TYPE,
-            new Identifier(PJO.NAMESPACE, "labyrinth"));
+            Identifier.of(PJO.NAMESPACE, "labyrinth"));
     public static final RegistryKey<World> LABYRINTH = RegistryKey.of(RegistryKeys.WORLD,
-            new Identifier(PJO.NAMESPACE, "labyrinth"));
+            Identifier.of(PJO.NAMESPACE, "labyrinth"));
 
 }

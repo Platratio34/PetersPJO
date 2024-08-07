@@ -11,7 +11,7 @@ public class UnderworldDimensionEffects extends DimensionEffects {
 
     public static void register() {
         DimensionEffectsAccessor.getIdentifierMap()
-                .put(new Identifier(PJO.NAMESPACE, "underworld"), new UnderworldDimensionEffects());
+                .put(Identifier.of(PJO.NAMESPACE, "underworld"), new UnderworldDimensionEffects());
     }
 
     public UnderworldDimensionEffects() {

@@ -15,10 +15,10 @@ public class PJODamageTypes extends DamageSources {
         super(registryManager);
     }
 
-    public static final RegistryKey<DamageType> STYX = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, new Identifier(PJO.NAMESPACE, "styx"));
+    public static final RegistryKey<DamageType> STYX = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, Identifier.of(PJO.NAMESPACE, "styx"));
 
     public static final RegistryKey<DamageType> CELESTIAL_DAMAGE_TYPE = RegistryKey.of(RegistryKeys.DAMAGE_TYPE,
-            new Identifier(PJO.NAMESPACE, "celestial"));
+            Identifier.of(PJO.NAMESPACE, "celestial"));
     
     public DamageSource celestial(Entity attacker) {
         return this.create(CELESTIAL_DAMAGE_TYPE, attacker);

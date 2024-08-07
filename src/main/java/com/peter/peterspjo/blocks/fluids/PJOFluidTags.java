@@ -12,6 +12,6 @@ public class PJOFluidTags {
     public static final TagKey<Fluid> STYX = of("styx");
 
     private static TagKey<Fluid> of(String id) {
-        return TagKey.of(RegistryKeys.FLUID, new Identifier(PJO.NAMESPACE, id));
+        return TagKey.of(RegistryKeys.FLUID, Identifier.of(PJO.NAMESPACE, id));
     }
 }
