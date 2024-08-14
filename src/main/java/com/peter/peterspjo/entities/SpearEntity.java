@@ -18,7 +18,7 @@ import net.minecraft.world.World;
 public class SpearEntity extends PersistentProjectileEntity {
 
     public static final String NAME = "spear_entity";
-    public static final Identifier ID = Identifier.of(PJO.NAMESPACE, NAME);
+    public static final Identifier ID = PJO.id(NAME);
     public static final EntityType<SpearEntity> TYPE = EntityType.Builder.<SpearEntity>create(SpearEntity::new, SpawnGroup.MISC)
             .dimensions(0.25f, 0.25f)
             .maxTrackingRange(16).trackingTickInterval(10)

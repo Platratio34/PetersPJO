@@ -18,7 +18,7 @@ import net.minecraft.util.Rarity;
 public class RiptideItem extends SwitchableSword {
 
     public static final String NAME = "riptide";
-    public static final Identifier ID = Identifier.of(PJO.NAMESPACE, NAME);
+    public static final Identifier ID = PJO.id(NAME);
 
     public static final RiptideItem ITEM = Registry.register(Registries.ITEM, ID, new RiptideItem(
             new Item.Settings().rarity(Rarity.EPIC)));
@@ -34,9 +34,9 @@ public class RiptideItem extends SwitchableSword {
 
     @Override
     public void appendTooltip(ItemStack itemStack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-        tooltip.add(Text.translatable("item." + PJO.NAMESPACE + "." + NAME + ".tooltip").formatted(Formatting.GOLD));
-        tooltip.add(Text.translatable("item." + PJO.NAMESPACE + "." + NAME + ".tooltip2").formatted(Formatting.GOLD));
-        tooltip.add(Text.translatable("item." + PJO.NAMESPACE + "." + NAME + ".tooltip3").formatted(Formatting.GOLD));
+        tooltip.add(PJO.tooltip("item", NAME).formatted(Formatting.GOLD));
+        tooltip.add(PJO.tooltip("item", NAME, 2).formatted(Formatting.GOLD));
+        tooltip.add(PJO.tooltip("item", NAME, 3).formatted(Formatting.GOLD));
         super.appendTooltip(itemStack, context, tooltip, type);
     }
 

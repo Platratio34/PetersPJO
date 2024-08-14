@@ -13,7 +13,6 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.Identifier;
 
 public class CelestialBronzeArmorMaterial {
 
@@ -32,19 +31,19 @@ public class CelestialBronzeArmorMaterial {
             SoundEvents.ITEM_ARMOR_EQUIP_GOLD, CelestialBronzeArmorMaterial::getRepairIngredient, 2, 0, false);
 
     public static final ArmorItem HELMET = Registry.register(Registries.ITEM,
-            Identifier.of(PJO.NAMESPACE, NAME + "_helmet"),
+            PJO.id(NAME + "_helmet"),
             new ArmorItem(MATERIAL, ArmorItem.Type.HELMET,
                     new Item.Settings().maxDamage(ArmorItem.Type.HELMET.getMaxDamage(DURABILITY_MULTIPLIER))));
     public static final ArmorItem CHESTPLATE = Registry.register(Registries.ITEM,
-            Identifier.of(PJO.NAMESPACE, NAME + "_chestplate"),
+            PJO.id(NAME + "_chestplate"),
             new ArmorItem(MATERIAL, ArmorItem.Type.CHESTPLATE,
                     new Item.Settings().maxDamage(ArmorItem.Type.HELMET.getMaxDamage(DURABILITY_MULTIPLIER))));
     public static final ArmorItem LEGGINGS = Registry.register(Registries.ITEM,
-            Identifier.of(PJO.NAMESPACE, NAME + "_leggings"),
+            PJO.id(NAME + "_leggings"),
             new ArmorItem(MATERIAL, ArmorItem.Type.LEGGINGS,
                     new Item.Settings().maxDamage(ArmorItem.Type.HELMET.getMaxDamage(DURABILITY_MULTIPLIER))));
     public static final ArmorItem BOOTS = Registry.register(Registries.ITEM,
-            Identifier.of(PJO.NAMESPACE, NAME + "_boots"),
+            PJO.id(NAME + "_boots"),
             new ArmorItem(MATERIAL, ArmorItem.Type.BOOTS,
                     new Item.Settings().maxDamage(ArmorItem.Type.HELMET.getMaxDamage(DURABILITY_MULTIPLIER))));
 

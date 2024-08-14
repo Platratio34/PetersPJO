@@ -4,18 +4,17 @@ import com.peter.peterspjo.PJO;
 
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
-import net.minecraft.util.Identifier;
 import net.minecraft.world.biome.Biome;
 
 public class PJOBiomes {
 
     public static final RegistryKey<Biome> UNDERWORLD_PLAINS = RegistryKey.of(RegistryKeys.BIOME,
-            Identifier.of(PJO.NAMESPACE, "underworld_plains"));
+            PJO.id("underworld_plains"));
     public static final RegistryKey<Biome> UNDERWORLD_OUTER = RegistryKey.of(RegistryKeys.BIOME,
-            Identifier.of(PJO.NAMESPACE, "underworld_outer"));
+            PJO.id("underworld_outer"));
     public static final RegistryKey<Biome> UNDERWORLD_CELLING = RegistryKey.of(RegistryKeys.BIOME,
-            Identifier.of(PJO.NAMESPACE, "underworld_celling"));
+            PJO.id("underworld_celling"));
     public static final RegistryKey<Biome> UNDERWORLD_ASPHODEL_FIELDS = RegistryKey.of(RegistryKeys.BIOME,
-            Identifier.of(PJO.NAMESPACE, "underworld_asphodel_fields"));
+            PJO.id("underworld_asphodel_fields"));
 
 }

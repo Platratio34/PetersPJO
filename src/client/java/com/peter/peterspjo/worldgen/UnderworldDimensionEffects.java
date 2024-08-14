@@ -4,14 +4,13 @@ import com.peter.peterspjo.PJO;
 
 import net.fabricmc.fabric.mixin.client.rendering.DimensionEffectsAccessor;
 import net.minecraft.client.render.DimensionEffects;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 
 public class UnderworldDimensionEffects extends DimensionEffects {
 
     public static void register() {
         DimensionEffectsAccessor.getIdentifierMap()
-                .put(Identifier.of(PJO.NAMESPACE, "underworld"), new UnderworldDimensionEffects());
+                .put(PJO.id("underworld"), new UnderworldDimensionEffects());
     }
 
     public UnderworldDimensionEffects() {

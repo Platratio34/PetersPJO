@@ -21,7 +21,6 @@ import net.minecraft.block.Blocks;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -60,7 +59,7 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
     private final Supplier<AquiferSampler.FluidLevelSampler> fluidLevelSampler;
 
     public static void register() {
-        Registry.register(Registries.CHUNK_GENERATOR, Identifier.of(PJO.NAMESPACE, "underworld"), CODEC);
+        Registry.register(Registries.CHUNK_GENERATOR, PJO.id("underworld"), CODEC);
         UnderworldBiomeSource.register();
     }
 

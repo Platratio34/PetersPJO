@@ -41,11 +41,11 @@ public class Centaur extends AbstractHorseEntity implements GeoEntity, VariantHo
     private static final TrackedData<Integer> VARIANT_UPPER = DataTracker.registerData(Centaur.class, TrackedDataHandlerRegistry.INTEGER);
 
     public static final String NAME = "centaur";
-    public static final Identifier ID = Identifier.of(PJO.NAMESPACE, NAME);
+    public static final Identifier ID = PJO.id(NAME);
     public static final EntityType<Centaur> TYPE = EntityType.Builder.create(Centaur::new, SpawnGroup.CREATURE)
             .dimensions(1.5f, 1.5f).build();
 
-    public static final Identifier EGG_ID = Identifier.of(PJO.NAMESPACE, NAME + "_spawn_egg");
+    public static final Identifier EGG_ID = PJO.id(NAME + "_spawn_egg");
     public static final SpawnEggItem EGG = new SpawnEggItem(TYPE, 0x72460d, 0xFFFF00, new Item.Settings());
     
     private static final String ANIMATION_WALK_STAGE = "walking";
@@ -101,7 +101,7 @@ public class Centaur extends AbstractHorseEntity implements GeoEntity, VariantHo
         ItemStack itemStack;
         super.readCustomDataFromNbt(nbt);
         this.setHorseVariant(nbt.getInt("Variant"));
-        this.setUpperVarient(nbt.getInt("VariantUpper"));
+        this.setUpperVariant(nbt.getInt("VariantUpper"));
         if (nbt.contains("ArmorItem", NbtElement.COMPOUND_TYPE) && !(itemStack = ItemStack.fromNbt(getRegistryManager(), nbt.getCompound("ArmorItem")).get()).isEmpty() && this.isHorseArmor(itemStack)) { // TODO refactor to be more readable / understandable
             this.items.setStack(1, itemStack);
         }
@@ -122,7 +122,7 @@ public class Centaur extends AbstractHorseEntity implements GeoEntity, VariantHo
         return dataTracker.get(VARIANT_UPPER) % 8;
     }
 
-    private void setUpperVarient(int variant) {
+    private void setUpperVariant(int variant) {
         dataTracker.set(VARIANT_UPPER, variant);
     }
 

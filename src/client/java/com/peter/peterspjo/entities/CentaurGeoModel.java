@@ -21,24 +21,24 @@ import net.minecraft.util.Identifier;
 public class CentaurGeoModel<T extends Centaur> extends GeoAnimatedModel<T> {
     
     private static final Map<HorseColor, Identifier> HORSE_TEXTURES = Map.of(
-        HorseColor.WHITE, Identifier.of(PJO.NAMESPACE, "textures/entity/horse/horse_white.png"),
-        HorseColor.CREAMY, Identifier.of(PJO.NAMESPACE, "textures/entity/horse/horse_creamy.png"),
-        HorseColor.CHESTNUT, Identifier.of(PJO.NAMESPACE, "textures/entity/horse/horse_chestnut.png"),
-        HorseColor.BROWN, Identifier.of(PJO.NAMESPACE, "textures/entity/horse/horse_brown.png"),
-        HorseColor.BLACK, Identifier.of(PJO.NAMESPACE, "textures/entity/horse/horse_black.png"),
-        HorseColor.GRAY, Identifier.of(PJO.NAMESPACE, "textures/entity/horse/horse_gray.png"),
-        HorseColor.DARK_BROWN, Identifier.of(PJO.NAMESPACE, "textures/entity/horse/horse_darkbrown.png")
+        HorseColor.WHITE, Identifier.ofVanilla("textures/entity/horse/horse_white.png"),
+        HorseColor.CREAMY, Identifier.ofVanilla("textures/entity/horse/horse_creamy.png"),
+        HorseColor.CHESTNUT, Identifier.ofVanilla("textures/entity/horse/horse_chestnut.png"),
+        HorseColor.BROWN, Identifier.ofVanilla("textures/entity/horse/horse_brown.png"),
+        HorseColor.BLACK, Identifier.ofVanilla("textures/entity/horse/horse_black.png"),
+        HorseColor.GRAY, Identifier.ofVanilla("textures/entity/horse/horse_gray.png"),
+        HorseColor.DARK_BROWN, Identifier.ofVanilla("textures/entity/horse/horse_darkbrown.png")
     );
     
     private static final Identifier[] UPPER_TEXTURES = {
-        Identifier.of(PJO.NAMESPACE, "textures/entity/centaur/centaur.png"),
-        Identifier.of(PJO.NAMESPACE, "textures/entity/centaur/centaur.png"),
-        Identifier.of(PJO.NAMESPACE, "textures/entity/centaur/centaur.png"),
-        Identifier.of(PJO.NAMESPACE, "textures/entity/centaur/centaur.png"),
-        Identifier.of(PJO.NAMESPACE, "textures/entity/centaur/centaur.png"),
-        Identifier.of(PJO.NAMESPACE, "textures/entity/centaur/centaur.png"),
-        Identifier.of(PJO.NAMESPACE, "textures/entity/centaur/centaur.png"),
-        Identifier.of(PJO.NAMESPACE, "textures/entity/centaur/centaur.png")
+        PJO.id("textures/entity/centaur/centaur.png"),
+        PJO.id("textures/entity/centaur/centaur.png"),
+        PJO.id("textures/entity/centaur/centaur.png"),
+        PJO.id("textures/entity/centaur/centaur.png"),
+        PJO.id("textures/entity/centaur/centaur.png"),
+        PJO.id("textures/entity/centaur/centaur.png"),
+        PJO.id("textures/entity/centaur/centaur.png"),
+        PJO.id("textures/entity/centaur/centaur.png")
     };
 
     private static HashMap<UUID, DynamicEntityTexture> textures = new HashMap<UUID, DynamicEntityTexture>();

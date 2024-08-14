@@ -7,6 +7,9 @@ import net.minecraft.entity.damage.DamageType;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
 import org.slf4j.Logger;
@@ -57,9 +60,25 @@ public class PJO implements ModInitializer {
 		LOGGER.info("              ");
 	}
 	
-	public static DamageSource damageSourceOf(World world, RegistryKey<DamageType> key) {
-		return new DamageSource(world.getRegistryManager().get(RegistryKeys.DAMAGE_TYPE).entryOf(key));
-	}
+    public static DamageSource damageSourceOf(World world, RegistryKey<DamageType> key) {
+        return new DamageSource(world.getRegistryManager().get(RegistryKeys.DAMAGE_TYPE).entryOf(key));
+    }
+    
+    public static Identifier id(String id) {
+        return Identifier.of(NAMESPACE, id);
+    }
+
+    public static MutableText translatable(String category, String name) {
+        return Text.translatable(String.format("%s.%s.%s", category, NAMESPACE, name));
+    }
+
+    public static MutableText tooltip(String category, String name) {
+        return Text.translatable(String.format("%s.%s.%s.tooltip", category, NAMESPACE, name));
+    }
+
+    public static MutableText tooltip(String category, String name, int line) {
+        return Text.translatable(String.format("%s.%s.%s.tooltip,%i", category, NAMESPACE, name, line));
+    }
 
 
 }

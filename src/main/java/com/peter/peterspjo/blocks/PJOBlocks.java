@@ -12,7 +12,6 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 
@@ -20,8 +19,8 @@ public class PJOBlocks {
 
     public static final Block CELESTIAL_BRONZE_BLOCK = new TooltipedBlock(
             AbstractBlock.Settings.create().strength(4.0f).sounds(BlockSoundGroup.METAL).luminance((BlockState state) -> {
-                return 1; }), Text.translatable("block.peterspjo.celestial_bronze_block.tooltip").formatted(Formatting.GOLD));
-    public static final Identifier CELESTIAL_BRONZE_BLOCK_ID = Identifier.of(PJO.NAMESPACE, "celestial_bronze_block");
+                return 1; }), PJO.tooltip("block", "celestial_bronze_block").formatted(Formatting.GOLD));
+    public static final Identifier CELESTIAL_BRONZE_BLOCK_ID = PJO.id("celestial_bronze_block");
     public static final BlockItem CELESTIAL_BRONZE_BLOCK_ITEM = new BlockItem(CELESTIAL_BRONZE_BLOCK,
             new Item.Settings());
     

@@ -26,7 +26,7 @@ public class PJOClient implements ClientModInitializer {
 		PegasusRenderer.register();
 		CentaurRenderer.register();
 
-		ModelPredicateProviderRegistry.register(RiptideItem.ITEM, Identifier.of(PJO.NAMESPACE, "is_sword"),
+		ModelPredicateProviderRegistry.register(RiptideItem.ITEM, PJO.id("is_sword"),
 				(itemStack, clientWorld, livingEntity, i) -> {
                     return itemStack.getOrDefault(SwitchableSword.IS_SWORD_COMPONENT, false) ? 1.0f : 0.0f;
 				});

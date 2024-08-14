@@ -42,17 +42,17 @@ public class GeoAnimatedModel<T extends GeoAnimatable> extends GeoModel<T> {
 
     @Override
     public Identifier getModelResource(T animatable) {
-        return Identifier.of(PJO.NAMESPACE, "geo/" + modelName + ".geo.json");
+        return PJO.id("geo/" + modelName + ".geo.json");
     }
 
     @Override
     public Identifier getTextureResource(T animatable) {
-        return Identifier.of(PJO.NAMESPACE, "textures/entity/" + modelName + "/" + modelName + ".png");
+        return PJO.id("textures/entity/" + modelName + "/" + modelName + ".png");
     }
 
     @Override
     public Identifier getAnimationResource(T animatable) {
-        return Identifier.of(PJO.NAMESPACE, "animations/" + modelName + ".animation.json");
+        return PJO.id("animations/" + modelName + ".animation.json");
     }
 
 }

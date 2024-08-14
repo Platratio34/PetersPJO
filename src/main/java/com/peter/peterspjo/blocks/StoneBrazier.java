@@ -31,7 +31,7 @@ import net.minecraft.world.WorldAccess;
 public class StoneBrazier extends HorizontalFacingBlock {
 
     public static final String NAME = "stone_brazier";
-    public static final Identifier ID = Identifier.of(PJO.NAMESPACE, NAME);
+    public static final Identifier ID = PJO.id(NAME);
 
     public static final IntProperty VARIANT = IntProperty.of("variant", 0, 5);
 

@@ -13,14 +13,13 @@ import net.minecraft.item.BucketItem;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 
 public class PJOItems {
     
-    public static final Item DRACHMA = new TooltipedItem(new Item.Settings(), Text.translatable("item.peterspjo.drachma.tooltip").formatted(Formatting.GOLD));
-    public static final Identifier DRACHMA_ID = Identifier.of(PJO.NAMESPACE, "drachma");
+    public static final Item DRACHMA = new TooltipedItem(new Item.Settings(), PJO.tooltip("item", "drachma").formatted(Formatting.GOLD));
+    public static final Identifier DRACHMA_ID = PJO.id("drachma");
 
     public static final CelestialBronzeIngot CELESTIAL_BRONZE_INGOT = CelestialBronzeIngot.ITEM;
     public static final CelestialBronzeSword CELESTIAL_BRONZE_SWORD = CelestialBronzeSword.ITEM;

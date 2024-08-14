@@ -19,7 +19,6 @@ import net.minecraft.block.Blocks;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -53,7 +52,7 @@ public class LabyrinthChunkGenerator extends ChunkGenerator {
     private static final BlockState AIR = Blocks.AIR.getDefaultState();
 
     public static void register() {
-        Registry.register(Registries.CHUNK_GENERATOR, Identifier.of(PJO.NAMESPACE, "labyrinth"), CODEC);
+        Registry.register(Registries.CHUNK_GENERATOR, PJO.id("labyrinth"), CODEC);
     }
 
     public LabyrinthChunkGenerator(BiomeSource biomeSource, RegistryEntry<ChunkGeneratorSettings> settings) {

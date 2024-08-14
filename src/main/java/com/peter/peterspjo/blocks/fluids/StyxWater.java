@@ -20,7 +20,6 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.state.StateManager;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
@@ -31,14 +30,14 @@ import net.minecraft.world.WorldView;
 public abstract class StyxWater extends WaterFluid {
 
     public static final String NAME = "styx_water";
-    public static final FlowableFluid STILL = Registry.register(Registries.FLUID, Identifier.of(PJO.NAMESPACE, NAME),
+    public static final FlowableFluid STILL = Registry.register(Registries.FLUID, PJO.id(NAME),
             new Still());
     public static final FlowableFluid FLOWING = Registry.register(Registries.FLUID,
-            Identifier.of(PJO.NAMESPACE, NAME + "_flowing"), new Flowing());
+            PJO.id(NAME + "_flowing"), new Flowing());
     public static final BucketItem BUCKET = Registry.register(Registries.ITEM,
-            Identifier.of(PJO.NAMESPACE, NAME + "_bucket"),
+            PJO.id(NAME + "_bucket"),
             new BucketItem(STILL, new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1)));
-    public static final FluidBlock BLOCK = Registry.register(Registries.BLOCK, Identifier.of(PJO.NAMESPACE, NAME),
+    public static final FluidBlock BLOCK = Registry.register(Registries.BLOCK, PJO.id(NAME),
             new FluidBlock(STILL, AbstractBlock.Settings.copy(Blocks.WATER).liquid()));
 
     @Override

@@ -26,11 +26,11 @@ import net.minecraft.world.World;
 public class Hellhound extends Monster {
 
     public static final String NAME = "hellhound";
-    public static final Identifier ID = Identifier.of(PJO.NAMESPACE, NAME);
+    public static final Identifier ID = PJO.id(NAME);
     public static final EntityType<Hellhound> TYPE = EntityType.Builder.create(Hellhound::new, SpawnGroup.MONSTER)
             .dimensions(1.75f, 2f).build();
 
-    public static final Identifier EGG_ID = Identifier.of(PJO.NAMESPACE, NAME + "_spawn_egg");
+    public static final Identifier EGG_ID = PJO.id(NAME + "_spawn_egg");
     public static final SpawnEggItem EGG = new SpawnEggItem(TYPE, 0x2c2c2c, 0x232323, new Item.Settings());
 
     public static void register() {

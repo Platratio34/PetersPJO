@@ -15,13 +15,12 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
 public abstract class SwitchableSword extends CelestialSword implements Switchable {
 
-    public static ComponentType<Boolean> IS_SWORD_COMPONENT = Registry.register(Registries.DATA_COMPONENT_TYPE, Identifier.of(PJO.NAMESPACE, "is_sword"), ComponentType.<Boolean>builder().codec(Codec.BOOL).build());
+    public static ComponentType<Boolean> IS_SWORD_COMPONENT = Registry.register(Registries.DATA_COMPONENT_TYPE, PJO.id("is_sword"), ComponentType.<Boolean>builder().codec(Codec.BOOL).build());
 
     public SwitchableSword(ToolMaterial toolMaterial, int attackDamage, float attackSpeed,
             Item.Settings settings) {

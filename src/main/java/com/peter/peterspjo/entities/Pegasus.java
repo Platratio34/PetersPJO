@@ -36,11 +36,11 @@ public class Pegasus extends AbstractDonkeyEntity implements GeoEntity {
     private AnimatableInstanceCache animationCache = new SingletonAnimatableInstanceCache(this);
 
     public static final String NAME = "pegasus";
-    public static final Identifier ID = Identifier.of(PJO.NAMESPACE, NAME);
+    public static final Identifier ID = PJO.id(NAME);
     public static final EntityType<Pegasus> TYPE = EntityType.Builder.create(Pegasus::new, SpawnGroup.CREATURE)
             .dimensions(1.5f, 1.5f).build();
 
-    public static final Identifier EGG_ID = Identifier.of(PJO.NAMESPACE, NAME + "_spawn_egg");
+    public static final Identifier EGG_ID = PJO.id(NAME + "_spawn_egg");
     public static final SpawnEggItem EGG = new SpawnEggItem(TYPE, 0xC09E7D, 0xEEE500, new Item.Settings());
 
     // private static final String ANIMATION_WING_IDLE_GROUND_NAME = "animation." +

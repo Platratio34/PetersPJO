@@ -18,6 +18,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.predicate.entity.EntityPredicate;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.advancement.*;
@@ -39,14 +40,17 @@ public class PetersPJODataGenerator implements DataGeneratorEntrypoint {
             super(output, registryLookup);
         }
 
+        private static MutableText advancementText(String name) {
+            return Text.translatable(String.format("advancement.%s.%s", PJO.NAMESPACE, name));
+        }
+
         @Override
         public void generateAdvancement(WrapperLookup registryLookup, Consumer<AdvancementEntry> consumer) {
-            String langBase = "advancement." + PJO.NAMESPACE + ".";
             Identifier background = Identifier.ofVanilla("textures/gui/advancements/backgrounds/adventure.png");
             AdvancementEntry root = Advancement.Builder.create()
                     .display(PJOItems.CELESTIAL_BRONZE_INGOT,
-                            Text.translatable(langBase + "got_cb.title"),
-                            Text.translatable(langBase + "got_cb.description"),
+                            advancementText("got_cb.title"),
+                            advancementText("got_cb.description"),
                             background,
                             AdvancementFrame.TASK, true, true, false)
                     .criteriaMerger(CriterionMerger.OR)
@@ -57,16 +61,16 @@ public class PetersPJODataGenerator implements DataGeneratorEntrypoint {
                     .build(consumer, PJO.NAMESPACE + "/root");
             Advancement.Builder killMonsterBuilder = Advancement.Builder.create().parent(root)
                     .display(PJOItems.CELESTIAL_BRONZE_SWORD,
-                            Text.translatable(langBase + "kill_monster.title"),
-                            Text.translatable(langBase + "kill_monster.description"),
+                            advancementText("kill_monster.title"),
+                            advancementText("kill_monster.description"),
                             background,
                             AdvancementFrame.TASK, true, true, false);
             AdvancementEntry killMonster = requireAnyListedMobKilled(killMonsterBuilder).build(consumer,
                     PJO.NAMESPACE + "/kill_monster");
             Advancement.Builder killAllMonsterBuilder = Advancement.Builder.create().parent(killMonster)
                     .display(PJOItems.CELESTIAL_BRONZE_SWORD,
-                            Text.translatable(langBase + "kill_all_monster.title"),
-                            Text.translatable(langBase + "kill_all_monster.description"),
+                            advancementText("kill_all_monster.title"),
+                            advancementText("kill_all_monster.description"),
                             background,
                             AdvancementFrame.CHALLENGE, true, true, false);
             @SuppressWarnings("unused")
@@ -75,8 +79,8 @@ public class PetersPJODataGenerator implements DataGeneratorEntrypoint {
             @SuppressWarnings("unused")
             AdvancementEntry got_riptide = Advancement.Builder.create().parent(root)
                     .display(PJOItems.RIPTIDE,
-                            Text.translatable(langBase + "got_riptide.title"),
-                            Text.translatable(langBase + "got_riptide.description"),
+                            advancementText("got_riptide.title"),
+                            advancementText("got_riptide.description"),
                             background,
                             AdvancementFrame.GOAL, true, true, false)
                     .criterion(PJO.NAMESPACE + ":got_riptide",

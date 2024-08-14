@@ -23,7 +23,7 @@ public class HellhoundRenderer extends MobEntityRenderer<Hellhound, HellhoundMod
 
     @Override
     public Identifier getTexture(Hellhound entity) {
-        return Identifier.of(PJO.NAMESPACE, "textures/entity/hellhound/hellhound.png");
+        return PJO.id("textures/entity/hellhound/hellhound.png");
     }
 
 }

@@ -26,7 +26,7 @@ import net.minecraft.world.World;
 public class LabyrinthDoor extends DoorBlock {
 
     public static String NAME = "labyrinth_door";
-    public static Identifier ID = Identifier.of(PJO.NAMESPACE, NAME);
+    public static Identifier ID = PJO.id(NAME);
     public static DoorBlock BLOCK = Registry.register(Registries.BLOCK, ID,
             new LabyrinthDoor(AbstractBlock.Settings.copy(Blocks.IRON_DOOR), BlockSetType.IRON));
     public static BlockItem ITEM = Registry.register(Registries.ITEM, ID,

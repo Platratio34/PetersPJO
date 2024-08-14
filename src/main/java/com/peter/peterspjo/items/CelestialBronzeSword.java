@@ -15,7 +15,8 @@ import net.minecraft.util.Identifier;
 
 public class CelestialBronzeSword extends CelestialSword {
 
-    public static final Identifier ID = Identifier.of(PJO.NAMESPACE, "celestial_bronze_sword");
+    public static final String NAME = "celestial_bronze_sword";
+    public static final Identifier ID = PJO.id(NAME);
 
     public static final CelestialBronzeSword ITEM = Registry.register(Registries.ITEM, ID, new CelestialBronzeSword(
             new Item.Settings()));
@@ -30,7 +31,7 @@ public class CelestialBronzeSword extends CelestialSword {
     public void appendTooltip(ItemStack itemStack, TooltipContext context, List<Text> tooltip, TooltipType type) {
 
         // default white text
-        tooltip.add(Text.translatable("item.peterspjo.celestial_bronze_sword.tooltip").formatted(Formatting.GOLD));
+        tooltip.add(PJO.tooltip("item", NAME).formatted(Formatting.GOLD));
     }
 
 }

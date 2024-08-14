@@ -26,11 +26,11 @@ import net.minecraft.world.World;
 public class Empousai extends Monster {
 
     public static final String NAME = "empousai";
-    public static final Identifier ID = Identifier.of(PJO.NAMESPACE, NAME);
+    public static final Identifier ID = PJO.id(NAME);
     public static final EntityType<Empousai> TYPE = EntityType.Builder.create(Empousai::new, SpawnGroup.MONSTER)
             .dimensions(0.75f, 2f).build();
 
-    public static final Identifier EGG_ID = Identifier.of(PJO.NAMESPACE, NAME + "_spawn_egg");
+    public static final Identifier EGG_ID = PJO.id(NAME + "_spawn_egg");
     public static final SpawnEggItem EGG = new SpawnEggItem(TYPE, 0x5b276c, 0xfdff2f, new Item.Settings());
 
     public static void register() {

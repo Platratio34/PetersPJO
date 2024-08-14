@@ -11,7 +11,6 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryOps;
 import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.Identifier;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeCoords;
 import net.minecraft.world.biome.source.BiomeSource;
@@ -25,7 +24,7 @@ public class UnderworldBiomeSource extends BiomeSource {
                     .apply(instance, UnderworldBiomeSource::new));
 
     public static void register() {
-        Registry.register(Registries.BIOME_SOURCE, Identifier.of(PJO.NAMESPACE, "underworld"), CODEC);
+        Registry.register(Registries.BIOME_SOURCE, PJO.id("underworld"), CODEC);
     }
     // private static final RegistryEntry<Biome> UNDERWORLD_PLAINS_ENTRY =
     // Registries.;
