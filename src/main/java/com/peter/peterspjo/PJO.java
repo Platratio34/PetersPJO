@@ -77,7 +77,7 @@ public class PJO implements ModInitializer {
     }
 
     public static MutableText tooltip(String category, String name, int line) {
-        return Text.translatable(String.format("%s.%s.%s.tooltip,%i", category, NAMESPACE, name, line));
+        return Text.translatable(String.format("%s.%s.%s.tooltip%s", category, NAMESPACE, name, line+""));
     }
 
 

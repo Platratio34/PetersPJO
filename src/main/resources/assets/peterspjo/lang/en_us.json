@@ -57,16 +57,16 @@
     "biome.peterspjo.underworld_asphodel_fields": "Fields of Asphodel",
 
     "advancement.peterspjo.got_cb.title": "Celestial Bronze",
-    "advancement.peterspjo.got_cb.description": "Description",
+    "advancement.peterspjo.got_cb.description": "Acquire the metal of the gods\n\nCan be found in temple loot",
 
     "advancement.peterspjo.kill_monster.title": "Greek Monster Hunter",
-    "advancement.peterspjo.kill_monster.description": "Kill any PJO monster",
+    "advancement.peterspjo.kill_monster.description": "Kill any PJO monster\n\nQuote goes here\n- Someone",
 
     "advancement.peterspjo.kill_all_monster.title": "Heracles?",
-    "advancement.peterspjo.kill_all_monster.description": "Kill all PJO monsters",
+    "advancement.peterspjo.kill_all_monster.description": "Kill all PJO monsters\n\nQuote goes here\n- Someone",
 
     "advancement.peterspjo.got_riptide.title": "This is a pen",
-    "advancement.peterspjo.got_riptide.description": "Find Anaklusmos (aka Riptide)",
+    "advancement.peterspjo.got_riptide.description": "Find Anaklusmos (aka Riptide)\n\n\"What am I supposed to do with a pen!?\"\n- Percy Jackson",
 
     "death.attack.styx": "%s took a dip in the river Styx",
     "death.attack.styx.player": "%s took a dip in the river Styx whilst trying to escape %s",
