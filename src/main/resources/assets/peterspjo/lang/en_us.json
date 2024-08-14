@@ -71,6 +71,8 @@
     "death.attack.styx": "%s took a dip in the river Styx",
     "death.attack.styx.player": "%s took a dip in the river Styx whilst trying to escape %s",
 
-    "enchantment.peterspjo.celestial": "Celestial"
+    "enchantment.peterspjo.celestial": "Celestial",
+
+    "ability.peterspjo.greek_poseidon_water_breathing": "Poseidon Water Breathing"
 
 }

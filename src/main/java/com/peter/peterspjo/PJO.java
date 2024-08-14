@@ -15,6 +15,7 @@ import net.minecraft.world.World;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.peter.peterspjo.abilities.PJOAbilities;
 import com.peter.peterspjo.blocks.PJOBlocks;
 import com.peter.peterspjo.entities.PJOEntities;
 import com.peter.peterspjo.items.PJOItems;
@@ -37,6 +38,8 @@ public class PJO implements ModInitializer {
 
         LOGGER.info("Loading Peter's PJO");
 
+        PJOAbilities.init();
+
 		PJOItems.init();
 		PJOBlocks.init();
         PJOEntities.init();
@@ -52,6 +55,8 @@ public class PJO implements ModInitializer {
             LabyrinthMap.getServerState(server);
             DoorManager.getServerState(server);
         });
+
+        PJOCommands.register();
 
 		LOGGER.info("Loaded Peter's PJO");
 		LOGGER.info(" __   ___  _  ");
