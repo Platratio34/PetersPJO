@@ -29,19 +29,14 @@ public class PJOCommands {
 
     private static LiteralArgumentBuilder<ServerCommandSource> initAbilitiesCommand(
             CommandRegistryAccess registryAccess) {
+        /*
+         * ability give <player> <ability>
+         * ability remove <player> <ability>
+         * ability list <player> [id]
+         */
         LiteralArgumentBuilder<ServerCommandSource> cmd = CommandManager.literal("ability");
-        cmd.executes(context -> {
-            context.getSource().sendError(Text.of("Must provide action"));
-            return -1;
-        });
-        cmd.then(CommandManager.literal("give").executes(context -> {
-            context.getSource().sendError(Text.of("Must provide player(s) and ability"));
-            return -1;
-        })
-                .then(CommandManager.argument("player", EntityArgumentType.players()).executes(context -> {
-                    context.getSource().sendError(Text.of("Must provide ability"));
-                    return -1;
-                })
+        cmd.then(CommandManager.literal("give")
+                .then(CommandManager.argument("player", EntityArgumentType.players())
                         .then(CommandManager.argument("ability",
                                 RegistryEntryReferenceArgumentType.registryEntry(registryAccess,
                                         PJOAbilities.ABILITIES_REGISTRY_KEY))
@@ -64,24 +59,18 @@ public class PJOCommands {
                                                 String playerNames = "";
                                                 for (ServerPlayerEntity playerEntity : players) {
                                                     if (playerNames.length() > 0) {
-                                                        playerNames += ", ";
+                                                        playerNames += "§r, §c";
                                                     }
                                                     playerNames += playerEntity.getNameForScoreboard();
                                                 }
-                                                return Text.of(String.format("Giving ability %s to %s",
+                                                return Text.of(String.format("Giving ability §a%s§r to §a%s§r",
                                                         ability.getIdAsString(), playerNames));
                                             },
                                             false);
                                     return 1;
                                 }))));
-        cmd.then(CommandManager.literal("remove").executes(context -> {
-            context.getSource().sendError(Text.of("Must provide player(s) and ability"));
-            return -1;
-        })
-                .then(CommandManager.argument("player", EntityArgumentType.players()).executes(context -> {
-                    context.getSource().sendError(Text.of("Must provide ability"));
-                    return -1;
-                })
+        cmd.then(CommandManager.literal("remove")
+                .then(CommandManager.argument("player", EntityArgumentType.players())
                         .then(CommandManager.argument("ability",
                                 RegistryEntryReferenceArgumentType.registryEntry(registryAccess,
                                         PJOAbilities.ABILITIES_REGISTRY_KEY))
@@ -104,29 +93,27 @@ public class PJOCommands {
                                                 String playerNames = "";
                                                 for (ServerPlayerEntity playerEntity : players) {
                                                     if (playerNames.length() > 0) {
-                                                        playerNames += ", ";
+                                                        playerNames += "§r, §c";
                                                     }
                                                     playerNames += playerEntity.getNameForScoreboard();
                                                 }
-                                                return Text.of(String.format("Removing ability %s to %s",
+                                                return Text.of(String.format("Removing ability §c%s§r from §c%s§r",
                                                         ability.getIdAsString(), playerNames));
                                             },
                                             false);
                                     return 1;
                                 }))));
-        cmd.then(CommandManager.literal("list").executes(context -> {
-            context.getSource().sendError(Text.of("Must provide player"));
-            return -1;
-        })
+        cmd.then(CommandManager.literal("list")
                 .then(CommandManager.argument("player", EntityArgumentType.player()).executes(context -> {
                     ServerPlayerEntity player = EntityArgumentType.getPlayer(context, "player");
                     context.getSource().sendFeedback(
                             () -> {
-                                MutableText text = Text.literal(player.getNameForScoreboard()+" has: ");
-                                Identifier[] abilities = AbilityManager.INSTANCE.listAbilityIdentifiers(player.getUuid());
+                                MutableText text = Text.literal(player.getNameForScoreboard() + " has: ");
+                                Identifier[] abilities = AbilityManager.INSTANCE
+                                        .listAbilityIdentifiers(player.getUuid());
                                 for (int i = 0; i < abilities.length; i++) {
                                     if (i > 0) {
-                                        text.append(", ");
+                                        text.append("§r, ");
                                     }
                                     text.append(AbilityManager.getAbilityNameTranslated(abilities[i]));
                                 }
@@ -135,23 +122,24 @@ public class PJOCommands {
                             false);
                     return 1;
                 })
-                .then(CommandManager.literal("id").executes(context -> {
-                    ServerPlayerEntity player = EntityArgumentType.getPlayer(context, "player");
-                    context.getSource().sendFeedback(
-                            () -> {
-                                MutableText text = Text.literal(player.getNameForScoreboard()+" has: ");
-                                Identifier[] abilities = AbilityManager.INSTANCE.listAbilityIdentifiers(player.getUuid());
-                                for (int i = 0; i < abilities.length; i++) {
-                                    if (i > 0) {
-                                        text.append(", ");
-                                    }
-                                    text.append(abilities[i].toString());
-                                }
-                                return text;
-                            },
-                            false);
-                    return 1;
-                }))));
+                        .then(CommandManager.literal("id").executes(context -> {
+                            ServerPlayerEntity player = EntityArgumentType.getPlayer(context, "player");
+                            context.getSource().sendFeedback(
+                                    () -> {
+                                        MutableText text = Text.literal(player.getNameForScoreboard() + " has: ");
+                                        Identifier[] abilities = AbilityManager.INSTANCE
+                                                .listAbilityIdentifiers(player.getUuid());
+                                        for (int i = 0; i < abilities.length; i++) {
+                                            if (i > 0) {
+                                                text.append(", ");
+                                            }
+                                            text.append(abilities[i].toString());
+                                        }
+                                        return text;
+                                    },
+                                    false);
+                            return 1;
+                        }))));
         return cmd;
     }
 }
