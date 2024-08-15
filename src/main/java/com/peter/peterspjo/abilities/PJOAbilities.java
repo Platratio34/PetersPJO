@@ -19,7 +19,7 @@ public class PJOAbilities {
     });
 
     public static void init() {
-        register(new PoseidonAbility());
+        register(new PoseidonAbilityWB());
     }
 
     /**

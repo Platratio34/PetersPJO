@@ -5,12 +5,12 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 
-public class PoseidonAbility extends AbstractAbility {
+public class PoseidonAbilityWB extends AbstractAbility {
 
     public static final String NAME = "greek_poseidon_water_breathing";
 
-    public PoseidonAbility() {
-        super(PoseidonAbility::new, NAME);
+    public PoseidonAbilityWB() {
+        super(PoseidonAbilityWB::new, NAME);
         setPassiveTickRate(ONCE_PER_SECOND * 5);
     }
     

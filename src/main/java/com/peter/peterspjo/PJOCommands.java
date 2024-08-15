@@ -121,25 +121,24 @@ public class PJOCommands {
                             },
                             false);
                     return 1;
-                })
-                        .then(CommandManager.literal("id").executes(context -> {
-                            ServerPlayerEntity player = EntityArgumentType.getPlayer(context, "player");
-                            context.getSource().sendFeedback(
-                                    () -> {
-                                        MutableText text = Text.literal(player.getNameForScoreboard() + " has: ");
-                                        Identifier[] abilities = AbilityManager.INSTANCE
-                                                .listAbilityIdentifiers(player.getUuid());
-                                        for (int i = 0; i < abilities.length; i++) {
-                                            if (i > 0) {
-                                                text.append(", ");
-                                            }
-                                            text.append(abilities[i].toString());
-                                        }
-                                        return text;
-                                    },
-                                    false);
-                            return 1;
-                        }))));
+                }).then(CommandManager.literal("id").executes(context -> {
+                    ServerPlayerEntity player = EntityArgumentType.getPlayer(context, "player");
+                    context.getSource().sendFeedback(
+                            () -> {
+                                MutableText text = Text.literal(player.getNameForScoreboard() + " has: ");
+                                Identifier[] abilities = AbilityManager.INSTANCE
+                                        .listAbilityIdentifiers(player.getUuid());
+                                for (int i = 0; i < abilities.length; i++) {
+                                    if (i > 0) {
+                                        text.append(", ");
+                                    }
+                                    text.append(abilities[i].toString());
+                                }
+                                return text;
+                            },
+                            false);
+                    return 1;
+                }))));
         return cmd;
     }
 }
