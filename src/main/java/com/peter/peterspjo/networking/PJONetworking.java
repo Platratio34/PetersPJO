@@ -4,5 +4,6 @@ public class PJONetworking {
 
     public static void registerServer() {
         AbilityUsePayload.register();
+        AbilityUpdatePayload.register();
     }
 }

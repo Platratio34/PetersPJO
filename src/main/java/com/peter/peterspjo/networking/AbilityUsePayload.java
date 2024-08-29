@@ -2,8 +2,6 @@ package com.peter.peterspjo.networking;
 
 import java.util.UUID;
 
-import org.joml.Vector3f;
-
 import com.peter.peterspjo.PJO;
 import com.peter.peterspjo.abilities.AbilityManager;
 

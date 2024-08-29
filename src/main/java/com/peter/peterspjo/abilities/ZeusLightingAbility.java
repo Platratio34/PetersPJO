@@ -1,8 +1,11 @@
 package com.peter.peterspjo.abilities;
 
+import com.peter.peterspjo.networking.AbilityUpdatePayload;
+
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.World;
 
 public class ZeusLightingAbility extends AbstractAbility implements ChargedAbility {
@@ -20,11 +23,30 @@ public class ZeusLightingAbility extends AbstractAbility implements ChargedAbili
     @Override
     public void charge() {
         chargeState++;
+        if (!isClient && player != null) {
+            AbilityUpdatePayload.sendCharge((ServerPlayerEntity)player, id, chargeState);
+        }
     }
 
     @Override
     public void charge(int amount) {
         chargeState += amount;
+        if (!isClient && player != null) {
+            AbilityUpdatePayload.sendCharge((ServerPlayerEntity)player, id, chargeState);
+        }
+    }
+
+    @Override
+    public void setCharge(int charge) {
+        chargeState = charge;
+        if (!isClient && player != null) {
+            AbilityUpdatePayload.sendCharge((ServerPlayerEntity)player, id, chargeState);
+        }
+    }
+
+    @Override
+    public int getCharge() {
+        return chargeState;
     }
 
     @Override

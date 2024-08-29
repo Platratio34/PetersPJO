@@ -3,11 +3,13 @@ package com.peter.peterspjo.abilities;
 import java.util.HashMap;
 import java.util.UUID;
 
+import com.peter.peterspjo.networking.AbilityUpdatePayload;
 import java.util.ArrayList;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry.Reference;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -140,6 +142,9 @@ public class AbilityManager {
         HashMap<String, AbstractAbility> currentAbilities = playerAbilities.get(playerUuid);
         if (!currentAbilities.containsKey(key)) {
             return false;
+        }
+        if (serverWorld.getPlayerByUuid(playerUuid) != null) {
+            AbilityUpdatePayload.sendRemove((ServerPlayerEntity) serverWorld.getPlayerByUuid(playerUuid), abilityReference);
         }
         currentAbilities.remove(key);
         return true;

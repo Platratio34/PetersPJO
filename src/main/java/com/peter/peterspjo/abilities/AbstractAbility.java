@@ -4,12 +4,13 @@ import java.util.UUID;
 
 import com.google.common.base.Supplier;
 import com.peter.peterspjo.PJO;
+import com.peter.peterspjo.networking.AbilityUpdatePayload;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
@@ -45,11 +46,8 @@ public abstract class AbstractAbility {
      * @Nullable
      */
     protected PlayerEntity player;
-    /**
-     * The world this ability is in
-     * @Nullable
-     */
-    protected World world;
+
+    public boolean isClient;
 
     /**
      * Create a new Ability
@@ -136,13 +134,20 @@ public abstract class AbstractAbility {
     public void setPlayerUuid(UUID playerUuid) {
         this.playerUuid = playerUuid;
     }
+
     public void setPlayerUuid(PlayerEntity player) {
         setPlayerUuid(player.getUuid());
     }
 
     public void setPlayerWorld(PlayerEntity player, World world) {
+        if (!world.isClient) {
+            if (this.player != null) {
+                AbilityUpdatePayload.sendRemove((ServerPlayerEntity) this.player, id);
+            }
+            AbilityUpdatePayload.sendAdd((ServerPlayerEntity) player, id);
+        }
+        isClient = world.isClient;
         this.player = player;
-        this.world = world;
         setPlayerUuid(player);
     }
 

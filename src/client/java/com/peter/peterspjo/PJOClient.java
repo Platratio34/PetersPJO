@@ -7,6 +7,7 @@ import com.peter.peterspjo.entities.CentaurRenderer;
 import com.peter.peterspjo.entities.EmpousaiRenderer;
 import com.peter.peterspjo.entities.HellhoundRenderer;
 import com.peter.peterspjo.entities.PegasusRenderer;
+import com.peter.peterspjo.gui.AbilityHUD;
 import com.peter.peterspjo.items.RiptideItem;
 import com.peter.peterspjo.items.SwitchableSword;
 import com.peter.peterspjo.networking.PJOClientNetworking;
@@ -18,6 +19,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.RenderLayer;
@@ -56,5 +58,7 @@ public class PJOClient implements ClientModInitializer {
         });
         
         PJOClientNetworking.registerClient();
+        
+        HudRenderCallback.EVENT.register(new AbilityHUD());
 	}
 }
