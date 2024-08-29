@@ -52,7 +52,15 @@ public class PJOCommands {
                                         return -1;
                                     }
                                     for (ServerPlayerEntity playerEntity : players) {
-                                        AbilityManager.INSTANCE.addAbility(playerEntity.getUuid(), ability);
+                                        if (!AbilityManager.INSTANCE.canAdd(playerEntity.getUuid(), ability)) {
+                                            context.getSource().sendError(Text.of(String.format("Player %s had incompatible abilities", playerEntity.getNameForScoreboard())));
+                                            return -1;
+                                        }
+                                    }
+                                    for (ServerPlayerEntity playerEntity : players) {
+                                        if (!AbilityManager.INSTANCE.addAbility(playerEntity.getUuid(), ability)) {
+                                            context.getSource().sendError(Text.empty().append("Something went wrong giving ability to ").append(playerEntity.getName()));
+                                        }
                                     }
                                     context.getSource().sendFeedback(
                                             () -> {

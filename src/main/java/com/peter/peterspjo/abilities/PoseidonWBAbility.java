@@ -5,12 +5,12 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 
-public class PoseidonAbilityWB extends AbstractAbility {
+public class PoseidonWBAbility extends AbstractAbility {
 
     public static final String NAME = "greek_poseidon_water_breathing";
 
-    public PoseidonAbilityWB() {
-        super(PoseidonAbilityWB::new, NAME);
+    public PoseidonWBAbility() {
+        super(PoseidonWBAbility::new, NAME);
         setPassiveTickRate(ONCE_PER_SECOND * 5);
     }
     
@@ -22,11 +22,6 @@ public class PoseidonAbilityWB extends AbstractAbility {
     @Override
     public boolean compatibleWith(AbstractAbility otherAbility) {
         return true;
-    }
-
-    @Override
-    public void onUseAbility(PlayerEntity player, World world) {
-        
     }
 
 }

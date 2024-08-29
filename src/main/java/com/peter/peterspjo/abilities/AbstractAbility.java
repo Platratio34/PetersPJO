@@ -1,10 +1,15 @@
 package com.peter.peterspjo.abilities;
 
+import java.util.UUID;
+
 import com.google.common.base.Supplier;
 import com.peter.peterspjo.PJO;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
@@ -32,6 +37,19 @@ public abstract class AbstractAbility {
     private int passiveTickRate = NEVER;
     /** Number of ticks since the last passive tick */
     private int lastPassiveTick = 0;
+
+    /** UUID of the player this ability applies to */
+    protected UUID playerUuid;
+    /**
+     * The player this ability applies to
+     * @Nullable
+     */
+    protected PlayerEntity player;
+    /**
+     * The world this ability is in
+     * @Nullable
+     */
+    protected World world;
 
     /**
      * Create a new Ability
@@ -64,14 +82,14 @@ public abstract class AbstractAbility {
      * @param player Player using this ability
      * @param world World the ability is being used in
      */
-    public abstract void onUseAbility(PlayerEntity player, World world);
+    public void onUseAbility(PlayerEntity player, World world) { };
 
     /**
      * Called when the ability is used passively based on value set in <code>setPassiveTickRate()</code><br>
      * @param player Player using this ability
      * @param world World the ability is being used in
      */
-    protected abstract void onPassiveTick(PlayerEntity player, World world);
+    protected void onPassiveTick(PlayerEntity player, World world) { };
 
     /**
      * Checks if this ability can be held at the same time as the other
@@ -113,5 +131,37 @@ public abstract class AbstractAbility {
             return;
         }
         onPassiveTick(player, world);
+    }
+
+    public void setPlayerUuid(UUID playerUuid) {
+        this.playerUuid = playerUuid;
+    }
+    public void setPlayerUuid(PlayerEntity player) {
+        setPlayerUuid(player.getUuid());
+    }
+
+    public void setPlayerWorld(PlayerEntity player, World world) {
+        this.player = player;
+        this.world = world;
+        setPlayerUuid(player);
+    }
+
+    public static void spawnEntityAtPlayer(World world, PlayerEntity player, Entity entity) {
+        entity.setPosition(player.getPos());
+        world.spawnEntity(entity);
+    }
+    public static boolean spawnEntityAtPlayerLook(World world, PlayerEntity player, Entity entity, double length) {
+        // entity.setPosition(player.getPos());
+        HitResult hit = player.raycast(length, 0, false);
+        if (hit.getType() == HitResult.Type.MISS) {
+            return false;
+        }
+        // Vec3d pos = new Vec3d(0f,0f,0f);
+        // if (hit.getType() == HitResult.Type.BLOCK) {
+        //     pos = hit.getPos();
+        // }
+        entity.setPosition(hit.getPos());
+        world.spawnEntity(entity);
+        return true;
     }
 }

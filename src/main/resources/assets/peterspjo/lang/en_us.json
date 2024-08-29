@@ -73,6 +73,9 @@
 
     "enchantment.peterspjo.celestial": "Celestial",
 
-    "ability.peterspjo.greek_poseidon_water_breathing": "§3Poseidon Water Breathing"
+    "ability.peterspjo.greek_poseidon_water_breathing": "§3Poseidon Water Breathing",
 
+
+    "key.peterspjo.useAbility": "Use Ability",
+    "category.peterspjo.binds": "Peter's PJO"
 }

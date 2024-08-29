@@ -19,7 +19,9 @@ public class PJOAbilities {
     });
 
     public static void init() {
-        register(new PoseidonAbilityWB());
+        AbilityManager.init();
+        register(new PoseidonWBAbility());
+        register(new ZeusLightingAbility());
     }
 
     /**

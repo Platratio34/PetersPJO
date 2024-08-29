@@ -1,5 +1,7 @@
 package com.peter.peterspjo;
 
+import org.lwjgl.glfw.GLFW;
+
 import com.peter.peterspjo.blocks.fluids.StyxWater;
 import com.peter.peterspjo.entities.CentaurRenderer;
 import com.peter.peterspjo.entities.EmpousaiRenderer;
@@ -7,17 +9,25 @@ import com.peter.peterspjo.entities.HellhoundRenderer;
 import com.peter.peterspjo.entities.PegasusRenderer;
 import com.peter.peterspjo.items.RiptideItem;
 import com.peter.peterspjo.items.SwitchableSword;
+import com.peter.peterspjo.networking.PJOClientNetworking;
 import com.peter.peterspjo.worldgen.UnderworldDimensionEffects;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.util.InputUtil;
 import net.minecraft.util.Identifier;
 
 public class PJOClient implements ClientModInitializer {
+
+    public static KeyBinding keyBinding;
+
 	@Override
 	public void onInitializeClient() {
         SpearEntityRenderer.register();
@@ -36,5 +46,15 @@ public class PJOClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), StyxWater.STILL, StyxWater.FLOWING);
         
         UnderworldDimensionEffects.register();
+
+        keyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.peterspjo.useAbility",
+                InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_G, "category.peterspjo.binds"));
+        ClientTickEvents.END_CLIENT_TICK.register((client) -> {
+            if (keyBinding.wasPressed()) {
+                PJOClientNetworking.sendAbilityUsePacket(client.world, client.player);
+            }
+        });
+        
+        PJOClientNetworking.registerClient();
 	}
 }

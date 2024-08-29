@@ -29,12 +29,21 @@ public class AbilityManager {
         INSTANCE = new AbilityManager();
     }
 
+    public static void init() {
+    }
+
+    private ServerWorld serverWorld;
+
     private AbilityManager() {
         playerAbilities = new HashMap<UUID, HashMap<String, AbstractAbility>>();
         ServerTickEvents.START_WORLD_TICK.register(this::tick);
     }
 
     private void tick(ServerWorld world) {
+        if (world != serverWorld) {
+            // TODO ???
+            serverWorld = world;
+        }
         for (UUID playerUuid : playerAbilities.keySet()) {
             PlayerEntity playerEntity = world.getPlayerByUuid(playerUuid);
             if (playerEntity != null) {
@@ -101,6 +110,11 @@ public class AbilityManager {
             return false;
         }
         AbstractAbility newAbility = newAbilityReference.value().instance();
+        if (serverWorld.getPlayerByUuid(playerUuid) != null) {
+            newAbility.setPlayerWorld(serverWorld.getPlayerByUuid(playerUuid), serverWorld);
+        } else {
+            newAbility.setPlayerUuid(playerUuid);
+        }
         String key = newAbilityReference.getIdAsString();
         if (!playerAbilities.containsKey(playerUuid)) {
             HashMap<String, AbstractAbility> currentAbilities = new HashMap<String, AbstractAbility>();
@@ -187,5 +201,15 @@ public class AbilityManager {
      */
     public static MutableText getAbilityNameTranslated(Identifier abilityID) {
         return Text.translatable(abilityID.toTranslationKey("ability"));
+    }
+
+    public void useAbility(ServerWorld world, UUID playerUuid) {
+        PlayerEntity playerEntity = world.getPlayerByUuid(playerUuid);
+        if (playerEntity != null && playerAbilities.containsKey(playerUuid)) {
+            HashMap<String, AbstractAbility> abilities = playerAbilities.get(playerUuid);
+            for (AbstractAbility ability : abilities.values()) {
+                ability.onUseAbility(playerEntity, world);
+            }
+        }
     }
 }

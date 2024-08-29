@@ -20,6 +20,7 @@ import com.peter.peterspjo.blocks.PJOBlocks;
 import com.peter.peterspjo.entities.PJOEntities;
 import com.peter.peterspjo.items.PJOItems;
 import com.peter.peterspjo.items.armor.PJOArmorMaterials;
+import com.peter.peterspjo.networking.PJONetworking;
 import com.peter.peterspjo.worldgen.UnderworldChunkGenerator;
 import com.peter.peterspjo.worldgen.labyrinth.DoorManager;
 import com.peter.peterspjo.worldgen.labyrinth.LabyrinthChunkGenerator;
@@ -57,6 +58,8 @@ public class PJO implements ModInitializer {
         });
 
         PJOCommands.register();
+
+        PJONetworking.registerServer();
 
 		LOGGER.info("Loaded Peter's PJO");
 		LOGGER.info(" __   ___  _  ");
