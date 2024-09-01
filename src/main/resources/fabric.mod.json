@@ -35,8 +35,8 @@
 	"accessWidener" : "peterspjo.accesswidener",
     "depends": {
 		"fabricloader": ">=0.15.11",
-		"minecraft": "~1.21",
-		"fabric-api": ">=0.100.8+1.21",
+		"minecraft": "~1.21.1",
+		"fabric-api": ">=0.103.0+1.21.1",
         "geckolib":">=4.5.6"
     }
 }

@@ -2,12 +2,15 @@ package com.peter.peterspjo.abilities;
 
 import java.util.UUID;
 
+import org.jetbrains.annotations.Nullable;
+
 import com.google.common.base.Supplier;
 import com.peter.peterspjo.PJO;
 import com.peter.peterspjo.networking.AbilityUpdatePayload;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.HitResult;
@@ -47,7 +50,7 @@ public abstract class AbstractAbility {
      */
     protected PlayerEntity player;
 
-    public boolean isClient;
+    public boolean isClient = false;
 
     /**
      * Create a new Ability
@@ -119,6 +122,7 @@ public abstract class AbstractAbility {
      * @param world World the ability ability is in
      */
     public void passiveTick(PlayerEntity player, World world) {
+        if (this.player != player) setPlayerWorld(player, world);
         if (passiveTickRate < 0) {
             return;
         }
@@ -139,9 +143,13 @@ public abstract class AbstractAbility {
         setPlayerUuid(player.getUuid());
     }
 
+    public void setPlayerWorld(PlayerEntity player) {
+        setPlayerWorld(player, player.getWorld());
+    }
+
     public void setPlayerWorld(PlayerEntity player, World world) {
         if (!world.isClient) {
-            if (this.player != null) {
+            if (this.player != null && this.player != player) {
                 AbilityUpdatePayload.sendRemove((ServerPlayerEntity) this.player, id);
             }
             AbilityUpdatePayload.sendAdd((ServerPlayerEntity) player, id);
@@ -150,11 +158,42 @@ public abstract class AbstractAbility {
         this.player = player;
         setPlayerUuid(player);
     }
+    
+    @Nullable
+    public PlayerEntity getPlayer() {
+        return player;
+    }
+
+    public AbstractAbility markClient() {
+        isClient = true;
+        return this;
+    }
+
+    public void remove() {
+        onRemove();
+        if (isClient)
+            return;
+        if (this.player == null)
+            return;
+        AbilityUpdatePayload.sendRemove((ServerPlayerEntity) player, id);
+    }
+    public void remove(PlayerEntity player) {
+        onRemove();
+        if (player == null)
+            return;
+        World world = player.getWorld();
+        if (world.isClient)
+            return;
+        AbilityUpdatePayload.sendRemove((ServerPlayerEntity) player, id);
+    }
+    
+    protected void onRemove() { };
 
     public static void spawnEntityAtPlayer(World world, PlayerEntity player, Entity entity) {
         entity.setPosition(player.getPos());
         world.spawnEntity(entity);
     }
+
     public static boolean spawnEntityAtPlayerLook(World world, PlayerEntity player, Entity entity, double length) {
         // entity.setPosition(player.getPos());
         HitResult hit = player.raycast(length, 0, false);
@@ -168,5 +207,21 @@ public abstract class AbstractAbility {
         entity.setPosition(hit.getPos());
         world.spawnEntity(entity);
         return true;
+    }
+    
+    public NbtCompound toNbt() {
+        NbtCompound nbt = new NbtCompound();
+        nbt.putString("id", id.toString());
+        writeNbt(nbt);
+        return nbt;
+    }
+
+    protected void writeNbt(NbtCompound nbt) { }
+    
+    public void fromNbt(NbtCompound nbt) {
+    }
+    
+    public void markDirty() {
+        AbilityManager.INSTANCE.markDirty();
     }
 }

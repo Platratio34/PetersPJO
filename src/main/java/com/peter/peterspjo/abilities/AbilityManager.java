@@ -3,38 +3,43 @@ package com.peter.peterspjo.abilities;
 import java.util.HashMap;
 import java.util.UUID;
 
-import com.peter.peterspjo.networking.AbilityUpdatePayload;
 import java.util.ArrayList;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
+import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.registry.entry.RegistryEntry.Reference;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.PlayerManager;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraft.world.PersistentState;
+import net.minecraft.world.PersistentStateManager;
+import net.minecraft.world.World;
 
 /**
  * Manages abilities of players
  */
-public class AbilityManager {
+public class AbilityManager extends PersistentState {
 
     private HashMap<UUID, HashMap<String, AbstractAbility>> playerAbilities;
+
+    private static final String NAME = "ability_manager";
+    private static final Type<AbilityManager> TYPE = new Type<AbilityManager>(AbilityManager::new, AbilityManager::createFromNbt, null);
 
     /**
      * Instance of the Ability manager
      */
-    public static final AbilityManager INSTANCE;
-
-    static {
-        INSTANCE = new AbilityManager();
-    }
+    public static AbilityManager INSTANCE;
 
     public static void init() {
     }
-
-    private ServerWorld serverWorld;
+    
+    private MinecraftServer server;
 
     private AbilityManager() {
         playerAbilities = new HashMap<UUID, HashMap<String, AbstractAbility>>();
@@ -42,10 +47,6 @@ public class AbilityManager {
     }
 
     private void tick(ServerWorld world) {
-        if (world != serverWorld) {
-            // TODO ???
-            serverWorld = world;
-        }
         for (UUID playerUuid : playerAbilities.keySet()) {
             PlayerEntity playerEntity = world.getPlayerByUuid(playerUuid);
             if (playerEntity != null) {
@@ -112,8 +113,9 @@ public class AbilityManager {
             return false;
         }
         AbstractAbility newAbility = newAbilityReference.value().instance();
-        if (serverWorld.getPlayerByUuid(playerUuid) != null) {
-            newAbility.setPlayerWorld(serverWorld.getPlayerByUuid(playerUuid), serverWorld);
+        PlayerEntity player = server.getPlayerManager().getPlayer(playerUuid);
+        if (player != null) {
+            newAbility.setPlayerWorld(player);
         } else {
             newAbility.setPlayerUuid(playerUuid);
         }
@@ -122,9 +124,11 @@ public class AbilityManager {
             HashMap<String, AbstractAbility> currentAbilities = new HashMap<String, AbstractAbility>();
             currentAbilities.put(key, newAbility);
             playerAbilities.put(playerUuid, currentAbilities);
+            markDirty();
             return true;
         }
         playerAbilities.get(playerUuid).put(key, newAbility);
+        markDirty();
         return true;
     }
 
@@ -143,10 +147,10 @@ public class AbilityManager {
         if (!currentAbilities.containsKey(key)) {
             return false;
         }
-        if (serverWorld.getPlayerByUuid(playerUuid) != null) {
-            AbilityUpdatePayload.sendRemove((ServerPlayerEntity) serverWorld.getPlayerByUuid(playerUuid), abilityReference);
-        }
+        PlayerEntity playerEntity = server.getPlayerManager().getPlayer(playerUuid);
+        currentAbilities.get(key).remove(playerEntity);
         currentAbilities.remove(key);
+        markDirty();
         return true;
     }
 
@@ -216,5 +220,131 @@ public class AbilityManager {
                 ability.onUseAbility(playerEntity, world);
             }
         }
+    }
+
+    protected AbstractAbility getAbility(UUID playerUuid, Identifier ability) {
+        if (!hasAbility(playerUuid, ability)) {
+            return null;
+        }
+        return playerAbilities.get(playerUuid).get(ability.toString());
+    }
+
+    public boolean chargeAbility(UUID playerUuid, Reference<AbstractAbility> ability) {
+        return chargeAbility(playerUuid, ability.value().id);
+    }
+
+    public boolean chargeAbility(UUID playerUuid, AbstractAbility ability) {
+        return chargeAbility(playerUuid, ability.id);
+    }
+
+    public boolean chargeAbility(UUID playerUuid, Identifier abilityId) {
+        if (!hasAbility(playerUuid, abilityId)) {
+            return false;
+        }
+        AbstractAbility ability = getAbility(playerUuid, abilityId);
+        if (!(ability instanceof AbstractChargedAbility)) {
+            return false;
+        }
+        ((AbstractChargedAbility) ability).charge();
+        return true;
+    }
+
+    public boolean chargeAbility(UUID playerUuid, Reference<AbstractAbility> ability, int charge) {
+        return chargeAbility(playerUuid, ability.value().id, charge);
+    }
+
+    public boolean chargeAbility(UUID playerUuid, AbstractAbility ability, int charge) {
+        return chargeAbility(playerUuid, ability.id, charge);
+    }
+
+    public boolean chargeAbility(UUID playerUuid, Identifier abilityId, int charge) {
+        if (!hasAbility(playerUuid, abilityId)) {
+            return false;
+        }
+        AbstractAbility ability = getAbility(playerUuid, abilityId);
+        if (!(ability instanceof AbstractChargedAbility)) {
+            return false;
+        }
+        ((AbstractChargedAbility)ability).charge(charge);
+        return true;
+    }
+
+    public boolean chargeSetAbility(UUID playerUuid, Reference<AbstractAbility> ability, int charge) {
+        return chargeSetAbility(playerUuid, ability.value().id, charge);
+    }
+
+    public boolean chargeSetAbility(UUID playerUuid, AbstractAbility ability, int charge) {
+        return chargeSetAbility(playerUuid, ability.id, charge);
+    }
+
+    public boolean chargeSetAbility(UUID playerUuid, Identifier abilityId, int charge) {
+        if (!hasAbility(playerUuid, abilityId)) {
+            return false;
+        }
+        AbstractAbility ability = getAbility(playerUuid, abilityId);
+        if (!(ability instanceof AbstractChargedAbility)) {
+            return false;
+        }
+        ((AbstractChargedAbility) ability).setCharge(charge);
+        return true;
+    }
+    
+    @Override
+    public NbtCompound writeNbt(NbtCompound nbt, WrapperLookup registryLookup) {
+        for (UUID playerUuid : playerAbilities.keySet()) {
+            HashMap<String, AbstractAbility> abilities = playerAbilities.get(playerUuid);
+            NbtList abilitiesNbt = new NbtList();
+            for (AbstractAbility ability : abilities.values()) {
+                abilitiesNbt.add(ability.toNbt());
+            }
+            nbt.put(playerUuid.toString(), abilitiesNbt);
+        }
+        return nbt;
+    }
+
+    public static AbilityManager createFromNbt(NbtCompound nbt, WrapperLookup registryLookup) {
+        AbilityManager manager = new AbilityManager();
+
+        for (String uuidString : nbt.getKeys()) {
+            NbtList abilitiesNbt = nbt.getList(uuidString, NbtList.COMPOUND_TYPE);
+            UUID playerUuid = UUID.fromString(uuidString);
+            HashMap<String, AbstractAbility> abilities = new HashMap<String, AbstractAbility>();
+            manager.playerAbilities.put(playerUuid, abilities);
+
+            for (int i = 0; i < abilitiesNbt.size(); i++) {
+                NbtCompound abilityNbt = abilitiesNbt.getCompound(i);
+                String abilityId = abilityNbt.getString("id");
+                AbstractAbility ability = PJOAbilities.getAbility(abilityId).instance();
+                ability.setPlayerUuid(playerUuid);
+                ability.fromNbt(nbt);
+
+                abilities.put(abilityId, ability);
+            }
+        }
+        return manager;
+    }
+
+    public void updatePlayers() {
+        if (server == null)
+            return;
+        PlayerManager playerManager = server.getPlayerManager();
+        for (UUID playerUuid : playerAbilities.keySet()) {
+            PlayerEntity player = playerManager.getPlayer(playerUuid);
+            if (player == null)
+                continue;
+            HashMap<String, AbstractAbility> abilities = playerAbilities.get(playerUuid);
+            for (String key : abilities.keySet()) {
+                abilities.get(key).setPlayerWorld(player);
+            }
+        }
+    }
+
+    public static AbilityManager getServerState(MinecraftServer server) {
+        PersistentStateManager persistentStateManager = server.getWorld(World.OVERWORLD)
+                .getPersistentStateManager();
+        INSTANCE = persistentStateManager.getOrCreate(TYPE, NAME);
+        INSTANCE.server = server;
+        INSTANCE.updatePlayers();
+        return INSTANCE;
     }
 }

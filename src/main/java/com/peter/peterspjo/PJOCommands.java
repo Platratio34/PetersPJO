@@ -2,6 +2,7 @@ package com.peter.peterspjo;
 
 import java.util.Collection;
 
+import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.peter.peterspjo.abilities.AbilityManager;
 import com.peter.peterspjo.abilities.AbstractAbility;
@@ -53,13 +54,18 @@ public class PJOCommands {
                                     }
                                     for (ServerPlayerEntity playerEntity : players) {
                                         if (!AbilityManager.INSTANCE.canAdd(playerEntity.getUuid(), ability)) {
-                                            context.getSource().sendError(Text.of(String.format("Player %s had incompatible abilities", playerEntity.getNameForScoreboard())));
+                                            context.getSource().sendError(
+                                                    Text.of(String.format("Player %s had incompatible abilities",
+                                                            playerEntity.getNameForScoreboard())));
                                             return -1;
                                         }
                                     }
                                     for (ServerPlayerEntity playerEntity : players) {
                                         if (!AbilityManager.INSTANCE.addAbility(playerEntity.getUuid(), ability)) {
-                                            context.getSource().sendError(Text.empty().append("Something went wrong giving ability to ").append(playerEntity.getName()));
+                                            context.getSource()
+                                                    .sendError(Text.empty()
+                                                            .append("Something went wrong giving ability to ")
+                                                            .append(playerEntity.getName()));
                                         }
                                     }
                                     context.getSource().sendFeedback(
@@ -111,6 +117,60 @@ public class PJOCommands {
                                             false);
                                     return 1;
                                 }))));
+        cmd.then(CommandManager.literal("charge")
+                .then(CommandManager.argument("player", EntityArgumentType.players())
+                        .then(CommandManager.argument("ability",
+                                RegistryEntryReferenceArgumentType.registryEntry(registryAccess,
+                                        PJOAbilities.ABILITIES_REGISTRY_KEY))
+                                .then(CommandManager.argument("amount", IntegerArgumentType.integer(1))
+                                        .executes(context -> {
+                                            Collection<ServerPlayerEntity> players = EntityArgumentType.getPlayers(
+                                                    context,
+                                                    "player");
+                                            Reference<AbstractAbility> ability = RegistryEntryReferenceArgumentType
+                                                    .getRegistryEntry(
+                                                            context, "ability",
+                                                            PJOAbilities.ABILITIES_REGISTRY_KEY);
+                                            int charge = IntegerArgumentType.getInteger(context, "amount");
+                                            if (players.size() < 1) {
+                                                context.getSource().sendError(Text.of("Must select at least 1 player"));
+                                                return -1;
+                                            }
+                                            for (ServerPlayerEntity playerEntity : players) {
+                                                if (!AbilityManager.INSTANCE.hasAbility(playerEntity.getUuid(),
+                                                        ability)) {
+                                                    context.getSource().sendError(
+                                                            Text.of(String.format(
+                                                                    "Player %s does not have the correct ability",
+                                                                    playerEntity.getNameForScoreboard())));
+                                                    return -1;
+                                                }
+                                            }
+                                            for (ServerPlayerEntity playerEntity : players) {
+                                                if (!AbilityManager.INSTANCE.chargeAbility(playerEntity.getUuid(),
+                                                        ability, charge)) {
+                                                    context.getSource()
+                                                            .sendError(Text.empty()
+                                                                    .append("Something went wrong charging ability for ")
+                                                                    .append(playerEntity.getName()));
+                                                }
+                                            }
+                                            context.getSource().sendFeedback(
+                                                    () -> {
+                                                        String playerNames = "";
+                                                        for (ServerPlayerEntity playerEntity : players) {
+                                                            if (playerNames.length() > 0) {
+                                                                playerNames += "§r, §c";
+                                                            }
+                                                            playerNames += playerEntity.getNameForScoreboard();
+                                                        }
+                                                        return Text.of(
+                                                                String.format("Charged ability §a%s§r by %d for §a%s§r",
+                                                                        ability.getIdAsString(), charge, playerNames));
+                                                    },
+                                                    false);
+                                            return 1;
+                                        })))));
         cmd.then(CommandManager.literal("list")
                 .then(CommandManager.argument("player", EntityArgumentType.player()).executes(context -> {
                     ServerPlayerEntity player = EntityArgumentType.getPlayer(context, "player");

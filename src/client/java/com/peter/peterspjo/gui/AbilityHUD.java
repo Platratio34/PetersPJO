@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import com.peter.peterspjo.abilities.AbilityManager;
 import com.peter.peterspjo.abilities.AbstractAbility;
-import com.peter.peterspjo.abilities.ChargedAbility;
+import com.peter.peterspjo.abilities.AbstractChargedAbility;
 import com.peter.peterspjo.abilities.PJOAbilities;
 import com.peter.peterspjo.networking.AbilityUpdatePayload;
 
@@ -28,7 +28,7 @@ public class AbilityHUD implements HudRenderCallback {
                 switch (payload.action) {
                     case AbilityUpdatePayload.Action.ADD:
                         if (!abilities.containsKey(payload.ability)) {
-                            abilities.put(payload.ability, PJOAbilities.getAbility(payload.ability).instance());
+                            abilities.put(payload.ability, PJOAbilities.getAbility(payload.ability).instance().markClient());
                         }
                         break;
                     case AbilityUpdatePayload.Action.REMOVE:
@@ -39,8 +39,8 @@ public class AbilityHUD implements HudRenderCallback {
                     case AbilityUpdatePayload.Action.CHARGE:
                         if (abilities.containsKey(payload.ability)) {
                             AbstractAbility ability = abilities.get(payload.ability);
-                            if (ability instanceof ChargedAbility) {
-                                ((ChargedAbility)ability).setCharge(payload.charge);
+                            if (ability instanceof AbstractChargedAbility) {
+                                ((AbstractChargedAbility)ability).setCharge(payload.charge);
                             }
                         }
                         break;
@@ -59,8 +59,8 @@ public class AbilityHUD implements HudRenderCallback {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client == null)
             return;
-        
-        int screenWidth = client.getWindow().getScaledWidth();
+
+        // int screenWidth = client.getWindow().getScaledWidth();
         int screenHeight = client.getWindow().getScaledHeight();
 
         int lineHeight = client.textRenderer.fontHeight;
@@ -69,14 +69,17 @@ public class AbilityHUD implements HudRenderCallback {
         for (Identifier abilityId : abilities.keySet()) {
             AbstractAbility ability = abilities.get(abilityId);
             MutableText text = AbilityManager.getAbilityNameTranslated(abilityId);
-            if (ability instanceof ChargedAbility) {
-                text.append(String.format(" - %.2f%%", ((ChargedAbility) ability).getChargePercent()));
+            if (ability instanceof AbstractChargedAbility) {
+                text.append(String.format(" - %.2f%%", ((AbstractChargedAbility) ability).getChargePercent()));
             }
             drawContext.drawText(client.textRenderer, text, x, y,
                     Colors.WHITE, true);
             y += lineHeight + 2;
         }
-        // drawContext.drawText(client.textRenderer, "test", x, (screenHeight/2), Colors.WHITE, true);
+    }
+    
+    public void clearAbilities() {
+        abilities.clear();
     }
 
 }

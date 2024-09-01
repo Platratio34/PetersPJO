@@ -15,6 +15,7 @@ import net.minecraft.world.World;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.peter.peterspjo.abilities.AbilityManager;
 import com.peter.peterspjo.abilities.PJOAbilities;
 import com.peter.peterspjo.blocks.PJOBlocks;
 import com.peter.peterspjo.entities.PJOEntities;
@@ -55,6 +56,7 @@ public class PJO implements ModInitializer {
             PJO.server = server;
             LabyrinthMap.getServerState(server);
             DoorManager.getServerState(server);
+            AbilityManager.getServerState(server);
         });
 
         PJOCommands.register();

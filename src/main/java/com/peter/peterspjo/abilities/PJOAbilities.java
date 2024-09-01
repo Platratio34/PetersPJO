@@ -40,4 +40,13 @@ public class PJOAbilities {
     public static AbstractAbility getAbility(Identifier abilityID) {
         return ABILITIES_REGISTRY.get(abilityID);
     }
+
+    /**
+     * Get Ability from registry by ID
+     * @param abilityID Ability type ID
+     * @return Ability type
+     */
+    public static AbstractAbility getAbility(String abilityID) {
+        return getAbility(Identifier.of(abilityID));
+    }
 }

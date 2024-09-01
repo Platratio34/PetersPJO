@@ -2,6 +2,7 @@ package com.peter.peterspjo.networking;
 
 import com.peter.peterspjo.PJO;
 import com.peter.peterspjo.abilities.AbstractAbility;
+import com.peter.peterspjo.abilities.AbstractChargedAbility;
 
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -78,8 +79,15 @@ public class AbilityUpdatePayload implements CustomPayload {
     public static void sendCharge(ServerPlayerEntity player, Reference<AbstractAbility> ability, int charge) {
         sendCharge(player, Identifier.of(ability.getIdAsString()), charge);
     }
+
     public static void sendCharge(ServerPlayerEntity player, Identifier ability, int charge) {
         sendUpdate(player, Action.CHARGE, ability, charge);
+    }
+    
+    public static void sendCharge(AbstractChargedAbility ability) {
+        if (ability.getPlayer() == null)
+            return;
+        sendCharge((ServerPlayerEntity) ability.getPlayer(), ability.id, ability.getCharge());
     }
 
     public enum Action {
