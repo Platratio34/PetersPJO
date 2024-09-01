@@ -56,43 +56,87 @@ public class AbilityUpdatePayload implements CustomPayload {
         PayloadTypeRegistry.playS2C().register(ID, CODEC);
     }
 
+    /**
+     * Sends an ability update packet
+     * @param player Player the ability is associated with
+     * @param action Update action
+     * @param ability Ability to update
+     * @param charge Charge state of ability or <code>-1</code> to skip
+     */
     public static void sendUpdate(ServerPlayerEntity player, Action action, Identifier ability, int charge) {
         ServerPlayNetworking.send(player, new AbilityUpdatePayload(action, ability, charge));
     }
 
+    /**
+     * Send ability add packet to player
+     * @param player Player the ability is associated with
+     * @param ability Ability to add
+     */
     public static void sendAdd(ServerPlayerEntity player, Reference<AbstractAbility> ability) {
         sendAdd(player, Identifier.of(ability.getIdAsString()));
     }
-
+    /**
+     * Send ability add packet to player
+     * @param player Player the ability is associated with
+     * @param ability Ability to add
+     */
     public static void sendAdd(ServerPlayerEntity player, Identifier ability) {
         sendUpdate(player, Action.ADD, ability, 0);
     }
-    
+
+    /**
+     * Send ability remove packet to player
+     * @param player Player the ability was associated with
+     * @param ability Ability to remove
+     */
     public static void sendRemove(ServerPlayerEntity player, Reference<AbstractAbility> ability) {
         sendRemove(player, Identifier.of(ability.getIdAsString()));
     }
-
+    /**
+     * Send ability remove packet to player
+     * @param player Player the ability was associated with
+     * @param ability Ability to remove
+     */
     public static void sendRemove(ServerPlayerEntity player, Identifier ability) {
         sendUpdate(player, Action.REMOVE, ability, 0);
     }
     
+    /**
+     * Send ability charge packet to player
+     * @param player Player the ability was associated with
+     * @param ability Ability to change charge
+     * @param charge New charge state of ability
+     */
     public static void sendCharge(ServerPlayerEntity player, Reference<AbstractAbility> ability, int charge) {
         sendCharge(player, Identifier.of(ability.getIdAsString()), charge);
     }
 
+    /**
+     * Send ability charge packet to player
+     * @param player Player the ability was associated with
+     * @param ability Ability to change charge
+     * @param charge New charge state of ability
+     */
     public static void sendCharge(ServerPlayerEntity player, Identifier ability, int charge) {
         sendUpdate(player, Action.CHARGE, ability, charge);
     }
     
+    /**
+     * Send ability charge packet to player
+     * @param ability Ability send update for
+     */
     public static void sendCharge(AbstractChargedAbility ability) {
-        if (ability.getPlayer() == null)
+        if (ability.getPlayerEntity() == null)
             return;
-        sendCharge((ServerPlayerEntity) ability.getPlayer(), ability.id, ability.getCharge());
+        sendCharge((ServerPlayerEntity) ability.getPlayerEntity(), ability.id, ability.getCharge());
     }
 
     public enum Action {
+        /** Add a new ability to player */
         ADD(0),
+        /** Remove ability from player */
         REMOVE(1),
+        /** Set charge state of ability for player */
         CHARGE(2);
 
         private static final Action[] VALUES = new Action[] { ADD, REMOVE, CHARGE };

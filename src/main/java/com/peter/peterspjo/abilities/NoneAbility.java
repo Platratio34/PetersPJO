@@ -1,8 +1,6 @@
 package com.peter.peterspjo.abilities;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.World;
-
+/** Empty ability for default in registry */
 public final class NoneAbility extends AbstractAbility {
 
     public NoneAbility() {
@@ -12,16 +10,6 @@ public final class NoneAbility extends AbstractAbility {
     @Override
     public boolean compatibleWith(AbstractAbility ability) {
         return true;
-    }
-
-    @Override
-    public void onUseAbility(PlayerEntity player, World world) {
-        
-    }
-
-    @Override
-    protected void onPassiveTick(PlayerEntity player, World world) {
-        
     }
 
 }

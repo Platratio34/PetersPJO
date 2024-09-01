@@ -50,6 +50,9 @@ public abstract class AbstractAbility {
      */
     protected PlayerEntity player;
 
+    /**
+     * If this instance of the ability exists on the client or server
+     */
     public boolean isClient = false;
 
     /**
@@ -122,7 +125,8 @@ public abstract class AbstractAbility {
      * @param world World the ability ability is in
      */
     public void passiveTick(PlayerEntity player, World world) {
-        if (this.player != player) setPlayerWorld(player, world);
+        if (this.player != player)
+            setPlayerEntity(player);
         if (passiveTickRate < 0) {
             return;
         }
@@ -135,19 +139,28 @@ public abstract class AbstractAbility {
         onPassiveTick(player, world);
     }
 
+    /**
+     * Set the UUID of the player this ability is associated with
+     * @param playerUuid The UUID of the player this ability is associated with
+     */
     public void setPlayerUuid(UUID playerUuid) {
         this.playerUuid = playerUuid;
     }
 
+    /**
+     * Set the UUID of the player this ability is associated with
+     * @param player The player this ability is associated with
+     */
     public void setPlayerUuid(PlayerEntity player) {
         setPlayerUuid(player.getUuid());
     }
 
-    public void setPlayerWorld(PlayerEntity player) {
-        setPlayerWorld(player, player.getWorld());
-    }
-
-    public void setPlayerWorld(PlayerEntity player, World world) {
+    /**
+     * Set the player entity this ability is associated with
+     * @param player The player entity this ability is associated with
+     */
+    public void setPlayerEntity(PlayerEntity player) {
+        World world = player.getWorld();
         if (!world.isClient) {
             if (this.player != null && this.player != player) {
                 AbilityUpdatePayload.sendRemove((ServerPlayerEntity) this.player, id);
@@ -158,17 +171,32 @@ public abstract class AbstractAbility {
         this.player = player;
         setPlayerUuid(player);
     }
-    
+
+    /**
+     * Get the player entity this ability is associated with.
+     * <br/><br/>
+     * <b>MAY BE <code>null</code></b> if ability is player is not in the game
+     * @return Player entity this ability is associated with
+     */
     @Nullable
-    public PlayerEntity getPlayer() {
+    public PlayerEntity getPlayerEntity() {
         return player;
     }
 
+    /**
+     * Mark this instance of the ability as existing on the client.
+     * <br/><br/>
+     * Disables sync to client and persistance state dirtying
+     * @return this instance of the ability
+     */
     public AbstractAbility markClient() {
         isClient = true;
         return this;
     }
 
+    /**
+     * Cleanup for removal of ability from player
+     */
     public void remove() {
         onRemove();
         if (isClient)
@@ -177,6 +205,11 @@ public abstract class AbstractAbility {
             return;
         AbilityUpdatePayload.sendRemove((ServerPlayerEntity) player, id);
     }
+
+    /**
+     * Cleanup for removal of ability from player
+     * @param player Player to remove the ability from
+     */
     public void remove(PlayerEntity player) {
         onRemove();
         if (player == null)
@@ -187,13 +220,44 @@ public abstract class AbstractAbility {
         AbilityUpdatePayload.sendRemove((ServerPlayerEntity) player, id);
     }
     
-    protected void onRemove() { };
+    /**
+     * Un-associated the player <i>entity</i> from this ability. <b>DOES NOT REMOVE FROM PLAYER</b>
+     */
+    public void removePlayerEntity() {
+        player = null;
+    }
+    
+    /**
+     * Cleanup function for derivative classes for when removed from player.
+     * <br/><br/>
+     * Called at the start of <code>remove()</code> 
+     */
+    protected void onRemove() {
+    };
 
+    /**
+     * Helper function for entity spawning related abilities.
+     * <br/><br/>
+     * Places the provided entity at the player entity and spawns it in the provided world;
+     * @param world World to spawn the entity in
+     * @param player Player to use for placement
+     * @param entity Entity to spawn
+     */
     public static void spawnEntityAtPlayer(World world, PlayerEntity player, Entity entity) {
         entity.setPosition(player.getPos());
         world.spawnEntity(entity);
     }
 
+    /**
+     * Helper function for entity spawning related abilities.
+     * <br/><br/>
+     * Places the provided entity at the player's cursor and spawns it in the provided world
+     * @param world World to spawn the entity in
+     * @param player Player to use for placement
+     * @param entity Entity to spawn
+     * @param length Max distance to block under cursor
+     * @return If the entity was actually spawned
+     */
     public static boolean spawnEntityAtPlayerLook(World world, PlayerEntity player, Entity entity, double length) {
         // entity.setPosition(player.getPos());
         HitResult hit = player.raycast(length, 0, false);
@@ -209,6 +273,12 @@ public abstract class AbstractAbility {
         return true;
     }
     
+    /**
+     * Write NBT data for this ability.
+     * <br/><br/>
+     * Writes the key <code>id</code> and calls <code>writeNbt(NbtCompound)</code>
+     * @return
+     */
     public NbtCompound toNbt() {
         NbtCompound nbt = new NbtCompound();
         nbt.putString("id", id.toString());
@@ -216,12 +286,26 @@ public abstract class AbstractAbility {
         return nbt;
     }
 
-    protected void writeNbt(NbtCompound nbt) { }
+    /**
+     * Write NBT data for custom ability information
+     * @param nbt NBT compound for ability. Already contains key <code>id</code>
+     */
+    protected void writeNbt(NbtCompound nbt) {
+    }
     
+    /**
+     * Load data from NBT for custom ability
+     * @param nbt NBT data to load
+     */
     public void fromNbt(NbtCompound nbt) {
     }
     
+    /**
+     * Mark the ability as dirty in the manager so that changes are saved
+     */
     public void markDirty() {
+        if (isClient)
+            return;
         AbilityManager.INSTANCE.markDirty();
     }
 }

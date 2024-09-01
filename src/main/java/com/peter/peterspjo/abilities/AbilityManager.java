@@ -115,7 +115,7 @@ public class AbilityManager extends PersistentState {
         AbstractAbility newAbility = newAbilityReference.value().instance();
         PlayerEntity player = server.getPlayerManager().getPlayer(playerUuid);
         if (player != null) {
-            newAbility.setPlayerWorld(player);
+            newAbility.setPlayerEntity(player);
         } else {
             newAbility.setPlayerUuid(playerUuid);
         }
@@ -212,6 +212,11 @@ public class AbilityManager extends PersistentState {
         return Text.translatable(abilityID.toTranslationKey("ability"));
     }
 
+    /**
+     * Use all active abilities the player has
+     * @param world World to use abilities in
+     * @param playerUuid UUID of player using their abilities
+     */
     public void useAbility(ServerWorld world, UUID playerUuid) {
         PlayerEntity playerEntity = world.getPlayerByUuid(playerUuid);
         if (playerEntity != null && playerAbilities.containsKey(playerUuid)) {
@@ -229,14 +234,30 @@ public class AbilityManager extends PersistentState {
         return playerAbilities.get(playerUuid).get(ability.toString());
     }
 
+    /**
+     * Charge specified ability by the default amount
+     * @param playerUuid Player to charge ability for
+     * @param ability Ability to charge
+     * @return if the ability could be charged
+     */
     public boolean chargeAbility(UUID playerUuid, Reference<AbstractAbility> ability) {
         return chargeAbility(playerUuid, ability.value().id);
     }
-
+    /**
+     * Charge specified ability by the default amount
+     * @param playerUuid Player to charge ability for
+     * @param ability Ability to charge
+     * @return if the ability could be charged
+     */
     public boolean chargeAbility(UUID playerUuid, AbstractAbility ability) {
         return chargeAbility(playerUuid, ability.id);
     }
-
+    /**
+     * Charge specified ability by the default amount
+     * @param playerUuid Player to charge ability for
+     * @param ability Ability to charge
+     * @return if the ability could be charged
+     */
     public boolean chargeAbility(UUID playerUuid, Identifier abilityId) {
         if (!hasAbility(playerUuid, abilityId)) {
             return false;
@@ -249,14 +270,30 @@ public class AbilityManager extends PersistentState {
         return true;
     }
 
+    /**
+     * Charge specified ability by a specific
+     * @param playerUuid Player to charge ability for
+     * @param ability Ability to charge
+     * @return if the ability could be charged
+     */
     public boolean chargeAbility(UUID playerUuid, Reference<AbstractAbility> ability, int charge) {
         return chargeAbility(playerUuid, ability.value().id, charge);
     }
-
+    /**
+     * Charge specified ability by a specific
+     * @param playerUuid Player to charge ability for
+     * @param ability Ability to charge
+     * @return if the ability could be charged
+     */
     public boolean chargeAbility(UUID playerUuid, AbstractAbility ability, int charge) {
         return chargeAbility(playerUuid, ability.id, charge);
     }
-
+    /**
+     * Charge specified ability by a specific
+     * @param playerUuid Player to charge ability for
+     * @param ability Ability to charge
+     * @return if the ability could be charged
+     */
     public boolean chargeAbility(UUID playerUuid, Identifier abilityId, int charge) {
         if (!hasAbility(playerUuid, abilityId)) {
             return false;
@@ -265,18 +302,34 @@ public class AbilityManager extends PersistentState {
         if (!(ability instanceof AbstractChargedAbility)) {
             return false;
         }
-        ((AbstractChargedAbility)ability).charge(charge);
+        ((AbstractChargedAbility) ability).charge(charge);
         return true;
     }
 
+    /**
+     * Charge specified ability to a specific
+     * @param playerUuid Player to charge ability for
+     * @param ability Ability to charge
+     * @return if the ability could be charged
+     */
     public boolean chargeSetAbility(UUID playerUuid, Reference<AbstractAbility> ability, int charge) {
         return chargeSetAbility(playerUuid, ability.value().id, charge);
     }
-
+    /**
+     * Charge specified ability to a specific
+     * @param playerUuid Player to charge ability for
+     * @param ability Ability to charge
+     * @return if the ability could be charged
+     */
     public boolean chargeSetAbility(UUID playerUuid, AbstractAbility ability, int charge) {
         return chargeSetAbility(playerUuid, ability.id, charge);
     }
-
+    /**
+     * Charge specified ability to a specific
+     * @param playerUuid Player to charge ability for
+     * @param ability Ability to charge
+     * @return if the ability could be charged
+     */
     public boolean chargeSetAbility(UUID playerUuid, Identifier abilityId, int charge) {
         if (!hasAbility(playerUuid, abilityId)) {
             return false;
@@ -324,17 +377,22 @@ public class AbilityManager extends PersistentState {
         return manager;
     }
 
-    public void updatePlayers() {
+    /**
+     * Update the player entities for all tracked abilities
+     */
+    public void updatePlayersEntities() {
         if (server == null)
             return;
         PlayerManager playerManager = server.getPlayerManager();
         for (UUID playerUuid : playerAbilities.keySet()) {
             PlayerEntity player = playerManager.getPlayer(playerUuid);
-            if (player == null)
-                continue;
             HashMap<String, AbstractAbility> abilities = playerAbilities.get(playerUuid);
+
             for (String key : abilities.keySet()) {
-                abilities.get(key).setPlayerWorld(player);
+                if (player != null)
+                    abilities.get(key).setPlayerEntity(player);
+                else
+                    abilities.get(key).removePlayerEntity();
             }
         }
     }
@@ -344,7 +402,7 @@ public class AbilityManager extends PersistentState {
                 .getPersistentStateManager();
         INSTANCE = persistentStateManager.getOrCreate(TYPE, NAME);
         INSTANCE.server = server;
-        INSTANCE.updatePlayers();
+        INSTANCE.updatePlayersEntities();
         return INSTANCE;
     }
 }
