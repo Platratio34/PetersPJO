@@ -1,0 +1,6 @@
+{
+    "type": "charge_ability",
+    "input": "peterspjo:celestial_bronze_ingot",
+    "ability": "peterspjo:greek_zeus_lighting",
+    "amount": 10
+}

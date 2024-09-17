@@ -1,7 +1,5 @@
 package com.peter.peterspjo.blocks;
 
-import java.util.List;
-
 import com.mojang.serialization.MapCodec;
 import com.peter.peterspjo.PJO;
 
@@ -9,26 +7,21 @@ import net.minecraft.item.Item;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalFacingBlock;
-import net.minecraft.item.Item.TooltipContext;
-import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.WorldAccess;
 
-public class StoneBrazier extends HorizontalFacingBlock {
+public class StoneBrazier extends BrazierBlock {
 
     public static final String NAME = "stone_brazier";
     public static final Identifier ID = PJO.id(NAME);
@@ -47,18 +40,14 @@ public class StoneBrazier extends HorizontalFacingBlock {
     }
 
     public StoneBrazier(Settings settings) {
-        super(settings);
+        super(settings, NAME);
         setDefaultState(getDefaultState().with(VARIANT, 0));
         setDefaultState(getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH));
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType options) {
-        tooltip.add(Text.translatable("block." + PJO.NAMESPACE + "." + NAME + ".tooltip"));
-    }
-
-    @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        super.appendProperties(builder);
         builder.add(VARIANT);
         builder.add(Properties.HORIZONTAL_FACING);
     }

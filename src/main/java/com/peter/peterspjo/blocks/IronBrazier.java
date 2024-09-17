@@ -10,7 +10,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 
-public class IronBrazier extends TooltipedBlock {
+public class IronBrazier extends BrazierBlock {
 
     public static final String NAME = "iron_brazier";
     public static final Identifier ID = PJO.id(NAME);
@@ -24,6 +24,6 @@ public class IronBrazier extends TooltipedBlock {
     }
 
     public IronBrazier(Settings settings) {
-        super(settings, PJO.tooltip("block", NAME));
+        super(settings, NAME);
     }
 }

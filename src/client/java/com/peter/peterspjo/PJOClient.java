@@ -2,6 +2,7 @@ package com.peter.peterspjo;
 
 import org.lwjgl.glfw.GLFW;
 
+import com.peter.peterspjo.blocks.StoneBrazier;
 import com.peter.peterspjo.blocks.fluids.StyxWater;
 import com.peter.peterspjo.entities.CentaurRenderer;
 import com.peter.peterspjo.entities.EmpousaiRenderer;
@@ -68,5 +69,7 @@ public class PJOClient implements ClientModInitializer {
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
             abilityHUD.clearAbilities();
         });
+
+        BlockRenderLayerMap.INSTANCE.putBlock(StoneBrazier.BLOCK, RenderLayer.getCutout());
 	}
 }

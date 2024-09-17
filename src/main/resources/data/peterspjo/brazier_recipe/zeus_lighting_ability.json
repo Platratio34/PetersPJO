@@ -1,0 +1,5 @@
+{
+    "type": "grant_ability",
+    "input": "peterspjo:drachma",
+    "ability": "peterspjo:greek_zeus_lighting"
+}

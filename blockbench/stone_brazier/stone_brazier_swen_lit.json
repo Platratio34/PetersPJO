@@ -1,0 +1,93 @@
+{
+	"credit": "Made with Blockbench",
+	"texture_size": [64, 32],
+	"textures": {
+		"1": "peterspjo:block/stone_brazier",
+		"2": "block/campfire_fire",
+		"particle": "peterspjo:block/stone_brazier"
+	},
+	"elements": [
+		{
+			"name": "Base",
+			"from": [0, 0, 0],
+			"to": [16, 1, 16],
+			"faces": {
+				"north": {"uv": [0, 7.5, 4, 8], "texture": "#1"},
+				"east": {"uv": [0, 7.5, 4, 8], "texture": "#1"},
+				"south": {"uv": [0, 7.5, 4, 8], "texture": "#1"},
+				"west": {"uv": [0, 7.5, 4, 8], "texture": "#1"},
+				"up": {"uv": [0, 8, 4, 16], "texture": "#1"},
+				"down": {"uv": [0, 8, 4, 16], "texture": "#1"}
+			}
+		},
+		{
+			"name": "Pedestal",
+			"from": [0, 1, 0],
+			"to": [16, 13, 16],
+			"faces": {
+				"north": {"uv": [0, 1.5, 4, 7.5], "texture": "#1"},
+				"east": {"uv": [0, 1.5, 4, 7.5], "texture": "#1"},
+				"south": {"uv": [0, 1.5, 4, 7.5], "texture": "#1"},
+				"west": {"uv": [0, 1.5, 4, 7.5], "texture": "#1"},
+				"up": {"uv": [16, 16, 12, 8], "rotation": 180, "texture": "#1"}
+			}
+		},
+		{
+			"name": "S",
+			"from": [2, 13, 14],
+			"to": [14, 25, 14],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 13, 14]},
+			"faces": {
+				"north": {"uv": [0, 0, 8, 16], "texture": "#2"},
+				"south": {"uv": [0, 0, 8, 16], "texture": "#2"}
+			}
+		},
+		{
+			"name": "N",
+			"from": [2, 13, 2],
+			"to": [14, 25, 2],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 13, 2]},
+			"faces": {
+				"north": {"uv": [0, 0, 8, 16], "texture": "#2"},
+				"south": {"uv": [0, 0, 8, 16], "texture": "#2"}
+			}
+		},
+		{
+			"name": "E",
+			"from": [14, 13, 2],
+			"to": [14, 25, 14],
+			"rotation": {"angle": 0, "axis": "y", "origin": [14, 13, 8]},
+			"faces": {
+				"east": {"uv": [0, 0, 8, 16], "texture": "#2"},
+				"west": {"uv": [0, 0, 8, 16], "texture": "#2"}
+			}
+		},
+		{
+			"name": "W",
+			"from": [2, 13, 2],
+			"to": [2, 25, 14],
+			"rotation": {"angle": 0, "axis": "y", "origin": [2, 13, 8]},
+			"faces": {
+				"east": {"uv": [0, 0, 8, 16], "texture": "#2"},
+				"west": {"uv": [0, 0, 8, 16], "texture": "#2"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "5 SWEN",
+			"origin": [8, 11, 8],
+			"color": 0,
+			"children": [
+				0,
+				1,
+				{
+					"name": "fire",
+					"origin": [8, 8, 8],
+					"color": 0,
+					"children": [2, 3, 4, 5]
+				}
+			]
+		}
+	]
+}

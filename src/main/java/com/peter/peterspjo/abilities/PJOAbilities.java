@@ -49,4 +49,29 @@ public class PJOAbilities {
     public static AbstractAbility getAbility(String abilityID) {
         return getAbility(Identifier.of(abilityID));
     }
+
+    /**
+     * Checks if an ability with given ID is registered
+     * @param abilityID ID of ability to check for
+     * @return If the ability is registered
+     */
+    public static boolean abilityExists(Identifier abilityID) {
+        return ABILITIES_REGISTRY.containsId(abilityID);
+    }
+
+    /**
+     * Checks if an ability with given ID is registered
+     * @param abilityID ID of ability to check for
+     * @return If the ability is registered
+     */
+    public static boolean abilityExists(String abilityID) {
+        return abilityExists(Identifier.of(abilityID));
+    }
+
+    public static boolean isCharged(Identifier abilityID) {
+        if (!abilityExists(abilityID)) {
+            return false;
+        }
+        return getAbility(abilityID) instanceof AbstractChargedAbility;
+    }
 }

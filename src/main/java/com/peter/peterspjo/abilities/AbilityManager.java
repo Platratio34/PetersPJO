@@ -119,15 +119,45 @@ public class AbilityManager extends PersistentState {
         } else {
             newAbility.setPlayerUuid(playerUuid);
         }
-        String key = newAbilityReference.getIdAsString();
+        String abilityKey = newAbilityReference.getIdAsString();
         if (!playerAbilities.containsKey(playerUuid)) {
             HashMap<String, AbstractAbility> currentAbilities = new HashMap<String, AbstractAbility>();
-            currentAbilities.put(key, newAbility);
+            currentAbilities.put(abilityKey, newAbility);
             playerAbilities.put(playerUuid, currentAbilities);
             markDirty();
             return true;
         }
-        playerAbilities.get(playerUuid).put(key, newAbility);
+        playerAbilities.get(playerUuid).put(abilityKey, newAbility);
+        markDirty();
+        return true;
+    }
+
+    /**
+     * Add an ability to a player. Returns <code>false</code> if the player already has the ability, or has an incompatible ability
+     * @param player Player to add the ability to
+     * @param abilityId ID of the ability to add
+     * @return If the ability was added
+     */
+    public boolean addAbility(PlayerEntity player, Identifier abilityId) {
+        AbstractAbility ability = PJOAbilities.getAbility(abilityId);
+        UUID playerUuid = player.getUuid();
+
+        if (!canAdd(playerUuid, ability)) {
+            return false;
+        }
+
+        AbstractAbility newAbility = ability.instance();
+        newAbility.setPlayerEntity(player);
+        String abilityKey = abilityId.toString();
+
+        if (!playerAbilities.containsKey(playerUuid)) {
+            HashMap<String, AbstractAbility> currentAbilities = new HashMap<String, AbstractAbility>();
+            currentAbilities.put(abilityKey, newAbility);
+            playerAbilities.put(playerUuid, currentAbilities);
+            markDirty();
+            return true;
+        }
+        playerAbilities.get(playerUuid).put(abilityKey, newAbility);
         markDirty();
         return true;
     }
@@ -201,6 +231,15 @@ public class AbilityManager extends PersistentState {
         }
         return playerAbilities.get(playerUuid).containsKey(ability.toString());
     }
+    /**
+     * Check if player has ability
+     * @param player Player to check
+     * @param ability Ability to check for
+     * @return If the player has ability
+     */
+    public boolean hasAbility(PlayerEntity player, Identifier ability) {
+        return hasAbility(player.getUuid(), ability);
+    }
 
     /**
      * Get ability name translatable text.<br><br>
@@ -269,6 +308,15 @@ public class AbilityManager extends PersistentState {
         ((AbstractChargedAbility) ability).charge();
         return true;
     }
+    /**
+     * Charge specified ability by the default amount
+     * @param player Player to charge ability for
+     * @param ability Ability to charge
+     * @return if the ability could be charged
+     */
+    public boolean chargeAbility(PlayerEntity player, Identifier abilityId) {
+        return chargeAbility(player.getUuid(), abilityId);
+    }
 
     /**
      * Charge specified ability by a specific
@@ -304,6 +352,15 @@ public class AbilityManager extends PersistentState {
         }
         ((AbstractChargedAbility) ability).charge(charge);
         return true;
+    }
+    /**
+     * Charge specified ability by a specific
+     * @param player Player to charge ability for
+     * @param ability Ability to charge
+     * @return if the ability could be charged
+     */
+    public boolean chargeAbility(PlayerEntity player, Identifier abilityId, int charge) {
+        return chargeAbility(player.getUuid(), abilityId, charge);
     }
 
     /**

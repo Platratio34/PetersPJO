@@ -2,10 +2,12 @@ package com.peter.peterspjo;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageType;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.resource.ResourceType;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -18,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import com.peter.peterspjo.abilities.AbilityManager;
 import com.peter.peterspjo.abilities.PJOAbilities;
 import com.peter.peterspjo.blocks.PJOBlocks;
+import com.peter.peterspjo.data.BrazierRecipeData;
 import com.peter.peterspjo.entities.PJOEntities;
 import com.peter.peterspjo.items.PJOItems;
 import com.peter.peterspjo.items.armor.PJOArmorMaterials;
@@ -62,6 +65,8 @@ public class PJO implements ModInitializer {
         PJOCommands.register();
 
         PJONetworking.registerServer();
+
+        ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(BrazierRecipeData.INSTANCE);
 
 		LOGGER.info("Loaded Peter's PJO");
 		LOGGER.info(" __   ___  _  ");
