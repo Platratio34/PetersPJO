@@ -1,0 +1,10 @@
+{
+    "type": "grant_item",
+
+    "input": "minecraft:stick",
+
+    "result": {
+        "id": "peterspjo:drachma",
+        "count": 1
+    }
+}

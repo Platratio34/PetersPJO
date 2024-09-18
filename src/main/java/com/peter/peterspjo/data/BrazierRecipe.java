@@ -6,10 +6,12 @@ import java.util.List;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.mojang.serialization.JsonOps;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.util.Identifier;
 
 public class BrazierRecipe {
@@ -17,7 +19,7 @@ public class BrazierRecipe {
     public final Identifier id;
     public final BrazierRecipeType type;
 
-    public Item result;
+    public ItemStack result;
     public Identifier resultId;
     public Item[] input;
     public int amount;
@@ -65,7 +67,7 @@ public class BrazierRecipe {
         return correct == input.length;
     }
 
-    public static BrazierRecipe fromJson(Identifier id, JsonObject json) {
+    public static BrazierRecipe fromJson(Identifier id, JsonObject json, WrapperLookup registryLookup) {
         BrazierRecipeType type = BrazierRecipeType.fromString(json.get("type").getAsString());
         BrazierRecipe recipe = new BrazierRecipe(id, type);
 
@@ -88,6 +90,19 @@ public class BrazierRecipe {
                     recipe.amount = 1;
                 }
             }
+        } else if (type == BrazierRecipeType.GRANT_ITEM) {
+            JsonElement inputEl = json.get("input");
+            if (inputEl.isJsonArray()) {
+                JsonArray inputArr = inputEl.getAsJsonArray();
+                recipe.input = new Item[inputArr.size()];
+                for (int i = 0; i < inputArr.size(); i++) {
+                    recipe.input[i] = getItemFromID(inputArr.get(i));
+                }
+            } else {
+                recipe.input = new Item[] { getItemFromID(inputEl) };
+            }
+
+            recipe.result = ItemStack.CODEC.decode(JsonOps.INSTANCE, json.get("result")).getOrThrow().getFirst();
         }
 
         return recipe;
@@ -101,6 +116,7 @@ public class BrazierRecipe {
     
     public enum BrazierRecipeType {
 
+        GRANT_ITEM("grant_item"),
         GRANT_ABILITY("grant_ability"),
         CHARGE_ABILITY("charge_ability");
 

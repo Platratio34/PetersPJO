@@ -101,6 +101,15 @@ public class AbilityManager extends PersistentState {
         }
         return true;
     }
+    /**
+     * If the provided ability can be added to the player
+     * @param player Player to check for
+     * @param newAbility Ability type 
+     * @return If the player doesn't already have the ability and has no incompatible abilities.
+     */
+    public boolean canAdd(PlayerEntity player, Identifier newAbility) {
+        return canAdd(player.getUuid(), PJOAbilities.getAbility(newAbility));
+    }
 
     /**
      * Add an ability to a player. Returns <code>false</code> if the player already has the ability, or has an incompatible ability
@@ -305,8 +314,7 @@ public class AbilityManager extends PersistentState {
         if (!(ability instanceof AbstractChargedAbility)) {
             return false;
         }
-        ((AbstractChargedAbility) ability).charge();
-        return true;
+        return ((AbstractChargedAbility) ability).charge();
     }
     /**
      * Charge specified ability by the default amount
@@ -350,8 +358,7 @@ public class AbilityManager extends PersistentState {
         if (!(ability instanceof AbstractChargedAbility)) {
             return false;
         }
-        ((AbstractChargedAbility) ability).charge(charge);
-        return true;
+        return ((AbstractChargedAbility) ability).charge(charge);
     }
     /**
      * Charge specified ability by a specific

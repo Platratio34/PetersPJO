@@ -64,20 +64,29 @@ public abstract class AbstractChargedAbility extends AbstractAbility {
     /**
      * Charge the ability by the default amount
      */
-    public void charge() {
+    public boolean charge() {
+        if (chargeState >= reqCharge * maxOvercharge)
+            return false;
         chargeState++;
         if (chargeState > reqCharge * maxOvercharge) {
             chargeState = reqCharge * maxOvercharge;
         }
         markChargeDirty();
-
+        return true;
     }
     
     /**
      * Charge the ability by the specified amount
      * @param amount Amount to charge the ability by
      */
-    public void charge(int amount) {
+    public boolean charge(int amount) {
+        if (amount <= 0) {
+            if (chargeState <= 0)
+                return false;
+        } else {
+            if (chargeState >= reqCharge * maxOvercharge)
+                return false;
+        }
         chargeState += amount;
         if (chargeState > reqCharge * maxOvercharge) {
             chargeState = reqCharge * maxOvercharge;
@@ -85,6 +94,7 @@ public abstract class AbstractChargedAbility extends AbstractAbility {
             chargeState = 0;
         }
         markChargeDirty();
+        return true;
     }
     
     /**

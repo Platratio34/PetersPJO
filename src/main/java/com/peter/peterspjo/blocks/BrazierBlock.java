@@ -1,6 +1,5 @@
 package com.peter.peterspjo.blocks;
 
-import com.peter.peterspjo.PJO;
 import com.peter.peterspjo.abilities.AbilityManager;
 import com.peter.peterspjo.abilities.PJOAbilities;
 import com.peter.peterspjo.data.BrazierRecipe;
@@ -93,9 +92,9 @@ public abstract class BrazierBlock extends TooltipedBlock {
                 }
                 return ItemActionResult.SUCCESS;
             }
-            if (!world.isClient) {
-                PJO.LOGGER.info(stack.toString());
-            }
+            // if (!world.isClient) {
+            //     PJO.LOGGER.info(stack.toString());
+            // }
             BrazierRecipe recipe = BrazierRecipeData.INSTANCE.getMatching(stack);
             if (recipe != null) {
                 boolean success = false;
@@ -103,12 +102,12 @@ public abstract class BrazierBlock extends TooltipedBlock {
                 if (recipe.type == BrazierRecipeType.GRANT_ABILITY) {
                     if (AbilityManager.INSTANCE.hasAbility(player, recipe.resultId)) {
                         if (PJOAbilities.isCharged(recipe.resultId)) {
-                            if (!world.isClient) {
-                                AbilityManager.INSTANCE.chargeAbility(player, recipe.resultId);
-                            }
                             success = true;
+                            if (!world.isClient) {
+                                success = AbilityManager.INSTANCE.chargeAbility(player, recipe.resultId);
+                            }
                         }
-                    } else {
+                    } else if(AbilityManager.INSTANCE.canAdd(player, recipe.resultId)) {
                         if (!world.isClient) {
                             AbilityManager.INSTANCE.addAbility(player, recipe.resultId);
                         }
@@ -117,29 +116,35 @@ public abstract class BrazierBlock extends TooltipedBlock {
                 } else if (recipe.type == BrazierRecipeType.CHARGE_ABILITY) {
                     if (AbilityManager.INSTANCE.hasAbility(player, recipe.resultId)) {
                         if (PJOAbilities.isCharged(recipe.resultId)) {
-                            if (!world.isClient) {
-                                AbilityManager.INSTANCE.chargeAbility(player, recipe.resultId, recipe.amount);
-                            }
                             success = true;
+                            if (!world.isClient) {
+                                success = AbilityManager.INSTANCE.chargeAbility(player, recipe.resultId, recipe.amount);
+                            }
                         }
                     }
+                } else if (recipe.type == BrazierRecipeType.GRANT_ITEM) {
+                    if (!world.isClient) {
+                        player.giveItemStack(recipe.result.copy());
+                    }
+                    success = true;
                 }
                 if (success) {
-                    if (!player.isCreative())
-                        stack.decrement(1);
+                    if (!world.isClient)
+                        if (!player.isCreative())
+                            stack.decrement(1);
+                        world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.5f, 1f);
                     return ItemActionResult.SUCCESS;
                 } else {
                     return ItemActionResult.CONSUME;
                 }
             }
-            return ItemActionResult.CONSUME;
         }
         return super.onUseWithItem(stack, state, world, pos, player, hand, hit);
     }
 
     @Override
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
-        if (random.nextInt(24) == 0) {
+        if (random.nextInt(24) == 0 && isLit(state)) {
             world.playSound((double) pos.getX() + 0.5, (double) pos.getY() + 0.5, (double) pos.getZ() + 0.5,
                     SoundEvents.BLOCK_FIRE_AMBIENT, SoundCategory.BLOCKS, 1.0F + random.nextFloat(),
                     random.nextFloat() * 0.7F + 0.3F, false);

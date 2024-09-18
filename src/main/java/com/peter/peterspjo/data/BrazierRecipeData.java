@@ -10,6 +10,8 @@ import com.peter.peterspjo.PJO;
 
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.Registries;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
@@ -30,11 +32,13 @@ public class BrazierRecipeData implements SimpleSynchronousResourceReloadListene
 
     @Override
     public void reload(ResourceManager manager) {
+        DynamicRegistryManager registryManager = DynamicRegistryManager.of(Registries.REGISTRIES);
         Map<Identifier, Resource> resources = manager.findResources(RESOURCE_FOLDER, path -> true);
         for (Identifier id : resources.keySet()) {
-            try (BufferedReader reader = resources.get(id).getReader()) {
+            try (BufferedReader reader = manager.openAsReader(id)) {
                 JsonObject json = JsonHelper.deserialize(reader);
-                recipes.put(id, BrazierRecipe.fromJson(id, json));
+                reader.close();
+                recipes.put(id, BrazierRecipe.fromJson(id, json, registryManager));
             } catch (Exception e) {
                 PJO.LOGGER.error("Error occurred while loading resource json " + id.toString(), e);
             }
