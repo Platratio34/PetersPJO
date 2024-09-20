@@ -25,6 +25,8 @@ Things will go here
 
 ## TODO / Content
 
+[Trello Board](https://trello.com/b/4BynRYOb/peterspjo)
+
 ### Materials
 - [x] Celestial Bronze Ingot
 - [x] Celestial Bronze Block
@@ -72,7 +74,7 @@ Things will go here
 ### Blocks
 - [x] Iron Brazier
 - [x] Stone Brazier
-- [ ] Make braziers fire-able
+- [x] Make braziers fire-able
 
 ### Entities
 - [x] Spear entity
