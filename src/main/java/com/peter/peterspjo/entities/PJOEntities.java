@@ -2,7 +2,12 @@ package com.peter.peterspjo.entities;
 
 import java.util.ArrayList;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.util.Identifier;
 
 public class PJOEntities {
 
@@ -19,5 +24,10 @@ public class PJOEntities {
         Hellhound.register();
         Pegasus.register();
         Centaur.register();
+    }
+
+    protected static <T extends Entity> EntityType<T> register(Identifier id, EntityType.Builder<T> builder) {
+        RegistryKey<EntityType<?>> key = RegistryKey.of(Registries.ENTITY_TYPE.getKey(), id);
+        return Registry.register(Registries.ENTITY_TYPE, id, builder.build(key));
     }
 }

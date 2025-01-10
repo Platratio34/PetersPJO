@@ -32,7 +32,7 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkSection;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.world.gen.StructureWeightSampler;
-import net.minecraft.world.gen.GenerationStep.Carver;
+// import net.minecraft.world.gen.GenerationStep.Carver;
 import net.minecraft.world.gen.chunk.AquiferSampler;
 import net.minecraft.world.gen.chunk.Blender;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
@@ -90,9 +90,9 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
     }
 
     @Override
-    public void carve(ChunkRegion var1, long var2, NoiseConfig var4, BiomeAccess var5, StructureAccessor var6,
-            Chunk var7, Carver var8) {
-
+    public void carve(ChunkRegion chunkRegion, long seed, NoiseConfig noiseConfig, BiomeAccess biomeAccess,
+            StructureAccessor structureAccessor, Chunk chunk) {
+        
     }
 
     @Override
@@ -131,9 +131,9 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
                 set.add(chunkSection);
             }
 
-            return CompletableFuture.supplyAsync(Util.debugSupplier("wgen_fill_underworld", () -> {
+            return CompletableFuture.supplyAsync(Util.debugSupplier(() -> {
                 return this.populateNoise(blender, structureAccessor, noiseConfig, chunk, j, k);
-            }), Util.getMainWorkerExecutor()).whenCompleteAsync((chunkx, throwable) -> {
+            }, () -> "wgen_fill_underworld"), Util.getMainWorkerExecutor()).whenCompleteAsync((chunkx, throwable) -> {
                 Iterator<ChunkSection> var3 = set.iterator();
 
                 while (var3.hasNext()) {
@@ -449,8 +449,9 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
     }
 
     @Override
-    public void getDebugHudText(List<String> var1, NoiseConfig var2, BlockPos var3) {
-
+    public void appendDebugHudText(List<String> text, NoiseConfig noiseConfig, BlockPos pos) {
+        // TODO Auto-generated method stub
+        
     }
 
 }

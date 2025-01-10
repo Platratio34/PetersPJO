@@ -24,7 +24,7 @@ public class CelestialBronzeSword extends CelestialSword {
     public static void init() {}
     
     public CelestialBronzeSword(Item.Settings settings) {
-        super(CelestialBronzeMaterial.INSTANCE, 6, -2f, settings);
+        super(PJOMaterials.CELESTIAL_BRONZE_MATERIAL, 6, -2f, settings);
     }
 
     @Override

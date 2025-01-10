@@ -29,7 +29,7 @@ public class RiptideItem extends SwitchableSword {
     public boolean isSword = false;
 
     public RiptideItem(Item.Settings settings) {
-        super(CelestialBronzeMaterial.INSTANCE, 8, -2f, settings);
+        super(PJOMaterials.CELESTIAL_BRONZE_MATERIAL, 8, -2f, settings);
     }
 
     @Override

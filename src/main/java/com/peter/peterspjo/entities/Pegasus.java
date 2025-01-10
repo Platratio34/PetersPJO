@@ -15,6 +15,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -37,11 +38,11 @@ public class Pegasus extends AbstractDonkeyEntity implements GeoEntity {
 
     public static final String NAME = "pegasus";
     public static final Identifier ID = PJO.id(NAME);
-    public static final EntityType<Pegasus> TYPE = EntityType.Builder.create(Pegasus::new, SpawnGroup.CREATURE)
-            .dimensions(1.5f, 1.5f).build();
+    public static final EntityType<Pegasus> TYPE = PJOEntities.register(ID, EntityType.Builder.create(Pegasus::new, SpawnGroup.CREATURE)
+            .dimensions(1.5f, 1.5f));
 
     public static final Identifier EGG_ID = PJO.id(NAME + "_spawn_egg");
-    public static final SpawnEggItem EGG = new SpawnEggItem(TYPE, 0xC09E7D, 0xEEE500, new Item.Settings());
+    public static final SpawnEggItem EGG = new SpawnEggItem(TYPE, new Item.Settings());
 
     // private static final String ANIMATION_WING_IDLE_GROUND_NAME = "animation." +
     // NAME + ".wing_idle_ground";
@@ -78,7 +79,6 @@ public class Pegasus extends AbstractDonkeyEntity implements GeoEntity {
     private AnimationController<Pegasus> animationControllerBody;
 
     public static void register() {
-        Registry.register(Registries.ENTITY_TYPE, ID, TYPE);
         FabricDefaultAttributeRegistry.register(TYPE, Pegasus.createMobAttributes());
         Registry.register(Registries.ITEM, EGG_ID, EGG);
     }
@@ -88,19 +88,14 @@ public class Pegasus extends AbstractDonkeyEntity implements GeoEntity {
     }
 
     public static DefaultAttributeContainer.Builder createMobAttributes() {
-        return createBaseHorseAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 35.0)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3f).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.0)
-                .add(EntityAttributes.GENERIC_ARMOR, 2.0).add(EntityAttributes.GENERIC_JUMP_STRENGTH, 1.0);
+        return createBaseHorseAttributes().add(EntityAttributes.FOLLOW_RANGE, 35.0)
+                .add(EntityAttributes.MOVEMENT_SPEED, 0.3f).add(EntityAttributes.ATTACK_DAMAGE, 5.0)
+                .add(EntityAttributes.ARMOR, 2.0).add(EntityAttributes.JUMP_STRENGTH, 1.0);
     }
 
     @Override
     public void onDamaged(DamageSource source) {
         super.onDamaged(source);
-    }
-
-    @Override
-    public boolean damage(DamageSource source, float amount) {
-        return super.damage(source, amount);
     }
 
     // private boolean fly = false;

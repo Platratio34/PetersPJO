@@ -16,7 +16,7 @@
 	"environment": "*",
 	"entrypoints": {
 		"fabric-datagen": [
-		  "com.peter.peterspjo.datagen.PetersPJODataGenerator"
+		  "com.peter.peterspjo.client.datagen.PetersPJODataGenerator"
 		],
 		"main": [
 			"com.peter.peterspjo.PJO"

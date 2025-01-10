@@ -19,7 +19,7 @@ public class CelestialBronzeSpear extends CelestialSpear {
     public static final String NAME = "celestial_bronze_spear";
     public static final Identifier ID = PJO.id(NAME);
 
-    public static final CelestialBronzeSpear ITEM = Registry.register(Registries.ITEM, ID, new CelestialBronzeSpear(CelestialBronzeMaterial.INSTANCE, 7, -3f, new Item.Settings()));
+    public static final CelestialBronzeSpear ITEM = Registry.register(Registries.ITEM, ID, new CelestialBronzeSpear(PJOMaterials.CELESTIAL_BRONZE_MATERIAL, 7, -3f, new Item.Settings()));
 
     public static void init() {}
 

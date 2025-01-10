@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.7-SNAPSHOT'
+	id 'fabric-loom' version '1.9-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -26,6 +26,12 @@ repositories {
             includeGroup("software.bernie.geckolib")
         }
     }
+}
+
+fabricApi {
+	configureDataGeneration() {
+		client = true
+	}
 }
 
 loom {

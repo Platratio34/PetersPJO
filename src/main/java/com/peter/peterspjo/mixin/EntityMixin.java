@@ -18,6 +18,8 @@ import net.minecraft.entity.damage.DamageSources;
 import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.registry.tag.TagKey;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.world.World;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin {
@@ -31,7 +33,7 @@ public abstract class EntityMixin {
     abstract boolean invokeUpdateMovementInFluid(TagKey<Fluid> tag, double speed);
 
     @Invoker("damage")
-    abstract boolean invokeDamage(DamageSource source, float amount);
+    abstract boolean invokeDamage(ServerWorld world, DamageSource source, float amount);
     @Invoker("getDamageSources")
     abstract DamageSources invokeGetDamageSources();
     
@@ -40,14 +42,16 @@ public abstract class EntityMixin {
     @Inject(method = "baseTick", at = @At("HEAD"))
     private void onBaseTick(CallbackInfo info) {
         Entity entity = (Entity) ((Object) this);
-        if (entity instanceof BoatEntity || (entity.getVehicle() instanceof BoatEntity && !entity.isSubmergedInWater())) {
+        if (entity instanceof BoatEntity
+                || (entity.getVehicle() instanceof BoatEntity && !entity.isSubmergedInWater())) {
             return;
         }
-        if (isInStyx()) {
+        World world = entity.getWorld();
+        if (isInStyx() && !world.isClient) {
             styxTime++;
             if (styxTime % 20 != 1)
                 return;
-            invokeDamage(invokeGetDamageSources().create(PJODamageTypes.STYX), 2.0f);
+            invokeDamage((ServerWorld) world, invokeGetDamageSources().create(PJODamageTypes.STYX), 2.0f);
         } else {
             styxTime = 0;
         }

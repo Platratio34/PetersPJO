@@ -27,11 +27,11 @@ public class Hellhound extends Monster {
 
     public static final String NAME = "hellhound";
     public static final Identifier ID = PJO.id(NAME);
-    public static final EntityType<Hellhound> TYPE = EntityType.Builder.create(Hellhound::new, SpawnGroup.MONSTER)
-            .dimensions(1.75f, 2f).build();
+    public static final EntityType<Hellhound> TYPE = PJOEntities.register(ID, EntityType.Builder.create(Hellhound::new, SpawnGroup.MONSTER)
+            .dimensions(1.75f, 2f));
 
     public static final Identifier EGG_ID = PJO.id(NAME + "_spawn_egg");
-    public static final SpawnEggItem EGG = new SpawnEggItem(TYPE, 0x2c2c2c, 0x232323, new Item.Settings());
+    public static final SpawnEggItem EGG = new SpawnEggItem(TYPE, new Item.Settings());
 
     public static void register() {
         Registry.register(Registries.ENTITY_TYPE, ID, TYPE);
@@ -55,9 +55,9 @@ public class Hellhound extends Monster {
     }
 
     public static DefaultAttributeContainer.Builder createMobAttributes() {
-        return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 48.0)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.4f).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 8.0)
-                .add(EntityAttributes.GENERIC_ARMOR, 3.0);
+        return HostileEntity.createHostileAttributes().add(EntityAttributes.FOLLOW_RANGE, 48.0)
+                .add(EntityAttributes.MOVEMENT_SPEED, 0.4f).add(EntityAttributes.ATTACK_DAMAGE, 8.0)
+                .add(EntityAttributes.ARMOR, 3.0);
     }
 
 }

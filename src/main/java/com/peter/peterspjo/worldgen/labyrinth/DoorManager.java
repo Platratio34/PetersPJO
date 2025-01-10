@@ -264,9 +264,9 @@ public class DoorManager extends PersistentState {
                 PJO.LOGGER.info("Link broken to " + tPos.toString() + " in " + tWorldKey.getValue().toString());
                 return false;
             }
-
+            
             entity.teleport(tWorld, tPos.getX() + 0.5d, tPos.getY() + 0.5d, tPos.getZ() + 0.5d, Set.of(),
-                    entity.getYaw(), entity.getPitch());
+                    entity.getYaw(), entity.getPitch(), false);
 
             return true;
         }

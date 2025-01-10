@@ -22,7 +22,6 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.util.InputUtil;
@@ -41,11 +40,11 @@ public class PJOClient implements ClientModInitializer {
 		HellhoundRenderer.register();
 		PegasusRenderer.register();
 		CentaurRenderer.register();
-
-		ModelPredicateProviderRegistry.register(RiptideItem.ITEM, PJO.id("is_sword"),
-				(itemStack, clientWorld, livingEntity, i) -> {
-                    return itemStack.getOrDefault(SwitchableSword.IS_SWORD_COMPONENT, false) ? 1.0f : 0.0f;
-				});
+        
+		// ModelPredicateProviderRegistry.register(RiptideItem.ITEM, PJO.id("is_sword"),
+		// 		(itemStack, clientWorld, livingEntity, i) -> {
+        //             return itemStack.getOrDefault(SwitchableSword.IS_SWORD_COMPONENT, false) ? 1.0f : 0.0f;
+		// 		});
 		
 		FluidRenderHandlerRegistry.INSTANCE.register(StyxWater.STILL, StyxWater.FLOWING, new SimpleFluidRenderHandler(
 				Identifier.of("minecraft", "block/water_still"), Identifier.of("minecraft", "block/water_flow"), 0xA16e4400));

@@ -1,0 +1,13 @@
+{
+    "model": {
+        "type": "minecraft:condition",
+        "property": "peterspjo:is_sword",
+        "on_false": {
+            "type": "minecraft:model",
+            "model": "peterspjo:item/"
+        },
+        "on_true": {
+
+        }
+    }
+}

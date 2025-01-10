@@ -8,8 +8,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.stat.Stats;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
 public class CelestialSpear extends CelestialSword {
@@ -18,9 +18,9 @@ public class CelestialSpear extends CelestialSword {
         super(toolMaterial, attackDamage, attackSpeed, settings);
     }
 
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+    public ActionResult use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand);
-        user.getItemCooldownManager().set(this, 10);
+        user.getItemCooldownManager().set(itemStack, 10);
 
         if (!world.isClient) {
             SpearEntity spearEntity = new SpearEntity(world, user);
@@ -34,7 +34,7 @@ public class CelestialSpear extends CelestialSword {
         }
 
         user.incrementStat(Stats.USED.getOrCreateStat(this));
-        return TypedActionResult.success(itemStack, world.isClient());
+        return ActionResult.SUCCESS;
     }
 
 }

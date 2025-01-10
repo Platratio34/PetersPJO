@@ -42,11 +42,11 @@ public class Centaur extends AbstractHorseEntity implements GeoEntity, VariantHo
 
     public static final String NAME = "centaur";
     public static final Identifier ID = PJO.id(NAME);
-    public static final EntityType<Centaur> TYPE = EntityType.Builder.create(Centaur::new, SpawnGroup.CREATURE)
-            .dimensions(1.5f, 1.5f).build();
+    public static final EntityType<Centaur> TYPE = PJOEntities.register(ID, EntityType.Builder.create(Centaur::new, SpawnGroup.CREATURE)
+            .dimensions(1.5f, 1.5f));
 
     public static final Identifier EGG_ID = PJO.id(NAME + "_spawn_egg");
-    public static final SpawnEggItem EGG = new SpawnEggItem(TYPE, 0x72460d, 0xFFFF00, new Item.Settings());
+    public static final SpawnEggItem EGG = new SpawnEggItem(TYPE, new Item.Settings());
     
     private static final String ANIMATION_WALK_STAGE = "walking";
     private static final RawAnimation ANIMATION_WALK = RawAnimation.begin()
@@ -84,7 +84,7 @@ public class Centaur extends AbstractHorseEntity implements GeoEntity, VariantHo
         nbt.putInt("Variant", this.getHorseVariant());
         nbt.putInt("VariantUpper", this.getHorseVariant());
         if (!this.items.getStack(1).isEmpty()) {
-            nbt.put("ArmorItem", this.items.getStack(1).encode(getRegistryManager()));
+            nbt.put("ArmorItem", this.items.getStack(1).toNbt(getRegistryManager()));
         }
     }
 
@@ -102,7 +102,7 @@ public class Centaur extends AbstractHorseEntity implements GeoEntity, VariantHo
         super.readCustomDataFromNbt(nbt);
         this.setHorseVariant(nbt.getInt("Variant"));
         this.setUpperVariant(nbt.getInt("VariantUpper"));
-        if (nbt.contains("ArmorItem", NbtElement.COMPOUND_TYPE) && !(itemStack = ItemStack.fromNbt(getRegistryManager(), nbt.getCompound("ArmorItem")).get()).isEmpty() && this.isHorseArmor(itemStack)) { // TODO refactor to be more readable / understandable
+        if (nbt.contains("ArmorItem", NbtElement.COMPOUND_TYPE) && !(itemStack = ItemStack.fromNbt(getRegistryManager(), nbt.getCompound("ArmorItem")).get()).isEmpty()) { // TODO refactor to be more readable / understandable
             this.items.setStack(1, itemStack);
         }
         this.updateSaddledFlag();
@@ -132,9 +132,9 @@ public class Centaur extends AbstractHorseEntity implements GeoEntity, VariantHo
     // }
 
     public static DefaultAttributeContainer.Builder createMobAttributes() {
-        return createBaseHorseAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 35.0)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3f).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.0)
-                .add(EntityAttributes.GENERIC_ARMOR, 2.0).add(EntityAttributes.GENERIC_JUMP_STRENGTH, 1.0);
+        return createBaseHorseAttributes().add(EntityAttributes.FOLLOW_RANGE, 35.0)
+                .add(EntityAttributes.MOVEMENT_SPEED, 0.3f).add(EntityAttributes.ATTACK_DAMAGE, 5.0)
+                .add(EntityAttributes.ARMOR, 2.0).add(EntityAttributes.JUMP_STRENGTH, 1.0);
     }
 
     @Override

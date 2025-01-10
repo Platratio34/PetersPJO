@@ -32,6 +32,7 @@ public class PetersPJODataGenerator implements DataGeneratorEntrypoint {
 
         pack.addProvider(AdvancementProvider::new);
         pack.addProvider(PJOFluidTagGenerator::new);
+        pack.addProvider(ItemDataGen::new);
     }
 
     static class AdvancementProvider extends FabricAdvancementProvider {
@@ -96,7 +97,7 @@ public class PetersPJODataGenerator implements DataGeneratorEntrypoint {
                         OnKilledCriterion.Conditions
                                 .createPlayerKilledEntity(
                                         EntityPredicate.Builder.create()
-                                                .type(entityType)));
+                                                /*.type(entityType)*/));
             }
             return builder;
         }
@@ -107,7 +108,7 @@ public class PetersPJODataGenerator implements DataGeneratorEntrypoint {
                 builder.criterion(
                         PJO.NAMESPACE + ":kill_" + Registries.ENTITY_TYPE.getId(entityType).toString(),
                         OnKilledCriterion.Conditions
-                                .createPlayerKilledEntity(EntityPredicate.Builder.create().type(entityType)));
+                                .createPlayerKilledEntity(EntityPredicate.Builder.create()/*.type(entityType)*/));
             }
             return builder;
         }

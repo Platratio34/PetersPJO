@@ -76,7 +76,7 @@ public class PJO implements ModInitializer {
 	}
 	
     public static DamageSource damageSourceOf(World world, RegistryKey<DamageType> key) {
-        return new DamageSource(world.getRegistryManager().get(RegistryKeys.DAMAGE_TYPE).entryOf(key));
+        return new DamageSource(world.getRegistryManager().getOptional(RegistryKeys.DAMAGE_TYPE).get().getEntry(key.getValue()).get());
     }
     
     public static Identifier id(String id) {

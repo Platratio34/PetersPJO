@@ -19,7 +19,6 @@ import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.text.MutableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.ItemActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
@@ -70,7 +69,7 @@ public abstract class BrazierBlock extends TooltipedBlock {
     }
 
     @Override
-    protected ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos,
+    protected ActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos,
             PlayerEntity player, Hand hand, BlockHitResult hit) {
         // if (world.isClient) {
         // return super.onUseWithItem(stack, state, world, pos, player, hand, hit);
@@ -83,14 +82,14 @@ public abstract class BrazierBlock extends TooltipedBlock {
                     world.playSound(null, pos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1f, 1f);
                 }
             }
-            return ItemActionResult.SUCCESS;
+            return ActionResult.SUCCESS;
         } else if (isLit(state)) {
             if (stack.isOf(Items.AIR)) {
                 if (!world.isClient) {
                     world.setBlockState(pos, state.with(LIT, false));
                     world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1f, 1f);
                 }
-                return ItemActionResult.SUCCESS;
+                return ActionResult.SUCCESS;
             }
             // if (!world.isClient) {
             //     PJO.LOGGER.info(stack.toString());
@@ -133,9 +132,9 @@ public abstract class BrazierBlock extends TooltipedBlock {
                         if (!player.isCreative())
                             stack.decrement(1);
                         world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.5f, 1f);
-                    return ItemActionResult.SUCCESS;
+                    return ActionResult.SUCCESS;
                 } else {
-                    return ItemActionResult.CONSUME;
+                    return ActionResult.CONSUME;
                 }
             }
         }

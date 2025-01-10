@@ -6,6 +6,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 
 public class Monster extends HostileEntity {
@@ -15,21 +16,21 @@ public class Monster extends HostileEntity {
     }
 
     @Override
-    public boolean isInvulnerableTo(DamageSource damageSource) {
+    public boolean isInvulnerableTo(ServerWorld world, DamageSource damageSource) {
         if (damageSource.isOf(PJODamageTypes.CELESTIAL_DAMAGE_TYPE))
-            return super.isInvulnerableTo(damageSource);
+            return super.isInvulnerableTo(world, damageSource);
         // if (!(damageSource.isIn(DamageTypeTags.IS_FIRE) || damageSource.isIn(DamageTypeTags.IS_EXPLOSION) || damageSource.isIn(DamageTypeTags.IS_DROWNING) || damageSource.isIn(DamageTypeTags.IS_FALL) || damageSource.isIn(DamageTypeTags.IS_FREEZING) || damageSource.isIn(DamageTypeTags.IS_LIGHTNING))) {
         //     return true;
         // }
-        return super.isInvulnerableTo(damageSource);
+        return super.isInvulnerableTo(world, damageSource);
     }
 
     @Override
-    public boolean damage(DamageSource source, float amount) {
+    public boolean damage(ServerWorld world, DamageSource source, float amount) {
         if (source.isOf(DamageTypes.PLAYER_ATTACK)) {
             amount *= 0.5f;
         }
-        return super.damage(source, amount);
+        return super.damage(world, source, amount);
     }
 
 }

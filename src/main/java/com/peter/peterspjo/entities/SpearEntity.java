@@ -9,8 +9,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
@@ -19,15 +17,14 @@ public class SpearEntity extends PersistentProjectileEntity {
 
     public static final String NAME = "spear_entity";
     public static final Identifier ID = PJO.id(NAME);
-    public static final EntityType<SpearEntity> TYPE = EntityType.Builder.<SpearEntity>create(SpearEntity::new, SpawnGroup.MISC)
+    public static final EntityType<SpearEntity> TYPE = PJOEntities.register(ID, EntityType.Builder.<SpearEntity>create(SpearEntity::new, SpawnGroup.MISC)
             .dimensions(0.25f, 0.25f)
-            .maxTrackingRange(16).trackingTickInterval(10)
-            .build();
+            .maxTrackingRange(16).trackingTickInterval(10));
     
     private ItemStack stack = new ItemStack(CelestialBronzeSpear.ITEM);
 
     public static void init() {
-        Registry.register(Registries.ENTITY_TYPE, ID, TYPE);
+        
     }
 
     public SpearEntity(EntityType<? extends PersistentProjectileEntity> entityType, World world) {

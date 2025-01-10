@@ -27,11 +27,11 @@ public class Empousai extends Monster {
 
     public static final String NAME = "empousai";
     public static final Identifier ID = PJO.id(NAME);
-    public static final EntityType<Empousai> TYPE = EntityType.Builder.create(Empousai::new, SpawnGroup.MONSTER)
-            .dimensions(0.75f, 2f).build();
+    public static final EntityType<Empousai> TYPE = PJOEntities.register(ID, EntityType.Builder.create(Empousai::new, SpawnGroup.MONSTER)
+            .dimensions(0.75f, 2f));
 
     public static final Identifier EGG_ID = PJO.id(NAME + "_spawn_egg");
-    public static final SpawnEggItem EGG = new SpawnEggItem(TYPE, 0x5b276c, 0xfdff2f, new Item.Settings());
+    public static final SpawnEggItem EGG = new SpawnEggItem(TYPE, new Item.Settings());
 
     public static void register() {
         Registry.register(Registries.ENTITY_TYPE, ID, TYPE);
@@ -55,9 +55,9 @@ public class Empousai extends Monster {
     }
 
     public static DefaultAttributeContainer.Builder createMobAttributes() {
-        return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 35.0)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3f).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.0)
-                .add(EntityAttributes.GENERIC_ARMOR, 2.0);
+        return HostileEntity.createHostileAttributes().add(EntityAttributes.FOLLOW_RANGE, 35.0)
+                .add(EntityAttributes.MOVEMENT_SPEED, 0.3f).add(EntityAttributes.ATTACK_DAMAGE, 5.0)
+                .add(EntityAttributes.ARMOR, 2.0);
     }
 
 }
