@@ -10,6 +10,8 @@ import java.util.UUID;
 
 import javax.imageio.ImageIO;
 
+import org.jetbrains.annotations.Nullable;
+
 import com.peter.peterspjo.PJO;
 import com.peter.peterspjo.rendering.DynamicEntityTexture;
 
@@ -17,6 +19,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.passive.HorseColor;
 import net.minecraft.resource.Resource;
 import net.minecraft.util.Identifier;
+import software.bernie.geckolib.renderer.GeoRenderer;
 
 public class CentaurGeoModel<T extends Centaur> extends GeoAnimatedModel<T> {
     
@@ -46,9 +49,9 @@ public class CentaurGeoModel<T extends Centaur> extends GeoAnimatedModel<T> {
     public CentaurGeoModel() {
         super(Centaur.NAME);
     }
-    
+
     @Override
-    public Identifier getTextureResource(T animatable) {
+    public Identifier getTextureResource(T animatable, @Nullable GeoRenderer<T> renderer) {
         return getOrMake(animatable).id;
     }
 

@@ -19,8 +19,11 @@ public class PegasusGeoModel<T extends Pegasus> extends GeoAnimatedModel<T> {
     private GeoBone saddle;
     private GeoBone[] saddleParts;
 
-    public PegasusGeoModel() {
+    public final Pegasus entity;
+
+    public PegasusGeoModel(Pegasus entity) {
         super(Pegasus.NAME);
+        this.entity = entity;
     }
 
     private void getBones() {

@@ -4,7 +4,7 @@ import org.lwjgl.glfw.GLFW;
 
 import com.peter.peterspjo.blocks.StoneBrazier;
 import com.peter.peterspjo.blocks.fluids.StyxWater;
-import com.peter.peterspjo.entities.CentaurRenderer;
+// import com.peter.peterspjo.entities.CentaurRenderer;
 import com.peter.peterspjo.entities.EmpousaiRenderer;
 import com.peter.peterspjo.entities.HellhoundRenderer;
 import com.peter.peterspjo.entities.PegasusRenderer;
@@ -39,7 +39,7 @@ public class PJOClient implements ClientModInitializer {
 		EmpousaiRenderer.register();
 		HellhoundRenderer.register();
 		PegasusRenderer.register();
-		CentaurRenderer.register();
+		// CentaurRenderer.register();
         
 		// ModelPredicateProviderRegistry.register(RiptideItem.ITEM, PJO.id("is_sword"),
 		// 		(itemStack, clientWorld, livingEntity, i) -> {

@@ -1,5 +1,7 @@
 package com.peter.peterspjo.entities;
 
+import org.jetbrains.annotations.Nullable;
+
 import com.peter.peterspjo.PJO;
 
 import net.minecraft.util.Identifier;
@@ -10,6 +12,7 @@ import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.constant.DataTickets;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.model.data.EntityModelData;
+import software.bernie.geckolib.renderer.GeoRenderer;
 
 public class GeoAnimatedModel<T extends GeoAnimatable> extends GeoModel<T> {
 
@@ -26,27 +29,27 @@ public class GeoAnimatedModel<T extends GeoAnimatable> extends GeoModel<T> {
     }
 
 	@Override
-	public void setCustomAnimations(T animatable, long instanceId, AnimationState<T> animationState) {
-		if (!this.turnsHead)
-			return;
+    public void setCustomAnimations(T animatable, long instanceId, AnimationState<T> animationState) {
+        if (!this.turnsHead)
+            return;
 
-		GeoBone head = getAnimationProcessor().getBone("head");
+        GeoBone head = getAnimationProcessor().getBone("head");
 
-		if (head != null) {
-			EntityModelData entityData = animationState.getData(DataTickets.ENTITY_MODEL_DATA);
+        if (head != null) {
+            EntityModelData entityData = animationState.getData(DataTickets.ENTITY_MODEL_DATA);
 
-			head.setRotX(entityData.headPitch() * MathHelper.RADIANS_PER_DEGREE);
-			head.setRotY(entityData.netHeadYaw() * MathHelper.RADIANS_PER_DEGREE);
-		}
-	}
-
+            head.setRotX(entityData.headPitch() * MathHelper.RADIANS_PER_DEGREE);
+            head.setRotY(entityData.netHeadYaw() * MathHelper.RADIANS_PER_DEGREE);
+        }
+    }
+    
     @Override
-    public Identifier getModelResource(T animatable) {
+    public Identifier getModelResource(T animatable, @Nullable GeoRenderer<T> renderer) {
         return PJO.id("geo/" + modelName + ".geo.json");
     }
 
     @Override
-    public Identifier getTextureResource(T animatable) {
+    public Identifier getTextureResource(T animatable, @Nullable GeoRenderer<T> renderer) {
         return PJO.id("textures/entity/" + modelName + "/" + modelName + ".png");
     }
 

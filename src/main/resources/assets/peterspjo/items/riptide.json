@@ -4,10 +4,11 @@
         "property": "peterspjo:is_sword",
         "on_false": {
             "type": "minecraft:model",
-            "model": "peterspjo:item/"
+            "model": "peterspjo:item/riptide"
         },
         "on_true": {
-
+            "type": "minecraft:model",
+            "model": "peterspjo:item/riptide"
         }
     }
 }

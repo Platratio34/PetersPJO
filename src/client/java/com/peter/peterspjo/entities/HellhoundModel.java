@@ -7,13 +7,13 @@ import net.minecraft.client.model.ModelPartBuilder;
 import net.minecraft.client.model.ModelPartData;
 import net.minecraft.client.model.ModelTransform;
 import net.minecraft.client.model.TexturedModelData;
-import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.entity.animation.Animation;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 import net.minecraft.util.math.MathHelper;
 
-public class HellhoundModel extends EntityModel<Hellhound> {
+public class HellhoundModel extends EntityModel<LivingEntityRenderState> {
     public static final EntityModelLayer LAYER = new EntityModelLayer(Hellhound.ID, "main");
     private final ModelPart body;
     private final ModelPart head;
@@ -24,7 +24,11 @@ public class HellhoundModel extends EntityModel<Hellhound> {
 
     private float leaningPitch;
 
-    public HellhoundModel(ModelPart root) {
+    protected final Hellhound entity;
+
+    public HellhoundModel(ModelPart root, Hellhound entity) {
+        super(root);
+        this.entity = entity;
         this.body = root.getChild("body");
         this.head = root.getChild("head");
         this.leg_rf = root.getChild("leg_rf");
@@ -67,20 +71,28 @@ public class HellhoundModel extends EntityModel<Hellhound> {
     }
 
     @Override
-    public void animateModel(Hellhound entity, float limbAngle, float limbDistance, float tickDelta) {
-        this.leaningPitch = entity.getLeaningPitch(tickDelta);
-        super.animateModel(entity, limbAngle, limbDistance, tickDelta);
+    protected void animateWalking(Animation animation, float limbFrequency, float limbAmplitudeModifier, float f,
+            float tickDelta) {
+        // this.leaningPitch = .getLeaningPitch(tickDelta);
+        super.animateWalking(animation, limbFrequency, limbAmplitudeModifier, f, tickDelta);
     }
 
+    // @Override
+    // public void animateModel(Hellhound entity, float limbAngle, float limbDistance, float tickDelta) {
+    //     this.leaningPitch = entity.getLeaningPitch(tickDelta);
+    //     super.animateModel(entity, limbAngle, limbDistance, tickDelta);
+    // }
+
     @Override
-    public void setAngles(Hellhound entity, float limbSwing, float limbSwingAmount, float ageInTicks, float headYaw,
-            float headPitch) {
+    public void setAngles(LivingEntityRenderState renderState) {
+        // renderState.
+
         boolean rolled = false; // TODO was change from entity.getRoll() > 4 correct?
-        this.head.yaw = headYaw * ((float) Math.PI / 180);
+        this.head.yaw = entity.headYaw * ((float) Math.PI / 180);
         this.head.pitch = rolled ? -0.7853982f
                 : (this.leaningPitch > 0.0f
-                        ? (this.lerpAngle(this.leaningPitch, this.head.pitch, headPitch * ((float) Math.PI / 180)))
-                        : headPitch * ((float) Math.PI / 180));
+                        ? (this.lerpAngle(this.leaningPitch, this.head.pitch, entity.getPitch() * ((float) Math.PI / 180)))
+                        : entity.getPitch() * ((float) Math.PI / 180));
 
         float limbSpeed = 1.0f;
         if (rolled) {
@@ -92,12 +104,12 @@ public class HellhoundModel extends EntityModel<Hellhound> {
             limbSpeed = 1.0f;
         }
 
-        this.leg_rf.pitch = 0.5f * MathHelper.cos((float) (limbSwing * 0.6662f)) * 1.4f * limbSwingAmount / limbSpeed;
-        this.leg_rb.pitch = 0.5f * MathHelper.cos((float) (limbSwing * 0.6662f + (float) Math.PI)) * 1.4f
-                * limbSwingAmount / limbSpeed;
-        this.leg_lf.pitch = 0.5f * MathHelper.cos((float) (limbSwing * 0.6662f + (float) Math.PI)) * 1.4f
-                * limbSwingAmount / limbSpeed;
-        this.leg_lb.pitch = 0.5f * MathHelper.cos((float) (limbSwing * 0.6662f)) * 1.4f * limbSwingAmount / limbSpeed;
+        this.leg_rf.pitch = 0.5f * MathHelper.cos((float) (renderState.limbFrequency * 0.6662f)) * 1.4f * renderState.limbAmplitudeMultiplier / limbSpeed;
+        this.leg_rb.pitch = 0.5f * MathHelper.cos((float) (renderState.limbFrequency * 0.6662f + (float) Math.PI)) * 1.4f
+                * renderState.limbAmplitudeMultiplier / limbSpeed;
+        this.leg_lf.pitch = 0.5f * MathHelper.cos((float) (renderState.limbFrequency * 0.6662f + (float) Math.PI)) * 1.4f
+                * renderState.limbAmplitudeMultiplier / limbSpeed;
+        this.leg_lb.pitch = 0.5f * MathHelper.cos((float) (renderState.limbFrequency * 0.6662f)) * 1.4f * renderState.limbAmplitudeMultiplier / limbSpeed;
 
         this.leg_rf.yaw = 0.005f;
         this.leg_rb.yaw = -0.005f;
@@ -119,15 +131,5 @@ public class HellhoundModel extends EntityModel<Hellhound> {
             f -= (float) Math.PI * 2;
         }
         return angleTwo + angleOne * f;
-    }
-
-    @Override
-    public void render(MatrixStack matrices, VertexConsumer vertexConsumer, int light, int overlay, int color) {
-        body.render(matrices, vertexConsumer, light, overlay, color);
-        head.render(matrices, vertexConsumer, light, overlay, color);
-        leg_rf.render(matrices, vertexConsumer, light, overlay, color);
-        leg_lf.render(matrices, vertexConsumer, light, overlay, color);
-        leg_rb.render(matrices, vertexConsumer, light, overlay, color);
-        leg_lb.render(matrices, vertexConsumer, light, overlay, color);
     }
 }

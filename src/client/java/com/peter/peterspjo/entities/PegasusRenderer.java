@@ -11,6 +11,6 @@ public class PegasusRenderer extends GeoEntityRenderer<Pegasus> {
     }
 
     public PegasusRenderer(Context context) {
-        super(context, new PegasusGeoModel<Pegasus>());
+        super(context, new PegasusGeoModel<Pegasus>((Pegasus)context.getRenderDispatcher().targetedEntity));
     }
 }

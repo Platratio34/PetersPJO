@@ -3,7 +3,6 @@ package com.peter.peterspjo.entities;
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
 
 import net.minecraft.client.model.Dilation;
 import net.minecraft.client.model.ModelData;
@@ -15,8 +14,9 @@ import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.render.entity.model.EntityModelPartNames;
+import net.minecraft.client.render.entity.state.BipedEntityRenderState;
 
-public class EmpousaiModel extends BipedEntityModel<Empousai> {
+public class EmpousaiModel extends BipedEntityModel<BipedEntityRenderState> {
 
     public static final EntityModelLayer LAYER = new EntityModelLayer(Empousai.ID, "main");
 
@@ -44,8 +44,9 @@ public class EmpousaiModel extends BipedEntityModel<Empousai> {
     }
 
     @Override
-    public void setAngles(Empousai livingEntity, float f, float g, float h, float i, float j) {
-        super.setAngles(livingEntity, f, g, h, i, j);
+    public void setAngles(BipedEntityRenderState bipedEntityRenderState) {
+        super.setAngles(bipedEntityRenderState);
+
         this.leftPants.copyTransform(this.leftLeg);
         this.rightPants.copyTransform(this.rightLeg);
         this.leftSleeve.copyTransform(this.leftArm);
@@ -108,10 +109,12 @@ public class EmpousaiModel extends BipedEntityModel<Empousai> {
         // return TexturedModelData.of(modelData, 64, 64);
     }
     
-    @Override
-    protected Iterable<ModelPart> getBodyParts() {
-        return Iterables.concat(super.getBodyParts(), ImmutableList.of(this.leftPants, this.rightPants, this.leftSleeve, this.rightSleeve, this.jacket));
-    }
+    // @Override
+    // protected List<ModelPart> getParts() {
+    //     List<ModelPart> parts = super.getParts();
+    //     parts.addAll(ImmutableList.of(this.leftPants, this.rightPants, this.leftSleeve, this.rightSleeve, this.jacket));
+    //     return parts;
+    // }
 
     @Override
     public void setVisible(boolean visible) {

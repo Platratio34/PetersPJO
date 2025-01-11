@@ -133,7 +133,7 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
 
             return CompletableFuture.supplyAsync(Util.debugSupplier(() -> {
                 return this.populateNoise(blender, structureAccessor, noiseConfig, chunk, j, k);
-            }, () -> "wgen_fill_underworld"), Util.getMainWorkerExecutor()).whenCompleteAsync((chunkx, throwable) -> {
+            }, () -> "wgen_fill_underworld"), Util.getMainWorkerExecutor()).whenCompleteAsync((chunkX, throwable) -> {
                 Iterator<ChunkSection> var3 = set.iterator();
 
                 while (var3.hasNext()) {
@@ -391,10 +391,10 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
             double h = (noise.noise(x / 2d, z / 2d) * 8) + 1;
             return (int) (h * lerpVal);
         } else if (flatDistFromOrigin > EREBOS_SIZE + 24 && flatDistFromOrigin < EREBOS_SIZE + OUTER_STEP_OFFSET) {
-            double rpos = flatDistFromOrigin - EREBOS_SIZE - 24 - 7;
-            double h = Math.max(Math.abs(rpos / 2d) - 5, -4);
+            double rPos = flatDistFromOrigin - EREBOS_SIZE - 24 - 7;
+            double h = Math.max(Math.abs(rPos / 2d) - 5, -4);
             if (x > -32 && x < 32 && flatDistFromOrigin > EREBOS_SIZE + 24 + 6) {
-                double w = Math.max(5, 12 - (rpos / 4d));
+                double w = Math.max(5, 12 - (rPos / 4d));
                 double r = Math.max(Math.abs(x / 2d) - w, -4);
                 r = Math.min(r, 0);
                 h = Math.min(h, r);
