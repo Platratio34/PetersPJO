@@ -2,7 +2,6 @@ package com.peter.peterspjo.entities;
 
 import com.peter.peterspjo.PJO;
 
-import net.minecraft.item.Item;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
@@ -10,17 +9,16 @@ import net.minecraft.entity.VariantHolder;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.DataTracker.Builder;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.data.DataTracker.Builder;
 import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.entity.passive.HorseColor;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 import software.bernie.geckolib.animatable.GeoAnimatable;
@@ -36,7 +34,7 @@ import software.bernie.geckolib.animation.RawAnimation;
 
 public class Centaur extends AbstractHorseEntity implements GeoEntity, VariantHolder<HorseColor> {
 
-    private AnimatableInstanceCache animationCache = new SingletonAnimatableInstanceCache(this);
+    private final AnimatableInstanceCache animationCache = new SingletonAnimatableInstanceCache(this);
     private static final TrackedData<Integer> VARIANT = DataTracker.registerData(Centaur.class, TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<Integer> VARIANT_UPPER = DataTracker.registerData(Centaur.class, TrackedDataHandlerRegistry.INTEGER);
 
@@ -46,7 +44,7 @@ public class Centaur extends AbstractHorseEntity implements GeoEntity, VariantHo
             .dimensions(1.5f, 1.5f));
 
     public static final Identifier EGG_ID = PJO.id(NAME + "_spawn_egg");
-    public static final SpawnEggItem EGG = new SpawnEggItem(TYPE, new Item.Settings());
+    public static final SpawnEggItem EGG = PJOEntities.registerSpawnEgg(EGG_ID, TYPE, new Item.Settings());
     
     private static final String ANIMATION_WALK_STAGE = "walking";
     private static final RawAnimation ANIMATION_WALK = RawAnimation.begin()
@@ -55,9 +53,7 @@ public class Centaur extends AbstractHorseEntity implements GeoEntity, VariantHo
     private AnimationController<Centaur> animationController;
 
     public static void register() {
-        Registry.register(Registries.ENTITY_TYPE, ID, TYPE);
         FabricDefaultAttributeRegistry.register(TYPE, Centaur.createMobAttributes());
-        Registry.register(Registries.ITEM, EGG_ID, EGG);
     }
 
     protected Centaur(EntityType<? extends AbstractHorseEntity> entityType, World world) {
@@ -139,7 +135,7 @@ public class Centaur extends AbstractHorseEntity implements GeoEntity, VariantHo
 
     @Override
     public void registerControllers(ControllerRegistrar controllers) {
-        animationController = new AnimationController<Centaur>(this, "controller", this::animAtionPredicate);
+        animationController = new AnimationController<>(this, "controller", this::animAtionPredicate);
         animationController.transitionLength(3);
         controllers.add(animationController);
     }

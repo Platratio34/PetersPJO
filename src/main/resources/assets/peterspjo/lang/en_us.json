@@ -26,9 +26,11 @@
     "block.peterspjo.stone_brazier.tooltip": "Great for keeping warm, or making offerings",
     
     "block.peterspjo.underworld_sand_dark": "Dark Underworld Sand",
-    "block.peterspjo.underworld_sand_dark.tooltip": "Sand from the outer reaches of the Underworld",
+    "item.peterspjo.underworld_sand_dark": "Dark Underworld Sand",
+    "item.peterspjo.underworld_sand_dark.tooltip": "Sand from the outer reaches of the Underworld",
 
     "block.peterspjo.labyrinth_door": "Labyrinth Door",
+    "item.peterspjo.labyrinth_door": "Labyrinth Door",
     
     "item.peterspjo.riptide": "Anaklusmos",
     "item.peterspjo.riptide.tooltip": "(Riptide)",

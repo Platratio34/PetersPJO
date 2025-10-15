@@ -3,7 +3,6 @@ package com.peter.peterspjo.blocks;
 import com.mojang.serialization.MapCodec;
 import com.peter.peterspjo.PJO;
 
-import net.minecraft.item.Item;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -33,12 +32,11 @@ public class StoneBrazier extends BrazierBlock {
     public static final MapCodec<StoneBrazier> CODEC = createCodec(StoneBrazier::new);
 
     public static final StoneBrazier BLOCK = new StoneBrazier(
-            AbstractBlock.Settings.create().strength(4.0f).sounds(BlockSoundGroup.STONE).nonOpaque());
-    public static final BlockItem ITEM = new BlockItem(BLOCK, new Item.Settings());
+            AbstractBlock.Settings.create().strength(4.0f).sounds(BlockSoundGroup.STONE).nonOpaque().registryKey(PJOBlocks.registryKey(ID)));
+    public static final BlockItem ITEM = PJOBlocks.registerBlockItem(ID, BLOCK);
 
     public static void register() {
         Registry.register(Registries.BLOCK, ID, BLOCK);
-        Registry.register(Registries.ITEM, ID, ITEM);
     }
 
     public StoneBrazier(Settings settings) {

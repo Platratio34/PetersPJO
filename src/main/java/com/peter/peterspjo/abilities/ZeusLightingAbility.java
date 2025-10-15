@@ -29,9 +29,7 @@ public class ZeusLightingAbility extends AbstractChargedAbility {
 
     @Override
     public boolean compatibleWith(AbstractAbility otherAbility) {
-        if (otherAbility instanceof PoseidonWBAbility)
-            return false;
-        return true;
+        return !(otherAbility instanceof PoseidonWBAbility);
     }
 
 }

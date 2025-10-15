@@ -1,6 +1,8 @@
 package com.peter.peterspjo.blocks.fluids;
 
 import com.peter.peterspjo.PJO;
+import com.peter.peterspjo.blocks.PJOBlocks;
+import com.peter.peterspjo.items.PJOItems;
 import com.peter.peterspjo.worldgen.PJODimensions;
 
 import net.minecraft.item.Item;
@@ -26,6 +28,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
+import net.minecraft.util.Identifier;
 
 public abstract class StyxWater extends WaterFluid {
 
@@ -34,11 +37,13 @@ public abstract class StyxWater extends WaterFluid {
             new Still());
     public static final FlowableFluid FLOWING = Registry.register(Registries.FLUID,
             PJO.id(NAME + "_flowing"), new Flowing());
+    public static final Identifier BUCKET_ID = PJO.id(NAME + "_bucket");
     public static final BucketItem BUCKET = Registry.register(Registries.ITEM,
-            PJO.id(NAME + "_bucket"),
-            new BucketItem(STILL, new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1)));
+            BUCKET_ID,
+            new BucketItem(STILL, new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1).registryKey(PJOItems.registryKey(BUCKET_ID))));
+    public static final Identifier BLOCK_ID = PJO.id(NAME);
     public static final FluidBlock BLOCK = Registry.register(Registries.BLOCK, PJO.id(NAME),
-            new FluidBlock(STILL, AbstractBlock.Settings.copy(Blocks.WATER).liquid()));
+            new FluidBlock(STILL, AbstractBlock.Settings.copy(Blocks.WATER).liquid().registryKey(PJOBlocks.registryKey(BLOCK_ID))));
 
     @Override
     public Fluid getFlowing() {

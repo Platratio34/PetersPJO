@@ -13,9 +13,6 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.passive.AbstractDonkeyEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.SpawnEggItem;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -34,7 +31,7 @@ import software.bernie.geckolib.animation.RawAnimation;
 
 public class Pegasus extends AbstractDonkeyEntity implements GeoEntity {
 
-    private AnimatableInstanceCache animationCache = new SingletonAnimatableInstanceCache(this);
+    private final AnimatableInstanceCache animationCache = new SingletonAnimatableInstanceCache(this);
 
     public static final String NAME = "pegasus";
     public static final Identifier ID = PJO.id(NAME);
@@ -42,7 +39,7 @@ public class Pegasus extends AbstractDonkeyEntity implements GeoEntity {
             .dimensions(1.5f, 1.5f));
 
     public static final Identifier EGG_ID = PJO.id(NAME + "_spawn_egg");
-    public static final SpawnEggItem EGG = new SpawnEggItem(TYPE, new Item.Settings());
+    public static final SpawnEggItem EGG = PJOEntities.registerSpawnEgg(EGG_ID, TYPE, new Item.Settings());
 
     // private static final String ANIMATION_WING_IDLE_GROUND_NAME = "animation." +
     // NAME + ".wing_idle_ground";
@@ -80,7 +77,6 @@ public class Pegasus extends AbstractDonkeyEntity implements GeoEntity {
 
     public static void register() {
         FabricDefaultAttributeRegistry.register(TYPE, Pegasus.createMobAttributes());
-        Registry.register(Registries.ITEM, EGG_ID, EGG);
     }
 
     public Pegasus(EntityType<? extends AbstractDonkeyEntity> entityType, World world) {
@@ -147,13 +143,13 @@ public class Pegasus extends AbstractDonkeyEntity implements GeoEntity {
     }
 
     @Override
-    public boolean handleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
+    public boolean handleFallDamage(double fallDistance, float damagePerDistance, DamageSource damageSource) {
         return true;
     }
 
     @Override
     protected void fall(double heightDifference, boolean onGround, BlockState state, BlockPos landedPosition) {
-        return;
+        
     }
 
     @Override

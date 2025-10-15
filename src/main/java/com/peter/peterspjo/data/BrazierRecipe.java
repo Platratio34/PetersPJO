@@ -42,9 +42,9 @@ public class BrazierRecipe {
             return false;
         }
         int correct = 0;
-        for (int i = 0; i < stacks.length; i++) {
-            for (int j = 0; j < input.length; j++) {
-                if (stacks[i].isOf(input[i])) {
+        for (ItemStack stack : stacks) {
+            for (Item input1 : input) {
+                if (stack.isOf(input1)) {
                     correct++;
                 }
             }
@@ -57,9 +57,9 @@ public class BrazierRecipe {
             return false;
         }
         int correct = 0;
-        for (int i = 0; i < stacks.size(); i++) {
-            for (int j = 0; j < input.length; j++) {
-                if (stacks.get(i).isOf(input[i])) {
+        for (ItemStack stack : stacks) {
+            for (Item input1 : input) {
+                if (stack.isOf(input1)) {
                     correct++;
                 }
             }
@@ -108,11 +108,11 @@ public class BrazierRecipe {
         return recipe;
     }
 
-    private static final Item getItemFromID(JsonElement idElement) {
+    private static Item getItemFromID(JsonElement idElement) {
         return Registries.ITEM.get(Identifier.of(idElement.getAsString()));
     }
 
-    private static final HashMap<String, BrazierRecipeType> recipeTypesByName = new HashMap<String, BrazierRecipeType>();
+    private static final HashMap<String, BrazierRecipeType> recipeTypesByName = new HashMap<>();
     
     public enum BrazierRecipeType {
 

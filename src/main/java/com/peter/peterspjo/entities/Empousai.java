@@ -2,7 +2,6 @@ package com.peter.peterspjo.entities;
 
 import com.peter.peterspjo.PJO;
 
-import net.minecraft.item.Item;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
@@ -17,9 +16,8 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.SpawnEggItem;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
@@ -31,12 +29,10 @@ public class Empousai extends Monster {
             .dimensions(0.75f, 2f));
 
     public static final Identifier EGG_ID = PJO.id(NAME + "_spawn_egg");
-    public static final SpawnEggItem EGG = new SpawnEggItem(TYPE, new Item.Settings());
+    public static final SpawnEggItem EGG = PJOEntities.registerSpawnEgg(EGG_ID, TYPE, new Item.Settings());
 
     public static void register() {
-        Registry.register(Registries.ENTITY_TYPE, ID, TYPE);
         FabricDefaultAttributeRegistry.register(TYPE, Empousai.createMobAttributes());
-        Registry.register(Registries.ITEM, EGG_ID, EGG);
         PJOEntities.MONSTERS.add(TYPE);
     }
 
@@ -51,7 +47,7 @@ public class Empousai extends Monster {
         this.goalSelector.add(7, new WanderAroundFarGoal(this, 1.0f));
         this.goalSelector.add(8, new LookAtEntityGoal(this, PlayerEntity.class, 8.0f));
         this.goalSelector.add(9, new LookAroundGoal(this));
-        this.targetSelector.add(2, new ActiveTargetGoal<PlayerEntity>((MobEntity) this, PlayerEntity.class, true));
+        this.targetSelector.add(2, new ActiveTargetGoal<>((MobEntity) this, PlayerEntity.class, true));
     }
 
     public static DefaultAttributeContainer.Builder createMobAttributes() {

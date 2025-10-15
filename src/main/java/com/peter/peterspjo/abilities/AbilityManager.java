@@ -1,9 +1,8 @@
 package com.peter.peterspjo.abilities;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
-
-import java.util.ArrayList;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.entity.player.PlayerEntity;
@@ -26,10 +25,10 @@ import net.minecraft.world.World;
  */
 public class AbilityManager extends PersistentState {
 
-    private HashMap<UUID, HashMap<String, AbstractAbility>> playerAbilities;
+    private final HashMap<UUID, HashMap<String, AbstractAbility>> playerAbilities;
 
     private static final String NAME = "ability_manager";
-    private static final Type<AbilityManager> TYPE = new Type<AbilityManager>(AbilityManager::new, AbilityManager::createFromNbt, null);
+    private static final Type<AbilityManager> TYPE = new Type<>(AbilityManager::new, AbilityManager::createFromNbt, null);
 
     /**
      * Instance of the Ability manager
@@ -42,7 +41,7 @@ public class AbilityManager extends PersistentState {
     private MinecraftServer server;
 
     private AbilityManager() {
-        playerAbilities = new HashMap<UUID, HashMap<String, AbstractAbility>>();
+        playerAbilities = new HashMap<>();
         ServerTickEvents.START_WORLD_TICK.register(this::tick);
     }
 
@@ -130,7 +129,7 @@ public class AbilityManager extends PersistentState {
         }
         String abilityKey = newAbilityReference.getIdAsString();
         if (!playerAbilities.containsKey(playerUuid)) {
-            HashMap<String, AbstractAbility> currentAbilities = new HashMap<String, AbstractAbility>();
+            HashMap<String, AbstractAbility> currentAbilities = new HashMap<>();
             currentAbilities.put(abilityKey, newAbility);
             playerAbilities.put(playerUuid, currentAbilities);
             markDirty();
@@ -160,7 +159,7 @@ public class AbilityManager extends PersistentState {
         String abilityKey = abilityId.toString();
 
         if (!playerAbilities.containsKey(playerUuid)) {
-            HashMap<String, AbstractAbility> currentAbilities = new HashMap<String, AbstractAbility>();
+            HashMap<String, AbstractAbility> currentAbilities = new HashMap<>();
             currentAbilities.put(abilityKey, newAbility);
             playerAbilities.put(playerUuid, currentAbilities);
             markDirty();
@@ -203,11 +202,11 @@ public class AbilityManager extends PersistentState {
             return new Identifier[] {};
         }
         HashMap<String, AbstractAbility> currentAbilities = playerAbilities.get(playerUuid);
-        ArrayList<Identifier> rt = new ArrayList<Identifier>();
+        ArrayList<Identifier> rt = new ArrayList<>();
         for (AbstractAbility ability : currentAbilities.values()) {
             rt.add(ability.id);
         }
-        return rt.toArray(new Identifier[0]);
+        return rt.toArray(Identifier[]::new);
     }
 
     /**
@@ -425,7 +424,7 @@ public class AbilityManager extends PersistentState {
         for (String uuidString : nbt.getKeys()) {
             NbtList abilitiesNbt = nbt.getList(uuidString, NbtList.COMPOUND_TYPE);
             UUID playerUuid = UUID.fromString(uuidString);
-            HashMap<String, AbstractAbility> abilities = new HashMap<String, AbstractAbility>();
+            HashMap<String, AbstractAbility> abilities = new HashMap<>();
             manager.playerAbilities.put(playerUuid, abilities);
 
             for (int i = 0; i < abilitiesNbt.size(); i++) {

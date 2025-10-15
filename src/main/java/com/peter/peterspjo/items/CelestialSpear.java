@@ -11,11 +11,12 @@ import net.minecraft.stat.Stats;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
+import net.minecraft.util.Identifier;
 
 public class CelestialSpear extends CelestialSword {
 
-    public CelestialSpear(ToolMaterial toolMaterial, int attackDamage, float attackSpeed, Item.Settings settings) {
-        super(toolMaterial, attackDamage, attackSpeed, settings);
+    public CelestialSpear(ToolMaterial toolMaterial, int attackDamage, float attackSpeed, Item.Settings settings, Identifier id) {
+        super(toolMaterial, attackDamage, attackSpeed, settings, id);
     }
 
     public ActionResult use(World world, PlayerEntity user, Hand hand) {

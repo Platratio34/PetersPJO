@@ -29,10 +29,10 @@ public class UnderworldBiomeSource extends BiomeSource {
     // private static final RegistryEntry<Biome> UNDERWORLD_PLAINS_ENTRY =
     // Registries.;
 
-    private RegistryEntry<Biome> plains;
-    private RegistryEntry<Biome> outer;
-    private RegistryEntry<Biome> celling;
-    private RegistryEntry<Biome> asphodel;
+    private final RegistryEntry<Biome> plains;
+    private final RegistryEntry<Biome> outer;
+    private final RegistryEntry<Biome> celling;
+    private final RegistryEntry<Biome> asphodel;
 
     public UnderworldBiomeSource(RegistryEntry<Biome> plains, RegistryEntry<Biome> outer, RegistryEntry<Biome> celling, RegistryEntry<Biome> asphodel) {
         this.plains = plains;

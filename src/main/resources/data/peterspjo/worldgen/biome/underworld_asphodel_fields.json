@@ -9,10 +9,7 @@
         "grass_color": 3028009,
         "water_fog_color": 1707822
     },
-    "carvers": {
-        "air": [],
-        "liquid": []
-    },
+    "carvers": [],
     "features": [
         [],
         [],

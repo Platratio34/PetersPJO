@@ -1,5 +1,5 @@
-// 1.21	2024-08-07T14:40:07.2673427	Peter's PJO/Advancements
-6642bb2b0717b045913b317b060da08a68ae6aeb data\minecraft\advancement\peterspjo\got_riptide.json
-9f5f9d9f469c98eb5e1c3a1e8db252fb7ce840cd data\minecraft\advancement\peterspjo\root.json
-c142e13216ba958d517897cf44c58deabdebcaa3 data\minecraft\advancement\peterspjo\kill_all_monster.json
-2803900c8873334e207966a80344a3d052745a02 data\minecraft\advancement\peterspjo\kill_monster.json
+// 1.21.4	-999999999-01-01T00:00:00	Peter's PJO/Advancements
+6642bb2b0717b045913b317b060da08a68ae6aeb data/minecraft/advancement/peterspjo/got_riptide.json
+2f2ab061b7d1084d42914ff81276b7b5283dc805 data/minecraft/advancement/peterspjo/kill_all_monster.json
+96186fcf51e5ea64b4feab9e113705eab271d243 data/minecraft/advancement/peterspjo/kill_monster.json
+9f5f9d9f469c98eb5e1c3a1e8db252fb7ce840cd data/minecraft/advancement/peterspjo/root.json

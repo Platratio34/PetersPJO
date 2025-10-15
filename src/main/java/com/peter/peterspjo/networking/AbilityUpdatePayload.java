@@ -17,7 +17,7 @@ import net.minecraft.util.Identifier;
 
 public class AbilityUpdatePayload implements CustomPayload {
 
-    public static final Id<AbilityUpdatePayload> ID = new Id<AbilityUpdatePayload>(PJO.id("ability_update"));
+    public static final Id<AbilityUpdatePayload> ID = new Id<>(PJO.id("ability_update"));
     public static final PacketCodec<RegistryByteBuf, AbilityUpdatePayload> CODEC = PacketCodec.tuple(
             Action.PACKET_CODEC, AbilityUpdatePayload::getAction,
             Identifier.PACKET_CODEC, AbilityUpdatePayload::getAbilityId,

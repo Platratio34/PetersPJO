@@ -10,15 +10,18 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterial;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 
 public class CelestialSword extends SwordItem {
 
     public int attackDamage;
 
-    public CelestialSword(ToolMaterial toolMaterial, int attackDamage, float attackSpeed, Item.Settings settings) {
-        super(toolMaterial, attackDamage, attackSpeed, settings.rarity(getRarity()));
+    public CelestialSword(ToolMaterial toolMaterial, int attackDamage, float attackSpeed, Item.Settings settings, Identifier id) {
+        super(toolMaterial, attackDamage, attackSpeed, settings.rarity(getRarity()).registryKey(RegistryKey.of(RegistryKeys.ITEM, id)));
         this.attackDamage = attackDamage;
     }
 

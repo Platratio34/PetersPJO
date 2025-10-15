@@ -1,9 +1,9 @@
 package com.peter.peterspjo.worldgen.labyrinth;
 
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 
 import com.google.common.collect.Sets;
 import com.mojang.serialization.MapCodec;

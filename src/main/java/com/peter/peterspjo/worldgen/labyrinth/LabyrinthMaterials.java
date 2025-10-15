@@ -14,8 +14,10 @@ public class LabyrinthMaterials {
     /** Array of all material sets */
     public static final LabyrinthMaterialSet[] MATERIALS = {
             new LabyrinthMaterialSet(3, "stone", Blocks.STONE),
+
             new LabyrinthMaterialSet(3, "cobblestone", Blocks.COBBLESTONE),
             new LabyrinthMaterialSet(3, "cobblestone_mossy", Blocks.COBBLESTONE, Blocks.MOSSY_COBBLESTONE),
+
             new LabyrinthMaterialSet(1, "stone_bricks", Blocks.STONE_BRICKS),
             new LabyrinthMaterialSet(1, "stone_bricks_chiseled", Blocks.STONE_BRICKS, Blocks.STONE_BRICKS,
                     Blocks.STONE_BRICKS, Blocks.CHISELED_STONE_BRICKS),
@@ -27,29 +29,32 @@ public class LabyrinthMaterials {
             new LabyrinthMaterialSet(1, "stone_bricks_cracked_chiseled", Blocks.STONE_BRICKS, Blocks.STONE_BRICKS,
                     Blocks.STONE_BRICKS, Blocks.CHISELED_STONE_BRICKS, Blocks.CRACKED_STONE_BRICKS,
                     Blocks.CRACKED_STONE_BRICKS, Blocks.CRACKED_STONE_BRICKS),
+
             new LabyrinthMaterialSet(6, "bricks", Blocks.BRICKS),
             new LabyrinthMaterialSet(3, "mud_bricks", Blocks.MUD_BRICKS),
+
+            new LabyrinthMaterialSet(6, "blackstone", Blocks.BLACKSTONE),
     };
 
     /** Material set IDs with weighted frequency */
     public static final String[] WEIGHTED_MATERIAL_ID = getMaterialSetsWeighted();
     /** Map of all material sets by ID */
-    public static final HashMap<String, LabyrinthMaterialSet> MATERIALS_BY_ID = new HashMap<String, LabyrinthMaterialSet>();
+    public static final HashMap<String, LabyrinthMaterialSet> MATERIALS_BY_ID = new HashMap<>();
 
     static {
-        for (int i = 0; i < MATERIALS.length; i++) {
-            MATERIALS_BY_ID.put(MATERIALS[i].id, MATERIALS[i]);
+        for (LabyrinthMaterialSet MATERIALS1 : MATERIALS) {
+            MATERIALS_BY_ID.put(MATERIALS1.id, MATERIALS1);
         }
     }
 
     private static String[] getMaterialSetsWeighted() {
-        ArrayList<String> list = new ArrayList<String>();
-        for (int i = 0; i < MATERIALS.length; i++) {
-            for (int j = 1; j < MATERIALS[i].freq; j++) {
-                list.add(MATERIALS[i].id);
+        ArrayList<String> list = new ArrayList<>();
+        for (LabyrinthMaterialSet MATERIALS1 : MATERIALS) {
+            for (int j = 1; j < MATERIALS1.freq; j++) {
+                list.add(MATERIALS1.id);
             }
         }
-        return list.toArray(new String[list.size()]);
+        return list.toArray(String[]::new);
     }
 
     /** Set of materials for a section of the labyrinth */

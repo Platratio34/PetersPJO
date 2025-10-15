@@ -4,7 +4,6 @@ import com.peter.peterspjo.PJO;
 import com.peter.peterspjo.worldgen.labyrinth.DoorManager;
 import com.peter.peterspjo.worldgen.labyrinth.DoorManager.DoorData;
 
-import net.minecraft.item.Item;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockSetType;
 import net.minecraft.block.BlockState;
@@ -28,9 +27,8 @@ public class LabyrinthDoor extends DoorBlock {
     public static String NAME = "labyrinth_door";
     public static Identifier ID = PJO.id(NAME);
     public static DoorBlock BLOCK = Registry.register(Registries.BLOCK, ID,
-            new LabyrinthDoor(AbstractBlock.Settings.copy(Blocks.IRON_DOOR), BlockSetType.IRON));
-    public static BlockItem ITEM = Registry.register(Registries.ITEM, ID,
-            new BlockItem(BLOCK, new Item.Settings()));
+            new LabyrinthDoor(AbstractBlock.Settings.copy(Blocks.IRON_DOOR).registryKey(PJOBlocks.registryKey(ID)), BlockSetType.IRON));
+    public static BlockItem ITEM = PJOBlocks.registerBlockItem(ID, BLOCK);
 
     public LabyrinthDoor(Settings settings, BlockSetType blockSetType) {
         super(blockSetType, settings);

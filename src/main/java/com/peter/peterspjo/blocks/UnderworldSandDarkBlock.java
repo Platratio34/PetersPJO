@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.peter.peterspjo.PJO;
 
-import net.minecraft.item.Item;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ColoredFallingBlock;
@@ -18,16 +17,15 @@ import net.minecraft.text.Text;
 import net.minecraft.util.ColorCode;
 import net.minecraft.util.Identifier;
 
-public class UnderworldSandDarkBlock extends ColoredFallingBlock {
+public class UnderworldSandDarkBlock extends ColoredFallingBlock implements TooltipedBlockItem {
 
     public static String NAME = "underworld_sand_dark";
     public static Identifier ID = PJO.id(NAME);
-    public static UnderworldSandDarkBlock BLOCK = new UnderworldSandDarkBlock(AbstractBlock.Settings.copy(Blocks.SAND));
-    public static final BlockItem ITEM = new BlockItem(BLOCK, new Item.Settings());
+    public static UnderworldSandDarkBlock BLOCK = new UnderworldSandDarkBlock(AbstractBlock.Settings.copy(Blocks.SAND).registryKey(PJOBlocks.registryKey(ID)));
+    public static final BlockItem ITEM = PJOBlocks.registerBlockItem(ID, BLOCK);
 
     public static void register() {
         Registry.register(Registries.BLOCK, ID, BLOCK);
-        Registry.register(Registries.ITEM, ID, ITEM);
     }
 
     public UnderworldSandDarkBlock(Settings settings) {

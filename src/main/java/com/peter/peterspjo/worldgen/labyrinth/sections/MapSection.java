@@ -56,35 +56,36 @@ public class MapSection extends LabyrinthSection {
         int x = sectionX;
         int z = sectionZ;
         switch (orientation) {
-            case NORTH:
-                break;
-            case EAST:
+            case NORTH -> {
+            }
+            case EAST -> {
                 x = 15 - sectionZ;
                 z = sectionX;
-                break;
-            case SOUTH:
+            }
+            case SOUTH -> {
                 x = 15 - sectionX;
                 z = 15 - sectionZ;
-                break;
-            case WEST:
+            }
+            case WEST -> {
                 x = sectionZ;
                 z = 15 - sectionX;
-                break;
+            }
 
-            default:
-                break;
+            default -> {
+            }
         }
         
 
         int bt = map[sectionY][z][x];
         if (bt >= DN && bt <= DN + 4) {
             Direction doorDir = Direction.byId(bt - DN + 2);
-            if (orientation == Direction.WEST) {
-                doorDir = doorDir.rotateClockwise(Axis.Y);
-            } else if (orientation == Direction.SOUTH) {
-                doorDir = doorDir.getOpposite();
-            } else if (orientation == Direction.EAST) {
-                doorDir = doorDir.rotateCounterclockwise(Axis.Y);
+            if (null != orientation)
+                switch (orientation) {
+                    case WEST -> doorDir = doorDir.rotateClockwise(Axis.Y);
+                    case SOUTH -> doorDir = doorDir.getOpposite();
+                    case EAST -> doorDir = doorDir.rotateCounterclockwise(Axis.Y);
+                    default -> {
+                }
             }
             BlockState door = DEFAULT_DOOR.getDefaultState();
             if (map[sectionY - 1][z][x] == bt) {
@@ -94,25 +95,16 @@ public class MapSection extends LabyrinthSection {
             }
             return door.with(DoorBlock.FACING, doorDir);
         }
-        switch (bt) {
-            case AR:
-                return DEFAULT_AIR.getDefaultState();
-            case SD:
-                return DEFAULT_BLOCK.getDefaultState();
-            case FL:
-                return useSet.getFloor(rand).getDefaultState();
-            case WL:
-                return useSet.getWall(rand).getDefaultState();
-            case CL:
-                return useSet.getCelling(rand).getDefaultState();
-            case AC:
-                return useSet.getAccent().getDefaultState();
-            case LI:
-                return DEFAULT_LIGHT.getDefaultState();
-        
-            default:
-                return DEFAULT_BLOCK.getDefaultState();
-        }
+        return switch (bt) {
+            case AR -> DEFAULT_AIR.getDefaultState();
+            case SD -> DEFAULT_BLOCK.getDefaultState();
+            case FL -> useSet.getFloor(rand).getDefaultState();
+            case WL -> useSet.getWall(rand).getDefaultState();
+            case CL -> useSet.getCelling(rand).getDefaultState();
+            case AC -> useSet.getAccent().getDefaultState();
+            case LI -> DEFAULT_LIGHT.getDefaultState();
+            default -> DEFAULT_BLOCK.getDefaultState();
+        };
     }
 
 }

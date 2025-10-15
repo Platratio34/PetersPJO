@@ -10,7 +10,7 @@ import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 
-public class TooltipedBlock extends Block {
+public class TooltipedBlock extends Block implements TooltipedBlockItem {
 
     private Text tooltip;
 

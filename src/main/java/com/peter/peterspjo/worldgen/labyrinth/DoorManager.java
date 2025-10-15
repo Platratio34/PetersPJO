@@ -3,12 +3,17 @@ package com.peter.peterspjo.worldgen.labyrinth;
 import java.util.HashMap;
 import java.util.Set;
 
+import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
+import com.mojang.serialization.DynamicOps;
 import com.peter.peterspjo.PJO;
 import com.peter.peterspjo.blocks.PJOBlocks;
 import com.peter.peterspjo.worldgen.PJODimensions;
 
 import net.minecraft.block.DoorBlock;
 import net.minecraft.block.enums.DoubleBlockHalf;
+import net.minecraft.datafixer.DataFixTypes;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtIntArray;
@@ -23,17 +28,27 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockPos.Mutable;
 import net.minecraft.world.PersistentState;
 import net.minecraft.world.PersistentStateManager;
+import net.minecraft.world.PersistentStateType;
 import net.minecraft.world.World;
 
 public class DoorManager extends PersistentState {
 
-    private static String NAME = "labyrinth_door_manager";
+    private static final String NAME = "labyrinth_door_manager";
 
-    private static Type<DoorManager> TYPE = new Type<DoorManager>(DoorManager::new, DoorManager::createFromNbt, null);
+    private static Codec<DoorManager> CODEC;    
+    private static PersistentStateType<DoorManager> TYPE = new PersistentStateType<>(NAME, DoorManager::new, CODEC, DataFixTypes.CHUNK);
 
     private static DoorManager manager;
 
-    protected HashMap<RegistryKey<World>, HashMap<BlockPos, DoorData>> doors = new HashMap<RegistryKey<World>, HashMap<BlockPos, DoorData>>();
+    protected HashMap<RegistryKey<World>, HashMap<BlockPos, DoorData>> doors = new HashMap<>();
+
+    protected DoorManager(PersistentState.Context context) {
+
+    }
+
+    private DoorManager() {
+
+    }
 
     @Override
     public NbtCompound writeNbt(NbtCompound nbt, WrapperLookup registryLookup) {
@@ -64,7 +79,7 @@ public class DoorManager extends PersistentState {
             if (state.doors.containsKey(worldKey)) {
                 worldDoors = state.doors.get(worldKey);
             } else {
-                worldDoors = new HashMap<BlockPos, DoorData>();
+                worldDoors = new HashMap<>();
                 state.doors.put(worldKey, worldDoors);
             }
             NbtList worldNbt = nbt.getList(worldString, NbtList.COMPOUND_TYPE);
@@ -72,7 +87,9 @@ public class DoorManager extends PersistentState {
                 DoorData door = new DoorData(worldNbt.getCompound(i));
                 if (worldDoors.containsKey(door.targetPos)) { // this door was already added from a connection
                     continue;
-                } else if (isLabyrinth) {
+                }
+
+                if (isLabyrinth) {
                     worldDoors.put(door.labyrinthPosition, door);
                     if (door.connected && !door.oneWayOut) {
                         state.getDim(door.targetDimension).put(door.targetPos, door);
@@ -95,7 +112,7 @@ public class DoorManager extends PersistentState {
     public static DoorManager getServerState(MinecraftServer server) {
         PersistentStateManager persistentStateManager = server.getWorld(PJODimensions.LABYRINTH)
                 .getPersistentStateManager();
-        DoorManager state = persistentStateManager.getOrCreate(TYPE, NAME);
+        DoorManager state = persistentStateManager.getOrCreate(TYPE);
         manager = state;
         return state;
     }
@@ -113,7 +130,7 @@ public class DoorManager extends PersistentState {
         if (doors.containsKey(dimension)) {
             return doors.get(dimension);
         }
-        HashMap<BlockPos, DoorData> map = new HashMap<BlockPos, DoorData>();
+        HashMap<BlockPos, DoorData> map = new HashMap<>();
         doors.put(dimension, map);
         return map;
     }
@@ -193,6 +210,8 @@ public class DoorManager extends PersistentState {
         protected boolean oneWayIn = false;
         protected boolean oneWayOut = false;
 
+        public static final Codec<DoorData> CODEC = Codec.of(DoorData::encode, DoorData::decode);
+
         public DoorData() {
 
         }
@@ -207,14 +226,30 @@ public class DoorManager extends PersistentState {
         }
 
         protected DoorData(NbtCompound nbt) {
-            this.connected = nbt.getBoolean("con");
+            this.connected = nbt.getBoolean("con").get();
             if (nbt.contains("lPos")) {
-                labyrinthPosition = nbtToPos(nbt.getIntArray("lPos"));
+                labyrinthPosition = nbtToPos(nbt.getIntArray("lPos").get());
             }
             if (nbt.contains("tPos")) {
-                targetPos = nbtToPos(nbt.getIntArray("tPos"));
-                targetDimension = RegistryKey.of(RegistryKeys.WORLD, worldID(nbt.getString("tDim")));
+                targetPos = nbtToPos(nbt.getIntArray("tPos").get());
+                targetDimension = RegistryKey.of(RegistryKeys.WORLD, worldID(nbt.getString("tDim").get()));
             }
+        }
+        protected <T> DataResult<T> encode(final DoorData input, final DynamicOps<T> ops, final T prefix) {
+            T data = ops.empty();
+            ops.set(data, "con", ops.createBoolean(connected));
+            if (labyrinthPosition != null)
+                ops.set(data, "lPos", BlockPos.CODEC.encode(labyrinthPosition, ops, prefix).getOrThrow());
+            if (targetPos != null)
+                ops.set(data, "tDim", ops.createString(targetDimension.getValue().toString()));
+            if (targetPos != null)
+                ops.set(data, "tPos", BlockPos.CODEC.encode(targetPos, ops, prefix).getOrThrow());
+            return DataResult.success(data);
+        }
+        protected <T> DataResult<Pair<DoorData, T>>decode(final DynamicOps<T> ops, final T input) {
+            DoorData data = new DoorData();
+            data.connected = ops.getBooleanValue(ops.get(input, "con").getOrThrow()).getOrThrow();
+            return DataResult.success(new Pair<DoorData, T>(data, input));
         }
 
         protected NbtCompound writeNbt() {

@@ -16,10 +16,7 @@
             }
         }
     },
-    "carvers": {
-        "air": [],
-        "liquid": []
-    },
+    "carvers": [],
     "features": [
         [],
         [],

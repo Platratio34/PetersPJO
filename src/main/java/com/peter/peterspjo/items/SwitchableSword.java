@@ -6,6 +6,7 @@ import com.mojang.serialization.Codec;
 import com.peter.peterspjo.PJO;
 
 import net.minecraft.item.Item;
+import net.minecraft.item.Item.TooltipContext;
 import net.minecraft.component.ComponentType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -17,14 +18,15 @@ import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
+import net.minecraft.util.Identifier;
 
-public abstract class SwitchableSword extends CelestialSword implements Switchable {
+public abstract class SwitchableSword extends CelestialSword implements Switchable, TooltipSupplier {
 
     public static ComponentType<Boolean> IS_SWORD_COMPONENT = Registry.register(Registries.DATA_COMPONENT_TYPE, PJO.id("is_sword"), ComponentType.<Boolean>builder().codec(Codec.BOOL).build());
 
     public SwitchableSword(ToolMaterial toolMaterial, int attackDamage, float attackSpeed,
-            Item.Settings settings) {
-        super(toolMaterial, attackDamage, attackSpeed, settings);
+            Item.Settings settings, Identifier id) {
+        super(toolMaterial, attackDamage, attackSpeed, settings, id);
     }
 
     @Override
@@ -61,11 +63,10 @@ public abstract class SwitchableSword extends CelestialSword implements Switchab
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-        if (type == TooltipType.ADVANCED) {
-            tooltip.add(Text.of("is_sword: " + isWeapon(stack)));
+    public void addTooltip(ItemStack itemStack, TooltipContext tooltipContext, TooltipType tooltipType, List<Text> tooltip) {
+        if (tooltipType == TooltipType.ADVANCED) {
+            tooltip.add(Text.of("is_sword: " + isWeapon(itemStack)));
         }
-        super.appendTooltip(stack, context, tooltip, type);
     }
 
 }

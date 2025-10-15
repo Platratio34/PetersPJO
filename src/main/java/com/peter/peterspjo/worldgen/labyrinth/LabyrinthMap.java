@@ -24,14 +24,14 @@ public class LabyrinthMap extends PersistentState {
 
     private static final String NAME = "labyrinth_map";
 
-    private static final Type<LabyrinthMap> TYPE = new Type<LabyrinthMap>(LabyrinthMap::new,
+    private static final Type<LabyrinthMap> TYPE = new Type<>(LabyrinthMap::new,
             LabyrinthMap::createFromNbt, null);
 
     private static LabyrinthMap map;
 
-    private MapLayer[] layers = new MapLayer[16];
+    private final MapLayer[] layers = new MapLayer[16];
 
-    private Lock mapLocker = new ReentrantLock();
+    private final Lock mapLocker = new ReentrantLock();
 
     private LabyrinthMap() {
         for (int i = 0; i < 16; i++) {
@@ -227,7 +227,7 @@ public class LabyrinthMap extends PersistentState {
 
     private static class MapLayer {
 
-        private HashMap<ChunkPos, LabyrinthSection> layer = new HashMap<ChunkPos, LabyrinthSection>();
+        private final HashMap<ChunkPos, LabyrinthSection> layer = new HashMap<>();
 
         public boolean has(ChunkPos pos) {
             return layer.containsKey(pos) && layer.get(pos) != null;

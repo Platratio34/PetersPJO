@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 
 public record AbilityUsePayload(RegistryKey<World> world, String uuid) implements CustomPayload {
 
-    public static final Id<AbilityUsePayload> ID = new Id<AbilityUsePayload>(PJO.id("ability_use"));
+    public static final Id<AbilityUsePayload> ID = new Id<>(PJO.id("ability_use"));
 
     public static final PacketCodec<RegistryByteBuf, AbilityUsePayload> CODEC = PacketCodec.tuple(
             RegistryKey.createPacketCodec(RegistryKeys.WORLD), AbilityUsePayload::world,

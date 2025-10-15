@@ -144,8 +144,7 @@ public abstract class BrazierBlock extends TooltipedBlock {
     @Override
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
         if (random.nextInt(24) == 0 && isLit(state)) {
-            world.playSound((double) pos.getX() + 0.5, (double) pos.getY() + 0.5, (double) pos.getZ() + 0.5,
-                    SoundEvents.BLOCK_FIRE_AMBIENT, SoundCategory.BLOCKS, 1.0F + random.nextFloat(),
+            world.playSoundAtBlockCenterClient(pos, SoundEvents.BLOCK_FIRE_AMBIENT, SoundCategory.BLOCKS, 1.0F + random.nextFloat(),
                     random.nextFloat() * 0.7F + 0.3F, false);
         }
         super.randomDisplayTick(state, world, pos, random);

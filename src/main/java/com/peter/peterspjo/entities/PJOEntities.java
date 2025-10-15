@@ -2,12 +2,17 @@ package com.peter.peterspjo.entities;
 
 import java.util.ArrayList;
 
+import com.peter.peterspjo.items.PJOItems;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.item.SpawnEggItem;
+import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
+import net.minecraft.entity.mob.MobEntity;
 
 public class PJOEntities {
 
@@ -16,7 +21,7 @@ public class PJOEntities {
     public static final EntityType<Pegasus> PEGASUS = Pegasus.TYPE;
     public static final EntityType<Centaur> CENTAUR = Centaur.TYPE;
 
-    public static final ArrayList<EntityType<?>> MONSTERS = new ArrayList<EntityType<?>>();
+    public static final ArrayList<EntityType<?>> MONSTERS = new ArrayList<>();
 
     public static void init() {
         SpearEntity.init();
@@ -29,5 +34,10 @@ public class PJOEntities {
     protected static <T extends Entity> EntityType<T> register(Identifier id, EntityType.Builder<T> builder) {
         RegistryKey<EntityType<?>> key = RegistryKey.of(Registries.ENTITY_TYPE.getKey(), id);
         return Registry.register(Registries.ENTITY_TYPE, id, builder.build(key));
+    }
+    protected static SpawnEggItem registerSpawnEgg(Identifier id, EntityType<? extends MobEntity> type, Item.Settings settings) {
+        settings.registryKey(PJOItems.registryKey(id));
+        SpawnEggItem item = new SpawnEggItem(type, settings);
+        return Registry.register(Registries.ITEM, id, item);
     }
 }

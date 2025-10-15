@@ -11,12 +11,14 @@ import com.peter.peterspjo.entities.PegasusRenderer;
 import com.peter.peterspjo.gui.AbilityHUD;
 import com.peter.peterspjo.items.RiptideItem;
 import com.peter.peterspjo.items.SwitchableSword;
+import com.peter.peterspjo.items.TooltipSupplier;
 import com.peter.peterspjo.networking.PJOClientNetworking;
 import com.peter.peterspjo.worldgen.UnderworldDimensionEffects;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
@@ -25,7 +27,12 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.NbtComponent;
+import net.minecraft.item.BlockItem;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
+import net.minecraft.item.Item;
 
 public class PJOClient implements ClientModInitializer {
 
@@ -70,5 +77,22 @@ public class PJOClient implements ClientModInitializer {
         });
 
         BlockRenderLayerMap.INSTANCE.putBlock(StoneBrazier.BLOCK, RenderLayer.getCutout());
+
+        ItemTooltipCallback.EVENT.register((itemStack, tooltipContext, tooltipType, list) -> {
+            Item i = itemStack.getItem();
+            NbtComponent comp = itemStack.getComponents().get(DataComponentTypes.BLOCK_ENTITY_DATA);
+            NbtCompound entityData = (comp != null) ? comp.copyNbt() : null;
+            if (i instanceof TooltipSupplier item) {
+                item.addTooltip(itemStack, tooltipContext, tooltipType, list);
+                if(entityData != null)
+                    item.addTooltipEntity(itemStack, tooltipContext, tooltipType, list, entityData);
+            }/* else if(i instanceof BlockItem bItem) {
+                if (bItem.getBlock() instanceof TooltipedItem block) {
+                    block.addTooltip(itemStack, tooltipContext, tooltipType, list);
+                    if(entityData != null)
+                        block.addTooltipEntity(itemStack, tooltipContext, tooltipType, list, entityData);
+                }
+            } */
+        });
 	}
 }

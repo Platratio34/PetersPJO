@@ -1,6 +1,5 @@
 package com.peter.peterspjo.worldgen;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
@@ -26,13 +25,15 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.ChunkRegion;
+import net.minecraft.world.HeightLimitView;
+import net.minecraft.world.Heightmap;
+import net.minecraft.world.Heightmap.Type;
 import net.minecraft.world.biome.source.BiomeAccess;
 import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkSection;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.world.gen.StructureWeightSampler;
-// import net.minecraft.world.gen.GenerationStep.Carver;
 import net.minecraft.world.gen.chunk.AquiferSampler;
 import net.minecraft.world.gen.chunk.Blender;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
@@ -41,9 +42,6 @@ import net.minecraft.world.gen.chunk.ChunkNoiseSampler;
 import net.minecraft.world.gen.chunk.GenerationShapeConfig;
 import net.minecraft.world.gen.chunk.VerticalBlockSample;
 import net.minecraft.world.gen.noise.NoiseConfig;
-import net.minecraft.world.HeightLimitView;
-import net.minecraft.world.Heightmap;
-import net.minecraft.world.Heightmap.Type;
 
 public final class UnderworldChunkGenerator extends ChunkGenerator {
 
@@ -134,10 +132,7 @@ public final class UnderworldChunkGenerator extends ChunkGenerator {
             return CompletableFuture.supplyAsync(Util.debugSupplier(() -> {
                 return this.populateNoise(blender, structureAccessor, noiseConfig, chunk, j, k);
             }, () -> "wgen_fill_underworld"), Util.getMainWorkerExecutor()).whenCompleteAsync((chunkX, throwable) -> {
-                Iterator<ChunkSection> var3 = set.iterator();
-
-                while (var3.hasNext()) {
-                    ChunkSection chunkSection = var3.next();
+                for (ChunkSection chunkSection : set) {
                     chunkSection.unlock();
                 }
 

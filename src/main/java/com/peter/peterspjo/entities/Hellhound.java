@@ -18,8 +18,6 @@ import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.SpawnEggItem;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
@@ -31,12 +29,10 @@ public class Hellhound extends Monster {
             .dimensions(1.75f, 2f));
 
     public static final Identifier EGG_ID = PJO.id(NAME + "_spawn_egg");
-    public static final SpawnEggItem EGG = new SpawnEggItem(TYPE, new Item.Settings());
+    public static final SpawnEggItem EGG = PJOEntities.registerSpawnEgg(EGG_ID, TYPE, new Item.Settings());
 
     public static void register() {
-        Registry.register(Registries.ENTITY_TYPE, ID, TYPE);
         FabricDefaultAttributeRegistry.register(TYPE, Hellhound.createMobAttributes());
-        Registry.register(Registries.ITEM, EGG_ID, EGG);
         PJOEntities.MONSTERS.add(TYPE);
     }
 

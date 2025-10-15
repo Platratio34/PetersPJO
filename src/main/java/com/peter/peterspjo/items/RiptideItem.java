@@ -6,6 +6,7 @@ import com.peter.peterspjo.PJO;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.Item.TooltipContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.registry.Registries;
@@ -29,15 +30,15 @@ public class RiptideItem extends SwitchableSword {
     public boolean isSword = false;
 
     public RiptideItem(Item.Settings settings) {
-        super(PJOMaterials.CELESTIAL_BRONZE_MATERIAL, 8, -2f, settings);
+        super(PJOMaterials.CELESTIAL_BRONZE_MATERIAL, 8, -2f, settings, ID);
     }
 
     @Override
-    public void appendTooltip(ItemStack itemStack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+    public void addTooltip(ItemStack itemStack, TooltipContext tooltipContext, TooltipType tooltipType, List<Text> tooltip) {
         tooltip.add(PJO.tooltip("item", NAME).formatted(Formatting.GOLD));
         tooltip.add(PJO.tooltip("item", NAME, 2).formatted(Formatting.GOLD));
         tooltip.add(PJO.tooltip("item", NAME, 3).formatted(Formatting.GOLD));
-        super.appendTooltip(itemStack, context, tooltip, type);
+        super.addTooltip(itemStack, tooltipContext, tooltipType, tooltip);
     }
 
     @Override
